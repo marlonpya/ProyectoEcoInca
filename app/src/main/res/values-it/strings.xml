@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Liaison</string>
+
+    <!-- LAYOUTS -->
+    <string name="texto1">Trovare nuove opportunità di business e partnership</string>
+    <string name="texto2">Semplificare il modo di fare business</string>
+    <string name="texto3">Faremo di più per gli altri</string>
+
+    <!-- INICIAR SESION-->
+    <string name="usuario">utente</string>
+    <string name="contrasenia">Password</string>
+    <string name="olvido_contrasenia">Hai dimenticato la password?</string>
+    <string name="o_iniciar_sesion_con">o accedi con</string>
+
+    <!-- ACTIVITY INICIO -->
+    <string name="registrarse">REGISTRO</string>
+    <string name="registrarse_min">Registro</string>
+    <string name="iniciar_sesion">Accesso</string>
+
+    <!-- ACTIVITY REGISTRO -->
+    <string name="siguiente">seguente</string>
+
+    <!-- NAVEGADOR FRAGMENT-->
+    <string name="salir">Uscita</string>
+    <string name="vendedor">Venditore</string>
+
+    <string name="nav_inicio">Iniziazione</string>
+    <string name="nav_mi_perfil">Profilo</string>
+    <string name="nav_buscar">Ricerca</string>
+    <string name="nav_vamos_al_negocio">Permette di affari</string>
+    <string name="nav_liaison_plus">Liaison PLUS</string>
+    <string name="nav_configuracion">configurazione</string>
+    <string name="nav_notifacion">Notifica</string>
+
+    <!-- FRAGMENT INICIO -->
+    <string name="bienvenido">Benvenuto</string>
+
+    <!-- FRAGMENT MI PERFIL -->
+    <string name="editar">Modifica</string>
+
+    <!-- FRAGMENT INFORMACION PERFIL -->
+    <string name="informacion">Informazioni: </string>
+    <string name="ciudad">Città: </string>
+    <string name="pais">Nazione: </string>
+    <string name="anio_fundacion">Anno di Fondazione: </string>
+    <string name="descripcion">Descrizione: </string>
+    <string name="nombres">Nome: </string>
+
+    <!--FRAGMENT INFORMACION PERFIL EDITAR -->
+    <string name="apellidos">Cognome</string>
+    <string name="pais_editar">Nazione</string>
+    <string name="nombres_editar">Nome</string>
+    <string name="ciudad_editar">Città</string>
+    <string name="nombres_empresa_editar">Nome Società</string>
+
+    <!-- ROW EMPRESA -->
+    <string name="ver_pefil">Vedi profilo</string>
+    <string name="ignorar">Ignorare</string>
+    <string name="conectarse_con_usted">Vuole connettersi con voi</string>
+
+    <!-- ROW BUSCAR -->
+    <string name="producto">PRODOTTO</string>
+    <string name="servicio">SERVIZIO</string>
+    <string name="compania">SOCIETÁ</string>
+    <string name="industria">INDUSTRIA</string>
+    <string name="b_pais">CITTÁ</string>
+    <!--<string name="pais_editar">Pais</string>-->
+
+    <!-- ACTIVITY LISTA BUSCAR -->
+    <string name="resultados_busqueda">Risultati di Ricerca</string>
+    <string name="acerca">Acerca di</string>
+    <string name="encontrados">partite per il tuo business</string>
+
+    <!-- NAVEGADOR ACTIVITY PRINCIPAL -->
+    <string name="conectate_toque">Connettiti con un tocco</string>
+
+    <!-- ACTIVITY NEGOCIO -->
+    <string name="como_hacer_negocio">Come ti piacerebbe fare affari?</string>
+    <string name="soy_comprador">Io un acquirente</string>
+    <string name="soy_vendedor">Io un venditore</string>
+
+    <!-- DIALOGO ITEMS-->
+    <string name="titulo_dialogo">Messaggio</string>
+    <string name="descripcion_dialogo">Si richiede un tipo di utente</string>
+
+    <!-- ACTIVITY BUSCAR-->
+    <string name="ingrese_caracter">Inserire una ricerca di carattere</string>
+
+    <!-- FRAGMENT LIASON PLUS -->
+    <string name="obten_liason_plus">Get Liaison Plus</string>
+
+    <string name="subir_logo">CARICA\nLOGO</string>
+
+
+    <string name="anio_fundacion2">Anno di Fondazione</string>
+    <string name="descripcion_empresa">Descrizione del business (200 caratteri)</string>
+    <string name="sector_industrial">Industria</string>
+    <string name="producto2">Prodotto</string>
+    <string name="servicio2">Servizio</string>
+    <string name="cargo">Posizione</string>
+    <string name="telefono_oficina">Telefono dell´ufficio</string>
+    <string name="celular">Cellulare</string>
+    <string name="website">Website</string>
+    <string name="linkedin">Linked In</string>
+    <string name="informacion_contacto">Informazioni di contatto</string>
+    <string name="certificaciones">Certificazioni</string>
+
+    <string name="agregar">aggiungere</string>
+    <string name="nav_contactos">Miei contattis</string>
+    <string name="filtros_busqueda">Filtro di Ricerca :</string>
+    <string name="comprador">Acquirente</string>
+    <string name="ambos">Entrambi</string>
+    <string name="tipo_usuario">Definire un tipo di utente</string>
+
+</resources>

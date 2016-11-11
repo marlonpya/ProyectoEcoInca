@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum=".9">
+
+        <RadioButton
+            android:id="@+id/radioButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:drawableStart="@drawable/icono_empresa_comprador_radio"
+            android:gravity="center"
+            android:text="@string/comprador"
+            android:textSize="@dimen/letra_s2" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:drawableStart="@drawable/icono_empresa_vendedor_radio"
+            android:gravity="center"
+            android:text="@string/vendedor"
+            android:textSize="@dimen/letra_s2" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:drawableStart="@drawable/icono_empresa_ambos_radio"
+            android:gravity="center"
+            android:text="@string/ambos"
+            android:textSize="@dimen/letra_s2" />
+    </RadioGroup>
+
+</LinearLayout>

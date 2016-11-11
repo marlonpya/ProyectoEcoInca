@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context=".RegistroOpcionActivity">
+
+    <include layout="@layout/toolbar_principal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".13"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/como_hacer_negocio"
+            android:textColor="@color/plomo"
+            android:textSize="@dimen/letra_s6" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".7"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_imagen_vendedor_redondo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/efecto_row_transparente"
+                android:clickable="true"
+                tools:background="@drawable/imagen_vendedor_redondo" />
+
+            <ImageView
+                android:id="@+id/iv_imagen_contorno_comprador_o_vendedor1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                tools:background="@drawable/imagen_contorno_comprador_o_vendedor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/iv_imagen_vendedor_redondo"
+                android:layout_below="@+id/iv_imagen_vendedor_redondo"
+                android:layout_marginTop="10dp"
+                android:text="@string/soy_comprador"
+                android:textColor="@color/celeste"
+                android:textSize="@dimen/letra_s4" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".5"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/iv_imagen_comprador_redondo"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:background="@drawable/efecto_row_transparente"
+                android:clickable="true"
+                tools:background="@drawable/imagen_comprador_redondo" />
+
+            <ImageView
+                android:id="@+id/iv_imagen_contorno_comprador_o_vendedor2"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                tools:background="@drawable/imagen_contorno_comprador_o_vendedor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@+id/iv_imagen_comprador_redondo"
+                android:layout_below="@+id/iv_imagen_comprador_redondo"
+                android:layout_marginTop="10dp"
+                android:text="@string/soy_vendedor"
+                android:textColor="@color/celeste"
+                android:textSize="@dimen/letra_s4" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".18"
+        android:gravity="center"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+
+        <Button
+            android:id="@+id/btnAceptarRegistro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/redondear_ecoinca"
+            android:text="@string/siguiente"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+</LinearLayout>

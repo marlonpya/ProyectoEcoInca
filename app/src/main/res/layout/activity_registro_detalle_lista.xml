@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:orientation="vertical"
+    android:weightSum="1"
+    tools:context="application.ucweb.proyectoecoinca.RegistroDetalleListaActivity">
+
+    <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+        android:id="@+id/rrvListaDetalleRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".88"
+        app:rrvLayoutType="LinearLayout" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".12"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnAceptarDetalleListaRegistrar"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/redondear_ecoinca"
+            android:text="@string/siguiente"
+            android:textColor="@color/blanco" />
+    </LinearLayout>
+
+</LinearLayout>

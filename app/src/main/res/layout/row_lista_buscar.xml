@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="110dp"
+    android:layout_margin="5dp"
+    card_view:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:id="@+id/row_btn_ll_lista_buscar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/efecto_row_transparente"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:padding="2dp"
+        android:weightSum="1">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".32"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/imageView8"
+                android:layout_width="92dp"
+                android:layout_height="92dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/imagen_contorno_rows"
+                card_view:layout_constraintBottom_toBottomOf="@+id/row_iv_imagen_lista_buscar"
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintTop_toTopOf="@+id/row_iv_imagen_lista_buscar"
+                card_view:layout_constraintLeft_toLeftOf="parent" />
+
+            <ImageView
+                android:id="@+id/row_iv_imagen_lista_buscar"
+                android:layout_width="78dp"
+                android:layout_height="78dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                tools:background="@drawable/icono_usuario"
+                android:layout_marginTop="16dp"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintRight_toRightOf="@+id/imageView8"
+                card_view:layout_constraintLeft_toLeftOf="@+id/imageView8" />
+
+            <ImageView
+                android:id="@+id/row_iv_identificador_tipo_empresa"
+                android:layout_width="28dp"
+                tools:background="@drawable/icono_empresa_vendedor"
+                android:layout_height="28dp"
+                card_view:layout_constraintTop_toTopOf="@+id/imageView8"
+                card_view:layout_constraintBottom_toBottomOf="@+id/row_iv_imagen_lista_buscar"
+                card_view:layout_constraintLeft_toLeftOf="@+id/row_iv_imagen_lista_buscar"
+                card_view:layout_constraintRight_toRightOf="@+id/imageView8"
+                card_view:layout_constraintHorizontal_bias="0.86"
+                card_view:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".68"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/row_tv_titulo_lista_buscar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".35"
+                android:gravity="bottom|left"
+                android:textColor="@color/celeste"
+                android:textSize="@dimen/letra_s4"
+                tools:text="Cosecha Partnes" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight=".65"
+                android:text="Lorem ipsum dolor sit amet, consectetuera dipiscing elit. Aenean commodo ligula eget do."
+                android:textColor="@color/plomo"
+                android:textSize="@dimen/letra_s3" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

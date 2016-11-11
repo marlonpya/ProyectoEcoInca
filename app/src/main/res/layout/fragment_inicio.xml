@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:orientation="vertical"
+    android:padding="15dp"
+    tools:context=".fragment.InicioFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/bienvenido"
+            android:textColor="@color/plomo_oscuro"
+            android:textSize="@dimen/letra_s6" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/plomo_oscuro"
+            android:textSize="@dimen/letra_s6"
+            tools:text="@string/vendedor" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/plomo" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum=".9">
+
+        <FrameLayout
+            android:id="@+id/btnIrABuscar"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_weight=".3"
+            android:background="@drawable/efecto_row_transparente"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/icono_buscar_contorno" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:text="@string/nav_buscar"
+                android:textColor="@color/celeste"
+                android:textSize="@dimen/letra_s4" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btnIrANegocio"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_weight=".3"
+            android:background="@drawable/efecto_row_transparente"
+            android:clickable="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:gravity="center|bottom"
+                android:text="@string/nav_vamos_al_negocio"
+                android:textColor="@color/celeste"
+                android:textSize="@dimen/letra_s4" />
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/icono_negocio_contorno" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/btnIrAMiPerfil"
+            android:layout_width="0dp"
+            android:layout_height="130dp"
+            android:layout_weight=".3"
+            android:background="@drawable/efecto_row_transparente"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:background="@drawable/icono_contactos" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:text="@string/nav_contactos"
+                android:textColor="@color/celeste"
+                android:textSize="@dimen/letra_s4" />
+        </FrameLayout>
+    </LinearLayout>
+</LinearLayout>

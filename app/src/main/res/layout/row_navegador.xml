@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@drawable/efecto_row_transparente"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/row_iv_icono_navegador"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            tools:background="@drawable/icono_inicio" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight=".7"
+        android:gravity="center|left">
+
+        <TextView
+            android:id="@+id/row_tv_texto_navegador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/letra_s5"
+            tools:text="Inicio" />
+
+    </LinearLayout>
+
+</LinearLayout>

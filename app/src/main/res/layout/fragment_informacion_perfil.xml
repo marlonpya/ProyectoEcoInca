@@ -1,0 +1,116 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.InformacionPerfilFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ciudad"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/letra_s5"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_perfil_ciudad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Lima"
+                android:textSize="@dimen/letra_s5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pais"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/letra_s5"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_perfil_pais"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Perú (PE)"
+                android:textSize="@dimen/letra_s5" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".08"
+            android:gravity="bottom"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/anio_fundacion"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/letra_s5"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_perfil_anio_fundacion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="2006"
+                android:textSize="@dimen/letra_s5" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".02" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".74"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/descripcion"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/letra_s5"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_perfil_descripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente.\n“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente””" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
