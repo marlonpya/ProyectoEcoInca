@@ -1,8 +1,6 @@
 package application.ucweb.proyectoecoinca;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -17,15 +15,12 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.DeepLinkHelper;
-import com.linkedin.platform.LISession;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.errors.LIAuthError;
-import com.linkedin.platform.errors.LIDeepLinkError;
 import com.linkedin.platform.listeners.ApiListener;
 import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
-import com.linkedin.platform.listeners.DeepLinkListener;
 import com.linkedin.platform.utils.Scope;
 
 import org.json.JSONException;
@@ -35,8 +30,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
-import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
-import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.OnClick;
