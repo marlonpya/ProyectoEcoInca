@@ -13,6 +13,7 @@ import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -49,9 +50,9 @@ public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, 
             }
         });
         switch (item.getTipo()) {
-            case 0: BaseActivity.usarGlide(getContext(), R.drawable.icono_empresa_comprador, viewHolder.indetificador); break;
-            case 1: BaseActivity.usarGlide(getContext(), R.drawable.icono_empresa_vendedor, viewHolder.indetificador); break;
-            case 2: BaseActivity.usarGlide(getContext(), R.drawable.icono_empresa_ambos, viewHolder.indetificador); break;
+            case 0: viewHolder.indicador.setColorFilter(viewHolder.comprador); break;
+            case 1: viewHolder.indicador.setColorFilter(viewHolder.vendedor); break;
+            case 2: viewHolder.indicador.setColorFilter(viewHolder.ambos); break;
         }
     }
 
@@ -59,7 +60,10 @@ public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, 
         @BindView(R.id.row_iv_imagen_empresa) ImageView imagen;
         @BindView(R.id.row_tv_titulo_empresa) TextView titulo;
         @BindView(R.id.row_tv_btn_ver_pefil_contacto) TextView boton;
-        @BindView(R.id.row_iv_contacto_identificador) ImageView indetificador;
+        @BindView(R.id.row_iv_contacto_indicador) ImageView indicador;
+        @BindColor(R.color.comprador) int comprador;
+        @BindColor(R.color.vendedor) int vendedor;
+        @BindColor(R.color.ambos) int ambos;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

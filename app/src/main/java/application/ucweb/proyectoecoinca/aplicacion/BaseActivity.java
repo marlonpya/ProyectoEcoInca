@@ -2,8 +2,6 @@ package application.ucweb.proyectoecoinca.aplicacion;
 
 import android.content.Context;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;

@@ -12,6 +12,7 @@ import application.ucweb.proyectoecoinca.fragment.VendedorListaFragment;
  */
 public class SeguirAdapter extends FragmentStatePagerAdapter {
     private int cantidad;
+
     public SeguirAdapter(FragmentManager fm, int cantidad) {
         super(fm);
         this.cantidad = cantidad;

@@ -2,6 +2,8 @@ package application.ucweb.proyectoecoinca.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -50,10 +53,11 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
             }
         });
         switch (item.getTipo()) {
-            case 0: BaseActivity.usarGlide(getContext(), R.drawable.icono_empresa_comprador, viewHolder.icono_tipo_empresa); break;
-            case 1: BaseActivity.usarGlide(getContext(), R.drawable.icono_empresa_vendedor, viewHolder.icono_tipo_empresa); break;
-            case 2: BaseActivity.usarGlide(getContext(), R.drawable.icono_empresa_ambos, viewHolder.icono_tipo_empresa); break;
+            case 0: viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.comprador); break;
+            case 1: viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.vendedor); break;
+            case 2: viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.ambos); break;
         }
+
     }
 
     public class ViewHolder extends RealmViewHolder {
@@ -61,6 +65,9 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
         @BindView(R.id.row_iv_identificador_tipo_empresa) ImageView icono_tipo_empresa;
         @BindView(R.id.row_tv_titulo_lista_buscar) TextView nombre;
         @BindView(R.id.row_btn_ll_lista_buscar) LinearLayout boton;
+        @BindColor(R.color.comprador) int comprador;
+        @BindColor(R.color.vendedor) int vendedor;
+        @BindColor(R.color.ambos) int ambos;
         ViewHolder(View view){
             super(view);
             ButterKnife.bind(this, view);

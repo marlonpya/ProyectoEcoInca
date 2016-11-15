@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +27,7 @@ import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindColor;
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.originqiu.library.EditTag;
@@ -33,7 +35,7 @@ import me.originqiu.library.MEditText;
 
 public class RegistroActivity extends BaseActivity {
     public static final String TAG = RegistroActivity.class.getSimpleName();
-    @BindView(R.id.include) Toolbar toolbar;
+    @BindView(R.id.toolbar_principal) Toolbar toolbar;
     @BindView(R.id.ivRegistroImagenSubir) ImageView imagen_subir;
     @BindView(R.id.icono) ImageView icono;
     @BindView(R.id.ll_btn__pais) LinearLayout btn_pais;
@@ -52,6 +54,15 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.et_certificado_registro) EditText et_certificado;
     @BindView(R.id.tv_titulo_producto) TextView titulo_producto;
     @BindView(R.id.met_editag) MEditText mEditText;
+    @BindView(R.id.iv_comprador_registro) ImageView iv_comprador;
+    @BindView(R.id.iv_vendedor_registro) ImageView iv_vendedor;
+    @BindView(R.id.iv_ambos_registro) ImageView iv_ambos;
+    @BindDrawable(R.drawable.icono_comprador_registro) Drawable drw_comprador;
+    @BindDrawable(R.drawable.icono_vendedor_registro) Drawable drw_vendedor;
+    @BindDrawable(R.drawable.icono_ambos_registro) Drawable drw_ambos;
+    @BindDrawable(R.drawable.icono_comprador_registro_opaco) Drawable drw_comprador_opaco;
+    @BindDrawable(R.drawable.icono_vendedor_registro_opaco) Drawable drw_vendedor_opaco;
+    @BindDrawable(R.drawable.icono_ambos_registro_opaco) Drawable drw_ambos_opaco;
     @BindColor(R.color.celeste) int CELESTE;
     private static int VALOR = 1;
 
@@ -97,11 +108,11 @@ public class RegistroActivity extends BaseActivity {
     @OnClick(R.id.btnSiguienteRegistro)
     public void siguienteRegistro() { startActivity(new Intent(this, PrincipalActivity.class)); }
 
-    @OnClick(R.id.fabRegistroAgregarImagen)
+    /*@OnClick(R.id.fabRegistroAgregarImagen)
     public void agregarImagen() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, VALOR);
-    }
+    }*/
 
     @OnClick(R.id.btnProducto)
     public void irADetalleProducto() {
@@ -175,5 +186,23 @@ public class RegistroActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick({R.id.iv_comprador_registro, R.id.iv_vendedor_registro, R.id.iv_ambos_registro})
+    public void elegirTipoUsuario(ImageView imageView) {
+        if (imageView.getId() == R.id.iv_comprador_registro) make(0);
+        if (imageView.getId() == R.id.iv_vendedor_registro) make(1);
+        if (imageView.getId() == R.id.iv_ambos_registro) make(2);
+    }
+
+    public void make(int i) {
+        iv_comprador.setBackground(drw_comprador_opaco);
+        iv_vendedor.setBackground(drw_vendedor_opaco);
+        iv_ambos.setBackground(drw_ambos_opaco);
+        switch (i){
+            case 0: iv_comprador.setBackground(drw_comprador); break;
+            case 1: iv_vendedor.setBackground(drw_vendedor); break;
+            case 2: iv_ambos.setBackground(drw_ambos); break;
+        }
     }
 }

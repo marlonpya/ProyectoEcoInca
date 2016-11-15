@@ -13,6 +13,7 @@ import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmBasedRecyclerViewAdapter;
@@ -49,12 +50,21 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                 .putExtra(Constantes.L_ID_EMPRESA, item.getId()));
             }
         });
+        switch (item.getTipo()) {
+            case 0: viewHolder.indicador.setColorFilter(viewHolder.comprador); break;
+            case 1: viewHolder.indicador.setColorFilter(viewHolder.vendedor); break;
+            case 2: viewHolder.indicador.setColorFilter(viewHolder.ambos); break;
+        }
     }
 
     public class ViewHolder extends RealmViewHolder {
         @BindView(R.id.row_iv_imagen_empresa) ImageView imagen;
         @BindView(R.id.row_tv_titulo_empresa) TextView titulo;
         @BindView(R.id.row_tv_btn_ver_pefil) TextView boton;
+        @BindView(R.id.row_iv_empresa_indicador) ImageView indicador;
+        @BindColor(R.color.comprador) int comprador;
+        @BindColor(R.color.vendedor) int vendedor;
+        @BindColor(R.color.ambos) int ambos;
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

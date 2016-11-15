@@ -32,9 +32,9 @@
                 android:layout_centerVertical="true"
                 android:background="@drawable/imagen_contorno_rows"
                 card_view:layout_constraintBottom_toBottomOf="@+id/row_iv_imagen_lista_buscar"
+                card_view:layout_constraintLeft_toLeftOf="parent"
                 card_view:layout_constraintRight_toRightOf="parent"
-                card_view:layout_constraintTop_toTopOf="@+id/row_iv_imagen_lista_buscar"
-                card_view:layout_constraintLeft_toLeftOf="parent" />
+                card_view:layout_constraintTop_toTopOf="@+id/row_iv_imagen_lista_buscar" />
 
             <ImageView
                 android:id="@+id/row_iv_imagen_lista_buscar"
@@ -42,13 +42,13 @@
                 android:layout_height="78dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                tools:background="@drawable/icono_usuario"
-                android:layout_marginTop="16dp"
-                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintLeft_toLeftOf="@+id/imageView8"
                 card_view:layout_constraintRight_toRightOf="@+id/imageView8"
-                card_view:layout_constraintLeft_toLeftOf="@+id/imageView8" />
+                card_view:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/icono_usuario" />
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/row_iv_identificador_tipo_empresa"
                 android:layout_width="28dp"
                 tools:background="@drawable/icono_empresa_vendedor"
@@ -58,35 +58,62 @@
                 card_view:layout_constraintLeft_toLeftOf="@+id/row_iv_imagen_lista_buscar"
                 card_view:layout_constraintRight_toRightOf="@+id/imageView8"
                 card_view:layout_constraintHorizontal_bias="0.86"
-                card_view:layout_constraintVertical_bias="0.0" />
+                card_view:layout_constraintVertical_bias="0.0" />-->
         </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".68"
             android:orientation="vertical"
             android:weightSum="1">
 
-            <TextView
-                android:id="@+id/row_tv_titulo_lista_buscar"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+            <ImageView
+                android:id="@+id/row_iv_identificador_tipo_empresa"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_weight=".35"
-                android:gravity="bottom|left"
-                android:textColor="@color/celeste"
-                android:textSize="@dimen/letra_s4"
-                tools:text="Cosecha Partnes" />
+                card_view:layout_constraintRight_toRightOf="parent"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:srcCompat="@drawable/triangulo_row_empresa" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".65"
-                android:text="Lorem ipsum dolor sit amet, consectetuera dipiscing elit. Aenean commodo ligula eget do."
-                android:textColor="@color/plomo"
-                android:textSize="@dimen/letra_s3" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="90dp"
+                android:orientation="vertical"
+                android:weightSum="1"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="8dp">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".35"
+                    android:gravity="center|left"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/row_tv_titulo_lista_buscar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".35"
+                        android:maxLines="1"
+                        android:textColor="@color/celeste"
+                        android:textSize="@dimen/letra_s4"
+                        tools:text="Cosecha Partnes" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".65"
+                    android:maxLines="3"
+                    android:text="Lorem ipsum dolor sit amet, consectetuera dipiscing elit. Aenean commodo ligula eget do."
+                    android:textColor="@color/plomo"
+                    android:textSize="@dimen/letra_s3" />
+            </LinearLayout>
+
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

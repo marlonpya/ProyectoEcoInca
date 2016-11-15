@@ -14,4 +14,8 @@
     <color name="plomo">#FFAAAAAA</color>
     <color name="plomo_oscuro">#434343</color>
     <color name="blanco">#FFFFFF</color>
+    
+    <color name="comprador">#03e1f2</color>
+    <color name="vendedor">#142f66</color>
+    <color name="ambos">#2064ed</color>
 </resources>

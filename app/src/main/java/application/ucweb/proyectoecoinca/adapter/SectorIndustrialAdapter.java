@@ -19,7 +19,6 @@ import io.realm.RealmViewHolder;
 /**
  * Created by ucweb02 on 13/10/2016.
  */
-
 public class SectorIndustrialAdapter extends RealmBasedRecyclerViewAdapter<BuscarDetalle, SectorIndustrialAdapter.ViewHolder> {
     public static final String TAG = SectorIndustrialAdapter.class.getSimpleName();
     public SectorIndustrialAdapter(
