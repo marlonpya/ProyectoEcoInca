@@ -1,6 +1,14 @@
 [
     {
-        "merged": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
-        "source": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+        "merged": "/Users/marlonpya/Marlon/Proyectos_Android/Allin/ProyectoAllin/ProyectoEcoInca/linkedin-sdk/build/intermediates/res/merged/debug/drawable-hdpi-v4/ic_launcher.png",
+        "source": "/Users/marlonpya/Marlon/Proyectos_Android/Allin/ProyectoAllin/ProyectoEcoInca/linkedin-sdk/src/main/res/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "/Users/marlonpya/Marlon/Proyectos_Android/Allin/ProyectoAllin/ProyectoEcoInca/C:\\Marlon\\Proyectos\\Eco Inca\\Android\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/marlonpya/Marlon/Proyectos_Android/Allin/ProyectoAllin/ProyectoEcoInca/C:\\Marlon\\Proyectos\\Eco Inca\\Android\\ProyectoEcoInca\\linkedin-sdk\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "/Users/marlonpya/Marlon/Proyectos_Android/Allin/ProyectoAllin/ProyectoEcoInca/C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "/Users/marlonpya/Marlon/Proyectos_Android/Allin/ProyectoAllin/ProyectoEcoInca/C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
     }
 ]

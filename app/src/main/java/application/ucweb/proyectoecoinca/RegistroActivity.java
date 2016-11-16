@@ -119,10 +119,10 @@ public class RegistroActivity extends BaseActivity {
         //startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 1));
     }
 
-    @OnClick(R.id.btnServicio)
+    /*@OnClick(R.id.btnServicio)
     public void irADetalleServicio() {
         startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 2));
-    }
+    }*/
 
     @OnClick(R.id.btnSectorIndustrial)
     public void irADetalleSectorIndustrial() {

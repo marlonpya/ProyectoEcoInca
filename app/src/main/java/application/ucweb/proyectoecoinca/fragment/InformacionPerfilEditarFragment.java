@@ -15,6 +15,7 @@ import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Optional;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +27,7 @@ public class InformacionPerfilEditarFragment extends Fragment {
     @BindView(R.id.ll_btn__pais) LinearLayout flecha_pais;
     @BindView(R.id.ll_btn_ciudad) LinearLayout flecha_ciudad;
     @BindView(R.id.btnSectorIndustrial) LinearLayout flecha_sec_industria;
-    @BindView(R.id.btnServicio) LinearLayout flecha_servicio;
+    //@BindView(R.id.btnServicio) LinearLayout flecha_servicio;
     @BindView(R.id.btnCertificado) LinearLayout flecha_certificado;
 
     public InformacionPerfilEditarFragment() { }
@@ -70,7 +71,7 @@ public class InformacionPerfilEditarFragment extends Fragment {
     }
 
     private void iniciarLayout() {
-        LinearLayout linearLayouts[] = {flecha_pais, flecha_ciudad, flecha_sec_industria, flecha_servicio, flecha_certificado};
+        LinearLayout linearLayouts[] = {flecha_pais, flecha_ciudad, flecha_sec_industria, flecha_certificado};
         for (LinearLayout linearLayout : linearLayouts){
             linearLayout.setBackgroundDrawable(getResources().getDrawable(R.drawable.efecto_plomo_transparente));
         }

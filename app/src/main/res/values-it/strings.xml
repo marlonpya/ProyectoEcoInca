@@ -96,6 +96,7 @@
     <string name="anio_fundacion2">Anno di Fondazione</string>
     <string name="descripcion_empresa">Descrizione del business (200 caratteri)</string>
     <string name="sector_industrial">Industria</string>
+    <string name="sector_empresarial">Affari</string>
     <string name="producto2">Prodotto</string>
     <string name="servicio2">Servizio</string>
     <string name="cargo">Posizione</string>

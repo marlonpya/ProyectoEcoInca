@@ -358,7 +358,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:hint="@string/sector_industrial"
+                        android:hint="@string/sector_empresarial"
                         android:textColor="@color/plomo_oscuro"
                         android:textColorHint="@color/celeste"
                         android:textSize="@dimen/letra_s4" />
@@ -432,7 +432,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+        <!--<LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -492,7 +492,7 @@
                         android:src="@drawable/icono_flecha_abajo" />
                 </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"

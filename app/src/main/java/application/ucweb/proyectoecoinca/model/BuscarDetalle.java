@@ -94,7 +94,7 @@ public class BuscarDetalle extends RealmObject {
 
     public static void cargarIndustria() {
         Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Industria Petrolera", "Industria Minera", "Industria Automovilistica", "Industria de la transformacion", "Industria Hotelera", "Industria Editorial"};
+        String[] array = {"Agro Industria", "Alimentos y Bebidas", "Hotelería", "Servicios", "Industria textil y confecciones", "Ropa industrial y accesorios", "Calzado", "Madera", "Minería", "Construcción", "Equipamiento y mobiliario en general", "Metalmecánica", "Otros" };
         for(String nombre : array) {
             realm.beginTransaction();
             BuscarDetalle item = realm.createObject(BuscarDetalle.class);
