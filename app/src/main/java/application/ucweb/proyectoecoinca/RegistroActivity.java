@@ -188,6 +188,7 @@ public class RegistroActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
         pDialog.setMessage("Enviando..");
+        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
     @Override
