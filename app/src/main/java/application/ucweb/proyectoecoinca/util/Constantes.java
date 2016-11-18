@@ -5,6 +5,8 @@ package application.ucweb.proyectoecoinca.util;
  */
 public class Constantes {
 
+    public static final String URL_REGISTRAR_USUARIO = "";
+
     public static final String POSICION_I_DETALLE_BUSCAR = "POSICION_I_DETALLE_BUSCAR";
 
     public static final String S_SEC_INDUSTRIAL = "S_SEC_INDUSTRIAL";

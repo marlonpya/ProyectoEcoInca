@@ -5,9 +5,13 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
@@ -23,6 +27,8 @@ import io.realm.RealmConfiguration;
 public class Configuracion extends Application {
     public static final String TAG = Configuracion.class.getSimpleName();
     public static final String PACKAGE = "application.ucweb.proyectoecoinca";
+    private RequestQueue requestQueue;
+    public static Configuracion mInstance;
 
     @Override
     public void onCreate() {
@@ -53,6 +59,33 @@ public class Configuracion extends Application {
             Log.d(TAG, e.getMessage(), e);
         } catch (NoSuchAlgorithmException e) {
             Log.d(TAG, e.getMessage(), e);
+        }
+    }
+
+    public static synchronized Configuracion getInstance() {
+        return mInstance;
+    }
+
+    public RequestQueue getRequestQueue() {
+        if (requestQueue == null) {
+            requestQueue = Volley.newRequestQueue(getApplicationContext());
+        }
+        return requestQueue;
+    }
+
+    public <T> void addToRequestQueue(Request<T> request, String tag) {
+        request.setTag(TextUtils.isEmpty(tag) ? TAG : tag);
+        getRequestQueue().add(request);
+    }
+
+    public <T> void addToRequestQueue(Request<T> request) {
+        request.setTag(TAG);
+        getRequestQueue().add(request);
+    }
+
+    public void cancelPendingRequests(Object tag) {
+        if (requestQueue != null) {
+            requestQueue.cancelAll(tag);
         }
     }
 }

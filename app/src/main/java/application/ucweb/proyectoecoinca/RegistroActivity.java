@@ -1,5 +1,6 @@
 package application.ucweb.proyectoecoinca;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -20,10 +21,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
+import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindColor;
@@ -35,6 +48,7 @@ import me.originqiu.library.MEditText;
 
 public class RegistroActivity extends BaseActivity {
     public static final String TAG = RegistroActivity.class.getSimpleName();
+    @BindView(R.id.layout_activity_registro) LinearLayout layout;
     @BindView(R.id.toolbar_principal) Toolbar toolbar;
     @BindView(R.id.ivRegistroImagenSubir) ImageView imagen_subir;
     @BindView(R.id.icono) ImageView icono;
@@ -48,11 +62,17 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.et_email_registro) EditText et_email;
     @BindView(R.id.et_anio_fundacion_registro) EditText et_anio_f;
     @BindView(R.id.et_descripcion_emp_registro) EditText et_descripcion_e;
-    @BindView(R.id.et_sector_industrial_registro) EditText et_sec_industrial;
+    @BindView(R.id.et_sector_industrial_registro) EditText et_sec_empresarial;
     @BindView(R.id.et_sector_producto_registro) EditTag et_producto;
-    @BindView(R.id.et_sector_servicio_registro) EditText et_servicio;
+    @BindView(R.id.et_nombre_contacto_registro) TextView et_nombre_contacto_registro;
+    @BindView(R.id.et_cargo_contacto_registro) TextView et_cargo_contacto_registro;
     @BindView(R.id.et_certificado_registro) EditText et_certificado;
     @BindView(R.id.tv_titulo_producto) TextView titulo_producto;
+    @BindView(R.id.et_telefono_contacto_registro) TextView et_tlf_oficina;
+    @BindView(R.id.et_movil_contacto_registro) TextView et_tlf;
+    @BindView(R.id.et_mail_contacto_registro) TextView et_email_contacto;
+    @BindView(R.id.et_website_contacto_registro) TextView et_website;
+    @BindView(R.id.et_linkedin_contacto_registro) TextView et_linkedin;
     @BindView(R.id.met_editag) MEditText mEditText;
     @BindView(R.id.iv_comprador_registro) ImageView iv_comprador;
     @BindView(R.id.iv_vendedor_registro) ImageView iv_vendedor;
@@ -64,7 +84,9 @@ public class RegistroActivity extends BaseActivity {
     @BindDrawable(R.drawable.icono_vendedor_registro_opaco) Drawable drw_vendedor_opaco;
     @BindDrawable(R.drawable.icono_ambos_registro_opaco) Drawable drw_ambos_opaco;
     @BindColor(R.color.celeste) int CELESTE;
+    private ProgressDialog pDialog;
     private static int VALOR = 1;
+    private int tipo_usuario = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +98,7 @@ public class RegistroActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        et_sec_industrial.setText(Preferencia.getIndustria(this));
-        //et_producto.setText(Preferencia.getProducto(this));
-        et_servicio.setText(Preferencia.getServicio(this));
+        et_sec_empresarial.setText(Preferencia.getIndustria(this));
         et_certificado.setText(Preferencia.getCertificado(this));
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -95,34 +115,18 @@ public class RegistroActivity extends BaseActivity {
         });
     }
 
-    @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.ACTION_DOWN ||et_producto.hasFocus() || keyCode == KeyEvent.KEYCODE_DEL) {
-            List<String> arraystr = et_producto.getTagList();
-            Log.d(TAG, arraystr.toString());
-            Log.d(TAG, "some");
+    @OnClick(R.id.btnSiguienteRegistro)
+    public void siguienteRegistro() {
+        if (validarRegistroEmpresa()) {
+
         }
-        return super.onKeyUp(keyCode, event);
     }
 
-    @OnClick(R.id.btnSiguienteRegistro)
-    public void siguienteRegistro() { startActivity(new Intent(this, PrincipalActivity.class)); }
-
-    /*@OnClick(R.id.fabRegistroAgregarImagen)
+    @OnClick(R.id.fabRegistroAgregarImagen)
     public void agregarImagen() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, VALOR);
-    }*/
-
-    @OnClick(R.id.btnProducto)
-    public void irADetalleProducto() {
-        //startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 1));
     }
-
-    /*@OnClick(R.id.btnServicio)
-    public void irADetalleServicio() {
-        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 2));
-    }*/
 
     @OnClick(R.id.btnSectorIndustrial)
     public void irADetalleSectorIndustrial() {
@@ -180,6 +184,10 @@ public class RegistroActivity extends BaseActivity {
 
     private void iniciarLayout() {
         setToolbarSon(toolbar, this, getString(R.string.registrarse_min));
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setCancelable(false);
+        pDialog.setMessage("Enviando..");
     }
 
     @Override
@@ -200,9 +208,113 @@ public class RegistroActivity extends BaseActivity {
         iv_vendedor.setBackground(drw_vendedor_opaco);
         iv_ambos.setBackground(drw_ambos_opaco);
         switch (i){
-            case 0: iv_comprador.setBackground(drw_comprador); break;
-            case 1: iv_vendedor.setBackground(drw_vendedor); break;
-            case 2: iv_ambos.setBackground(drw_ambos); break;
+            case 0: iv_comprador.setBackground(drw_comprador); tipo_usuario = 0; break;
+            case 1: iv_vendedor.setBackground(drw_vendedor); tipo_usuario = 1; break;
+            case 2: iv_ambos.setBackground(drw_ambos); tipo_usuario = 2; break;
         }
     }
+
+    private Map<String, String> crearHashMap(
+            final String imagen,
+            final String pais,
+            final String ciudad,
+            final String email,
+            final String tipo_usuario,
+            final String anio_fundacion,
+            final String descripcion,
+            final String[] sector_empresarial,
+            final String[] productos,
+            final String[] certificaciones,
+            final String nombre,
+            final String apellido,
+            final String cargo,
+            final String telefono,
+            final String celular,
+            final String email_usuario,
+            final String website,
+            final String linkedin) throws JSONException {
+        Map<String, String> parametros = new HashMap<>();
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("imagen", imagen);
+        jsonObject.put("pais", pais);
+        jsonObject.put("ciudad", ciudad);
+        jsonObject.put("email", email);
+        jsonObject.put("tipo_usuario", tipo_usuario);
+        jsonObject.put("anio_fundacion", anio_fundacion);
+        jsonObject.put("descripcion", descripcion);
+        jsonObject.put("nombre", nombre);
+        jsonObject.put("apellido", apellido);
+        jsonObject.put("cargo", cargo);
+        jsonObject.put("telefono", telefono);
+        jsonObject.put("celular", celular);
+        jsonObject.put("email_usuario", email_usuario);
+        jsonObject.put("website", website);
+        jsonObject.put("linkedin", linkedin);
+        jsonArray.put(jsonObject);
+        for (String sector_emp : sector_empresarial) {
+            JSONObject json_sector_emp = new JSONObject();
+            json_sector_emp.put("sector_emp", sector_emp);
+            jsonArray.put(json_sector_emp);
+        }
+        for (String producto : productos) {
+            JSONObject json_productos = new JSONObject();
+            json_productos.put("producto", producto);
+            jsonArray.put(json_productos);
+        }
+        for (String certificacion : certificaciones) {
+            JSONObject json_certificacion = new JSONObject();
+            json_certificacion.put("certificacion", certificacion);
+            jsonArray.put(json_certificacion);
+        }
+        parametros.put("registrarEmpresa", jsonArray.toString());
+        return parametros;
+    }
+
+    private boolean validarRegistroEmpresa() {
+        //agregar todos los diccionarios
+        boolean resultado = false;
+        boolean resultado_imagen = false;
+        if (imagen_subir.getDrawable() == null) {Toast.makeText(this, "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= true;}
+        if (!et_nombre.getText().toString().trim().equals("") ||
+                !et_pais.getText().toString().trim().equals("") ||
+                !et_ciudad.getText().toString().trim().equals("") ||
+                !et_email.getText().toString().trim().equals("") ||
+                tipo_usuario != -1 ||
+                !et_anio_f.getText().toString().trim().equals("") ||
+                !et_sec_empresarial.getText().toString().trim().equals("") ||
+                et_producto.getTagList().size() != 0 ||
+                !et_certificado.getText().toString().trim().equals("") ||
+                !et_nombre_contacto_registro.getText().toString().equals("") ||
+                !et_apellido.getText().toString().trim().equals("") ||
+                !et_cargo_contacto_registro.getText().toString().trim().equals("") ||
+                !et_tlf_oficina.getText().toString().trim().equals("") ||
+                !et_tlf.getText().toString().trim().equals("") ||
+                !et_email_contacto.getText().toString().trim().equals("") ||
+                !et_website.getText().toString().trim().equals("") ||
+                !et_linkedin.getText().toString().trim().equals("")) { resultado = true;
+        } else { Toast.makeText(this, "ingrese todos los campos", Toast.LENGTH_SHORT).show(); }
+        return (resultado && resultado_imagen);
+    }
+
+    /*private void requestRegistrarEmpresa() {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            StringRequest request = new StringRequest(
+                    Constantes.URL_REGISTRAR_USUARIO,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            crearHashMap(imagen_subir.)
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
+                    }
+            );
+        } else { ConexionBroadcastReceiver.showSnack(layout); }
+    }*/
+
 }

@@ -1,5 +1,6 @@
 package application.ucweb.proyectoecoinca.aplicacion;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -75,6 +76,16 @@ public class BaseActivity extends AppCompatActivity {
         Glide.with(context.getApplicationContext()).load(ruta_imagen)
                 .transform(new CirculoView(context.getApplicationContext()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(imageView);
+    }
+
+    public static void showDialog(ProgressDialog dialog) {
+        if (dialog != null && !dialog.isShowing())
+            dialog.show();
+    }
+
+    public static void hidepDialog(ProgressDialog dialog) {
+        if (dialog != null && dialog.isShowing())
+            dialog.dismiss();
     }
 
 }

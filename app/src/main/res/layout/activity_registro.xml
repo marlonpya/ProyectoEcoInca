@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_activity_registro"
     android:orientation="vertical"
     tools:context="application.ucweb.proyectoecoinca.RegistroActivity">
 
@@ -41,15 +42,16 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/activity_registro" />
 
-        <!--<android.support.design.widget.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabRegistroAgregarImagen"
             android:layout_width="40dp"
             android:layout_height="48dp"
             android:src="@drawable/icono_cruz_blanca"
             app:elevation="4dp"
             app:fabSize="mini"
+            app:backgroundTint="@color/c_accent"
             app:layout_constraintBottom_toBottomOf="@+id/ivRegistroImagenSubir"
-            app:layout_constraintRight_toRightOf="@+id/ivRegistroImagenSubir" />-->
+            app:layout_constraintRight_toRightOf="@+id/ivRegistroImagenSubir" />
 
         <include
             layout="@layout/layout_registrarse"
