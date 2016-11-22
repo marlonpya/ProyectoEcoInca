@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,19 +22,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
+import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
@@ -55,7 +57,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.ll_btn__pais) LinearLayout btn_pais;
     @BindView(R.id.ll_btn_ciudad) LinearLayout btn_ciudad;
 
-    @BindView(R.id.et_nombre_registro) EditText et_nombre;
+    @BindView(R.id.et_nombre_registro) EditText et_nombre_empresa;
     @BindView(R.id.et_apellido_registro) EditText et_apellido;
     @BindView(R.id.et_pais_registro) EditText et_pais;
     @BindView(R.id.et_ciudad_registro) EditText et_ciudad;
@@ -68,8 +70,8 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.et_cargo_contacto_registro) TextView et_cargo_contacto_registro;
     @BindView(R.id.et_certificado_registro) EditText et_certificado;
     @BindView(R.id.tv_titulo_producto) TextView titulo_producto;
-    @BindView(R.id.et_telefono_contacto_registro) TextView et_tlf_oficina;
-    @BindView(R.id.et_movil_contacto_registro) TextView et_tlf;
+    @BindView(R.id.et_telefono_contacto_registro) TextView et_telefono_oficina;
+    @BindView(R.id.et_movil_contacto_registro) TextView et_celular;
     @BindView(R.id.et_mail_contacto_registro) TextView et_email_contacto;
     @BindView(R.id.et_website_contacto_registro) TextView et_website;
     @BindView(R.id.et_linkedin_contacto_registro) TextView et_linkedin;
@@ -86,7 +88,7 @@ public class RegistroActivity extends BaseActivity {
     @BindColor(R.color.celeste) int CELESTE;
     private ProgressDialog pDialog;
     private static int VALOR = 1;
-    private int tipo_usuario = -1;
+    private int TIPO_EMPRESA = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,9 +119,7 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.btnSiguienteRegistro)
     public void siguienteRegistro() {
-        if (validarRegistroEmpresa()) {
-
-        }
+        requestRegistrarEmpresa();
     }
 
     @OnClick(R.id.fabRegistroAgregarImagen)
@@ -209,18 +209,19 @@ public class RegistroActivity extends BaseActivity {
         iv_vendedor.setBackground(drw_vendedor_opaco);
         iv_ambos.setBackground(drw_ambos_opaco);
         switch (i){
-            case 0: iv_comprador.setBackground(drw_comprador); tipo_usuario = 0; break;
-            case 1: iv_vendedor.setBackground(drw_vendedor); tipo_usuario = 1; break;
-            case 2: iv_ambos.setBackground(drw_ambos); tipo_usuario = 2; break;
+            case 0: iv_comprador.setBackground(drw_comprador); TIPO_EMPRESA = 0; break;
+            case 1: iv_vendedor.setBackground(drw_vendedor); TIPO_EMPRESA = 1; break;
+            case 2: iv_ambos.setBackground(drw_ambos); TIPO_EMPRESA = 2; break;
         }
     }
 
     private Map<String, String> crearHashMap(
             final String imagen,
+            final String nombre_empresa,
             final String pais,
             final String ciudad,
             final String email,
-            final String tipo_usuario,
+            final String tipo_empresa,
             final String anio_fundacion,
             final String descripcion,
             final String[] sector_empresarial,
@@ -238,10 +239,11 @@ public class RegistroActivity extends BaseActivity {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("imagen", imagen);
+        jsonObject.put("nombre_empresa", nombre_empresa);
         jsonObject.put("pais", pais);
         jsonObject.put("ciudad", ciudad);
         jsonObject.put("email", email);
-        jsonObject.put("tipo_usuario", tipo_usuario);
+        jsonObject.put("tipo_empresa", tipo_empresa);
         jsonObject.put("anio_fundacion", anio_fundacion);
         jsonObject.put("descripcion", descripcion);
         jsonObject.put("nombre", nombre);
@@ -269,6 +271,7 @@ public class RegistroActivity extends BaseActivity {
             jsonArray.put(json_certificacion);
         }
         parametros.put("registrarEmpresa", jsonArray.toString());
+        Log.d(TAG, "crearHashMap: "+parametros);
         return parametros;
     }
 
@@ -277,20 +280,20 @@ public class RegistroActivity extends BaseActivity {
         boolean resultado = false;
         boolean resultado_imagen = false;
         if (imagen_subir.getDrawable() == null) {Toast.makeText(this, "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= true;}
-        if (!et_nombre.getText().toString().trim().equals("") ||
+        if (!et_nombre_empresa.getText().toString().trim().equals("") ||
                 !et_pais.getText().toString().trim().equals("") ||
                 !et_ciudad.getText().toString().trim().equals("") ||
                 !et_email.getText().toString().trim().equals("") ||
-                tipo_usuario != -1 ||
+                TIPO_EMPRESA != -1 ||
                 !et_anio_f.getText().toString().trim().equals("") ||
                 !et_sec_empresarial.getText().toString().trim().equals("") ||
-                et_producto.getTagList().size() != 0 ||
+                et_producto.getTagList().size() > 0 ||
                 !et_certificado.getText().toString().trim().equals("") ||
                 !et_nombre_contacto_registro.getText().toString().equals("") ||
                 !et_apellido.getText().toString().trim().equals("") ||
                 !et_cargo_contacto_registro.getText().toString().trim().equals("") ||
-                !et_tlf_oficina.getText().toString().trim().equals("") ||
-                !et_tlf.getText().toString().trim().equals("") ||
+                !et_telefono_oficina.getText().toString().trim().equals("") ||
+                !et_celular.getText().toString().trim().equals("") ||
                 !et_email_contacto.getText().toString().trim().equals("") ||
                 !et_website.getText().toString().trim().equals("") ||
                 !et_linkedin.getText().toString().trim().equals("")) { resultado = true;
@@ -298,24 +301,80 @@ public class RegistroActivity extends BaseActivity {
         return (resultado && resultado_imagen);
     }
 
-    /*private void requestRegistrarEmpresa() {
+    private void requestRegistrarEmpresa() {
         if (ConexionBroadcastReceiver.isConnected()) {
+            showDialog(pDialog);
             StringRequest request = new StringRequest(
                     Constantes.URL_REGISTRAR_USUARIO,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
-                            crearHashMap(imagen_subir.)
+                            Log.d(TAG, "onResponse: \n"+s);
+                            hidepDialog(pDialog);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-
+                            VolleyLog.d(volleyError.toString());
+                            hidepDialog(pDialog);
                         }
                     }
-            );
+            ){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    try {
+                        params =
+                            crearHashMap("imagen",
+                                    et_nombre_empresa.getText().toString().trim(),
+                                    et_pais.getText().toString().trim(),
+                                    et_ciudad.getText().toString().trim(),
+                                    et_email.getText().toString().trim(),
+                                    String.valueOf(TIPO_EMPRESA),
+                                    et_anio_f.getText().toString().trim(),
+                                    et_descripcion_e.getText().toString().trim(),
+                                    getSectoresEmpresarial(et_sec_empresarial.getText().toString()),
+                                    getProductos(et_producto),
+                                    getSectoresEmpresarial(et_certificado.getText().toString()),
+                                    et_nombre_contacto_registro.getText().toString(),
+                                    et_apellido.getText().toString(),
+                                    et_cargo_contacto_registro.getText().toString(),
+                                    et_telefono_oficina.getText().toString(),
+                                    et_celular.getText().toString(),
+                                    et_email_contacto.getText().toString(),
+                                    et_website.getText().toString(),
+                                    et_linkedin.getText().toString());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    return params;
+                }
+            };
+            Configuracion.getInstance().addToRequestQueue(request);
         } else { ConexionBroadcastReceiver.showSnack(layout); }
-    }*/
+    }
+
+    private String[] getProductos(EditTag et_producto ) {
+        String[] array = new String[et_producto.getTagList().size()];
+        for (int i = 0; i > et_producto.getTagList().size(); i++) {
+            array[i] += et_producto.getTagList().get(i);
+        }
+        Log.d(TAG, "getProductos: " + Arrays.toString(array));
+        return array;
+    }
+
+    private String[] getSectoresEmpresarial(String sectores) {
+        String[] array = new String[]{};
+        String unidad = "";
+        for (int i = 0; i > sectores.length(); i++) {
+            if (sectores.indexOf(i) != '\n' || sectores.indexOf(i) != ' ') {
+                unidad += sectores.indexOf(i);
+            }
+            array[i] += unidad;
+        }
+        Log.d(TAG, "getSectoresEmpresarial: " + Arrays.toString(array));
+        return array;
+    }
 
 }

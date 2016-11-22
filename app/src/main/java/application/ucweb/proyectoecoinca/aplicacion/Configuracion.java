@@ -33,6 +33,7 @@ public class Configuracion extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        mInstance = this;
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         RealmConfiguration configuration = new RealmConfiguration
