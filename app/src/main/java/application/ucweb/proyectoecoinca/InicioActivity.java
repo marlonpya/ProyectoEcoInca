@@ -47,11 +47,8 @@ public class InicioActivity extends BaseActivity {
 
         //INICIAR DATOS DE BD REALM !!!!!!!
         if(BuscarDetalle.getUltimoId() == 0 ) {
-            BuscarDetalle.cargarProducto();
-            BuscarDetalle.cargarServicio();
-            BuscarDetalle.cargarIndustria();
             BuscarDetalle.cargarPais();
-            BuscarDetalle.cargarCertificaciones();
+            BuscarDetalle.cargarProducto();
             BuscarResultadoListaActivity.pruebaRRV();
         }
         Usuario.sesionDesarrollo(); //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:

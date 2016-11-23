@@ -52,12 +52,10 @@ public class RegistroDetalleListaActivity extends BaseActivity {
         }
         switch (id_intent){
             case 1: Preferencia.setProducto(buffer, this); break;
-            case 2: Preferencia.setServicio(buffer, this); break;
-            case 4: Preferencia.setIndustria(buffer, this); break;
+            case 4: Preferencia.setEmpresarial(buffer, this); break;
             case 6: Preferencia.setCertificado(buffer, this); break;
         }
         Log.d(TAG, buffer);
-        Log.d(TAG, lista.toString());
         super.onBackPressed();
     }
 

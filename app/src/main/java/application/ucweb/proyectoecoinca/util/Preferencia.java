@@ -3,6 +3,9 @@ package application.ucweb.proyectoecoinca.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 /**
  * Created by ucweb02 on 03/10/2016.
  */
@@ -11,13 +14,13 @@ public class Preferencia {
 
     public static final String REGISTRO = "REGISTRO";
 
-    public static void setIndustria(String industria, Context context) {
+    public static void setEmpresarial(String industria, Context context) {
         SharedPreferences.Editor editor = context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).edit();
         editor.putString(Constantes.S_SEC_INDUSTRIAL, industria);
         editor.commit();
     }
 
-    public static String getIndustria(Context context) {
+    public static String getEmpresarial(Context context) {
         return context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).getString(Constantes.S_SEC_INDUSTRIAL, "");
     }
 
@@ -29,16 +32,6 @@ public class Preferencia {
 
     public static String getProducto(Context context) {
         return context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).getString(Constantes.S_PRODUCTO_REGISTRO, "");
-    }
-
-    public static void setServicio(String industria, Context context) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).edit();
-        editor.putString(Constantes.S_SERVICIO_REGISTRO, industria);
-        editor.commit();
-    }
-
-    public static String getServicio(Context context) {
-        return context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).getString(Constantes.S_SERVICIO_REGISTRO, "");
     }
 
     public static void setCertificado(String certificado, Context context) {

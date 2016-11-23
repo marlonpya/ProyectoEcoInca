@@ -124,4 +124,34 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
 
+    <array name="certificaciones">
+        <item>BPM</item>
+        <item>BRC</item>
+        <item>FAIR TRADE</item>
+        <item>GLUTEN FREE</item>
+        <item>HACCP</item>
+        <item>Halal</item>
+        <item>ISO</item>
+        <item>Kosher</item>
+        <item>NON GMO</item>
+        <item>RAINFOREST ALLIANCE</item>
+        <item>UEBT</item>
+    </array>
+
+    <array name="sectores_empresariales">
+        <item>Agro Industria</item>
+        <item>Alimentos y Bebidas</item>
+        <item>Hotelería</item>
+        <item>Servicios</item>
+        <item>Industria textil y confecciones</item>
+        <item>Ropa industrial y accesorios</item>
+        <item>Calzado</item>
+        <item>Madera</item>
+        <item>Minería</item>
+        <item>Construcción</item>
+        <item>Equipamiento y mobiliario en general</item>
+        <item>Metalmecánica</item>
+        <item>Otros</item>
+    </array>
+
 </resources>

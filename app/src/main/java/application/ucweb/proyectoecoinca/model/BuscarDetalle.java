@@ -1,9 +1,12 @@
 package application.ucweb.proyectoecoinca.model;
 
+import android.content.Context;
 import android.util.Log;
 
+import application.ucweb.proyectoecoinca.R;
 import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -12,6 +15,7 @@ import io.realm.annotations.PrimaryKey;
 public class BuscarDetalle extends RealmObject {
     //TIPO: 1 = PRODUCTO, 2 = SERVICIO, 3 = COMPAÑÍA, 4 = INDUSTRIA, 5 = PAÍS, 6 = CERTIFICACION
     public static final String TAG = BuscarDetalle.class.getSimpleName();
+    public static final String BUSDET_ID = "id";
     public static final String BUSDET_TIPO = "tipo";
 
     @PrimaryKey
@@ -58,9 +62,10 @@ public class BuscarDetalle extends RealmObject {
         this.seleccionado = seleccionado;
     }
 
-    public static void cargarProducto() {
+    //PAIS 1 ; CIUDAD; 2; PRODUCTOS 3; EMPRESARIAL 4; CERTIFICACIONES 5;
+    public static void cargarPais() {
         Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Chia", "Papa", "Arroz", "Quinua", "Maca", "Quaker"};
+        String[] array = {"Alemania", "Peru", "Estados Unidos", "Bolivia", "Ecuador", "Mexico", "Colombia", "Venezuela", "Arabia", "Argentina", "Guatemala"};
         for(String nombre : array) {
             realm.beginTransaction();
             BuscarDetalle item = realm.createObject(BuscarDetalle.class);
@@ -75,15 +80,15 @@ public class BuscarDetalle extends RealmObject {
         realm.close();
     }
 
-    public static void cargarServicio() {
+    public static void cargarProducto() {
         Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Electricidad", "Combustibles", "Restaurante", "Transporte", "Comercio", "Ocio"};
+        String[] array = {"Chia", "Papa", "Arroz", "Quinua", "Maca", "Quaker"};
         for(String nombre : array) {
             realm.beginTransaction();
             BuscarDetalle item = realm.createObject(BuscarDetalle.class);
             item.setId(getUltimoId());
             item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(2);
+            item.setTipo(3);
             item.setSeleccionado(false);
             realm.copyToRealm(item);
             realm.commitTransaction();
@@ -92,54 +97,64 @@ public class BuscarDetalle extends RealmObject {
         realm.close();
     }
 
-    public static void cargarIndustria() {
+    public static void cargarEmpresarial(Context context) {
         Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Agro Industria", "Alimentos y Bebidas", "Hotelería", "Servicios", "Industria textil y confecciones", "Ropa industrial y accesorios", "Calzado", "Madera", "Minería", "Construcción", "Equipamiento y mobiliario en general", "Metalmecánica", "Otros" };
-        for(String nombre : array) {
-            realm.beginTransaction();
-            BuscarDetalle item = realm.createObject(BuscarDetalle.class);
-            item.setId(getUltimoId());
-            item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(4);
-            item.setSeleccionado(false);
-            realm.copyToRealm(item);
-            realm.commitTransaction();
-            Log.d(TAG, item.toString());
+        String[] array = context.getResources().getStringArray(R.array.sectores_empresariales);
+        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 4).max(BUSDET_ID);
+        if (number == null || number.intValue() == 0) {
+            for (String nombre : array) {
+                realm.beginTransaction();
+                BuscarDetalle item = realm.createObject(BuscarDetalle.class);
+                item.setId(getUltimoId());
+                item.setDescripcion(nombre.toUpperCase());
+                item.setTipo(4);
+                item.setSeleccionado(false);
+                realm.copyToRealm(item);
+                realm.commitTransaction();
+                Log.d(TAG, item.toString());
+            }
+        } else {
+            RealmResults<BuscarDetalle> results = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 4).findAll();
+            for (int i = 0; i < results.size(); i++) {
+                realm.beginTransaction();
+                BuscarDetalle item = results.get(i);
+                item.setId(item.getId());
+                item.setDescripcion(array[i]);
+                realm.commitTransaction();
+                Log.d(TAG, item.toString());
+            }
         }
         realm.close();
     }
 
-    public static void cargarPais() {
+    public static void cargarCertificaciones(Context context) {
         Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Alemania", "Peru", "Estados Unidos", "Bolivia", "Ecuador", "Mexico", "Colombia", "Venezuela", "Arabia", "Argentina", "Guatemala"};
-        for(String nombre : array) {
-            realm.beginTransaction();
-            BuscarDetalle item = realm.createObject(BuscarDetalle.class);
-            item.setId(getUltimoId());
-            item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(5);
-            item.setSeleccionado(false);
-            realm.copyToRealm(item);
-            realm.commitTransaction();
-            Log.d(TAG, item.toString());
+        String[] array = context.getResources().getStringArray(R.array.certificaciones);
+        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 5).max(BUSDET_ID);
+        if (number == null || number.intValue() == 0) {
+            for (String nombre : array) {
+                realm.beginTransaction();
+                BuscarDetalle item = realm.createObject(BuscarDetalle.class);
+                item.setId(getUltimoId());
+                item.setDescripcion(nombre.toUpperCase());
+                item.setTipo(5);
+                item.setSeleccionado(false);
+                realm.copyToRealm(item);
+                realm.commitTransaction();
+                Log.d(TAG, item.toString());
+            }
+        } else {
+            RealmResults<BuscarDetalle> results = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 5).findAll();
+            for (int i = 0; i < results.size(); i++) {
+                realm.beginTransaction();
+                BuscarDetalle item = results.get(i);
+                item.setId(item.getId());
+                item.setDescripcion(array[i]);
+                realm.commitTransaction();
+                Log.d(TAG, item.toString());
+            }
         }
-        realm.close();
-    }
 
-    public static void cargarCertificaciones() {
-        Realm realm = Realm.getDefaultInstance();
-        String[] array = {"BPM", "BRC", "FAIR TRADE", "GLUTEN FREE", "HACCP", "Halal", "ISO", "Kosher", "NON GMO", "RAINFOREST ALLIANCE", "UEBT"};
-        for(String nombre : array) {
-            realm.beginTransaction();
-            BuscarDetalle item = realm.createObject(BuscarDetalle.class);
-            item.setId(getUltimoId());
-            item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(6);
-            item.setSeleccionado(false);
-            realm.copyToRealm(item);
-            realm.commitTransaction();
-            Log.d(TAG, item.toString());
-        }
         realm.close();
     }
 
