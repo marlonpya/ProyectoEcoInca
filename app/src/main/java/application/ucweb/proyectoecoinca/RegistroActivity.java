@@ -98,6 +98,7 @@ public class RegistroActivity extends BaseActivity {
     private static int VALOR = 1;
     private int TIPO_EMPRESA = -1;
     private Realm realm;
+    private String imagen_base = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,12 +106,6 @@ public class RegistroActivity extends BaseActivity {
         setContentView(R.layout.activity_registro);
         realm = Realm.getDefaultInstance();
         iniciarLayout();
-        try {
-            make();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(TAG, "fail");
-        }
     }
 
     @Override
@@ -139,7 +134,7 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.btnSiguienteRegistro)
     public void siguienteRegistro() {
-        requestRegistrarEmpresa();
+        if (validarRegistroEmpresa()) requestRegistrarEmpresa();
     }
 
     @OnClick(R.id.fabRegistroAgregarImagen)
@@ -180,7 +175,9 @@ public class RegistroActivity extends BaseActivity {
             int ancho = fotobitmap.getHeight();
             Log.d(TAG, "alto ="+String.valueOf(alto) + "ancho= "+String.valueOf(ancho));
             if (alto > 500 || ancho > 500) {
-                texto_subir_logo.setVisibility(View.VISIBLE);
+                imagen_base = "";
+                texto_subir_logo.setText(R.string.subir_logo);
+                imagen_subir.setImageResource(0);
                 Toast.makeText(getApplicationContext(), "Se recomienda imágenes menores de 500px (ancho y alto)", Toast.LENGTH_LONG).show();
             } else {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -189,7 +186,9 @@ public class RegistroActivity extends BaseActivity {
                 String imagen_encode = Base64.encodeToString(bytes_local, Base64.DEFAULT);
                 Log.d(TAG, "imagen_encode\n" + imagen_encode);
                 imagen_subir.setImageURI(imagen_selecionada);
-                texto_subir_logo.setVisibility(View.GONE);
+                texto_subir_logo.setText("");
+
+                imagen_base = imagen_encode;
             }
         }
     }
@@ -327,26 +326,26 @@ public class RegistroActivity extends BaseActivity {
     private boolean validarRegistroEmpresa() {
         //agregar todos los diccionarios
         boolean resultado = false;
-        boolean resultado_imagen = false;
-        if (imagen_subir.getDrawable() == null) {Toast.makeText(this, "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= true;}
-        if (!et_nombre_empresa.getText().toString().trim().equals("") ||
-                !et_pais.getText().toString().trim().equals("") ||
-                !et_ciudad.getText().toString().trim().equals("") ||
-                !et_email.getText().toString().trim().equals("") ||
-                TIPO_EMPRESA != -1 ||
-                !et_anio_f.getText().toString().trim().equals("") ||
-                !et_sec_empresarial.getText().toString().trim().equals("") ||
-                et_producto.getTagList().size() > 0 ||
-                !et_certificado.getText().toString().trim().equals("") ||
-                !et_nombre_contacto_registro.getText().toString().equals("") ||
-                !et_apellido.getText().toString().trim().equals("") ||
-                !et_cargo_contacto_registro.getText().toString().trim().equals("") ||
-                !et_telefono_oficina.getText().toString().trim().equals("") ||
-                !et_celular.getText().toString().trim().equals("") ||
-                !et_email_contacto.getText().toString().trim().equals("") ||
-                !et_website.getText().toString().trim().equals("") ||
-                !et_linkedin.getText().toString().trim().equals("")) { resultado = true;
-        } else { Toast.makeText(this, "ingrese todos los campos", Toast.LENGTH_SHORT).show(); }
+        boolean resultado_imagen = true;
+        if (imagen_subir.getDrawable() == null || imagen_base.isEmpty() ) { Toast.makeText(getApplicationContext(), "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= false; }
+        if (!et_nombre_empresa.getText().toString().trim().equals("") &&
+                !et_pais.getText().toString().trim().equals("") &&
+                !et_ciudad.getText().toString().trim().equals("") &&
+                !et_email.getText().toString().trim().equals("") &&
+                TIPO_EMPRESA != -1 &&
+                !et_anio_f.getText().toString().trim().equals("") &&
+                !et_sec_empresarial.getText().toString().trim().equals("") &&
+                et_producto.getTagList().size() > 0 &&
+                !et_certificado.getText().toString().trim().equals("") &&
+                !et_nombre_contacto_registro.getText().toString().equals("") &&
+                !et_apellido.getText().toString().trim().equals("") &&
+                !et_cargo_contacto_registro.getText().toString().trim().equals("") &&
+                !et_telefono_oficina.getText().toString().trim().equals("") &&
+                !et_celular.getText().toString().trim().equals("") &&
+                !et_email_contacto.getText().toString().trim().equals("") &&
+                !et_website.getText().toString().trim().equals("") &&
+                !et_linkedin.getText().toString().trim().equals("")) { resultado = true; }
+        else { Toast.makeText(getApplicationContext(), "ingrese todos los campos", Toast.LENGTH_SHORT).show(); }
         return (resultado && resultado_imagen);
     }
 
@@ -381,7 +380,7 @@ public class RegistroActivity extends BaseActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     try {
-                        params = crearHashMap("imagen",
+                        params = crearHashMap(imagen_base,
                                     et_nombre_empresa.getText().toString().trim(),
                                     et_pais.getText().toString().trim(),
                                     et_ciudad.getText().toString().trim(),
