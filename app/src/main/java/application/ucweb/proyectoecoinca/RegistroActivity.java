@@ -36,7 +36,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,11 +43,8 @@ import java.util.Map;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
-import application.ucweb.proyectoecoinca.model.RegistroCertificaciones;
-import application.ucweb.proyectoecoinca.model.RegistroSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
-import application.ucweb.proyectoecoinca.util.Preferencia;
 import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -122,8 +118,10 @@ public class RegistroActivity extends BaseActivity {
         super.onResume();
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
-        et_sec_empresarial.setText(Preferencia.getEmpresarial(this));
-        et_certificado.setText(Preferencia.getCertificado(this));
+        generarMarcados(et_sec_empresarial, BuscarDetalle.TIPO_EMPRESARIAL);
+        generarMarcados(et_certificado, BuscarDetalle.TIPO_CERTIFICACIONES);
+        /*et_sec_empresarial.setText(Preferencia.getEmpresarial(this));
+        et_certificado.setText(Preferencia.getCertificado(this));*/
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -141,28 +139,7 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.btnSiguienteRegistro)
     public void siguienteRegistro() {
-        try { crearHashMap("imagen",
-                    et_nombre_empresa.getText().toString().trim(),
-                    et_pais.getText().toString().trim(),
-                    et_ciudad.getText().toString().trim(),
-                    et_email.getText().toString().trim(),
-                    String.valueOf(TIPO_EMPRESA),
-                    et_anio_f.getText().toString().trim(),
-                    et_descripcion_e.getText().toString().trim(),
-                    getStringsRealm(et_sec_empresarial.getText().toString(), 4),
-                    getProductos(et_producto),
-                    getStringsRealm(et_certificado.getText().toString(), 5),
-                    et_nombre_contacto_registro.getText().toString(),
-                    et_apellido.getText().toString(),
-                    et_cargo_contacto_registro.getText().toString(),
-                    et_telefono_oficina.getText().toString(),
-                    et_celular.getText().toString(),
-                    et_email_contacto.getText().toString(),
-                    et_website.getText().toString(),
-                    et_linkedin.getText().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        requestRegistrarEmpresa();
     }
 
     @OnClick(R.id.fabRegistroAgregarImagen)
@@ -171,14 +148,14 @@ public class RegistroActivity extends BaseActivity {
         startActivityForResult(intent, VALOR);
     }
 
-    @OnClick(R.id.btnSectorIndustrial)
+    @OnClick(R.id.btnSectorEmpresarial)
     public void irADetalleSectorIndustrial() {
-        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 4));
+        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_EMPRESARIAL));
     }
 
     @OnClick(R.id.btnCertificado)
     public void irADetalleCertificado() {
-        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 6));
+        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_CERTIFICACIONES));
     }
 
     @Override
@@ -319,21 +296,29 @@ public class RegistroActivity extends BaseActivity {
         jsonObject.put("website", website);
         jsonObject.put("linkedin", linkedin);
         jsonArray.put(jsonObject);
+        JSONArray jsonArrayEmpresarial = new JSONArray();
         for (String sector_emp : sector_empresarial) {
             JSONObject json_sector_emp = new JSONObject();
             json_sector_emp.put("sector_emp", sector_emp);
-            jsonArray.put(json_sector_emp);
+            jsonArrayEmpresarial.put(json_sector_emp);
         }
+        jsonArray.put(jsonArrayEmpresarial);
+
+        JSONArray jsonArrayProductos = new JSONArray();
         for (String producto : productos) {
             JSONObject json_productos = new JSONObject();
             json_productos.put("producto", producto);
-            jsonArray.put(json_productos);
+            jsonArrayProductos.put(json_productos);
         }
+        jsonArray.put(jsonArrayProductos);
+
+        JSONArray jsonArrayCertificaciones = new JSONArray();
         for (String certificacion : certificaciones) {
             JSONObject json_certificacion = new JSONObject();
             json_certificacion.put("certificacion", certificacion);
-            jsonArray.put(json_certificacion);
+            jsonArrayCertificaciones.put(json_certificacion);
         }
+        jsonArray.put(jsonArrayCertificaciones);
         param.put(jsonArrayNombre, jsonArray.toString());
         Log.d(TAG, "parámetros_"+param.toString());
         return param;
@@ -404,9 +389,9 @@ public class RegistroActivity extends BaseActivity {
                                     String.valueOf(TIPO_EMPRESA),
                                     et_anio_f.getText().toString().trim(),
                                     et_descripcion_e.getText().toString().trim(),
-                                    getStringsRealm(et_sec_empresarial.getText().toString(), 4),
+                                    BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL),
                                     getProductos(et_producto),
-                                    getStringsRealm(et_certificado.getText().toString(), 5),
+                                    BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES),
                                     et_nombre_contacto_registro.getText().toString(),
                                     et_apellido.getText().toString(),
                                     et_cargo_contacto_registro.getText().toString(),
@@ -429,20 +414,11 @@ public class RegistroActivity extends BaseActivity {
     private String[] getProductos(EditTag et_producto ) {
         String[] array = new String[et_producto.getTagList().size()];
         for (int i = 0; i < et_producto.getTagList().size(); i++) {
-            array[i] += et_producto.getTagList().get(i);
+            array[i] = et_producto.getTagList().get(i);
         }
         Log.d(TAG, "getProductos: " + Arrays.toString(array));
         Log.d(TAG, "getProductos: size->"+String.valueOf(et_producto.getTagList().size()));
         return array;
-    }
-
-    private String[] getStringsRealm(String sectores, int tipo) {
-        RealmResults<BuscarDetalle> sectores_empresariales = realm.where(BuscarDetalle.class).equalTo(BuscarDetalle.BUSDET_TIPO, tipo).findAll();
-        String[] resultado = new String[sectores_empresariales.size()];
-        for(int i = 0; i < sectores.length(); i++) {
-            resultado[i] = sectores_empresariales.get(i).getDescripcion();
-        }
-        return resultado;
     }
 
     private void make() throws JSONException {
@@ -493,6 +469,16 @@ public class RegistroActivity extends BaseActivity {
         jsonArray.put(jsonCertificaciones);
         param.put("fasfasf", jsonArray.toString());
         Log.d(TAG, "parámetros_"+param.toString());
+    }
+
+    private static void generarMarcados(EditText editText, int tipo) {
+        String generado = "";
+        String[] marcados = BuscarDetalle.getMarcados(tipo);
+        for (int i = 0; i < marcados.length; i++) {
+            generado += ("- " + marcados[i] + "\n");
+        }
+        if (!generado.equals("- \n") && marcados.length > 0) editText.setText(generado);
+        else editText.setText("");
     }
 
 }

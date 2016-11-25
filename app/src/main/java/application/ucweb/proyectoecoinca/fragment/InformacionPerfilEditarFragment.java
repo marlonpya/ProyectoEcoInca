@@ -15,7 +15,6 @@ import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Optional;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,7 +25,7 @@ public class InformacionPerfilEditarFragment extends Fragment {
     @BindView(R.id.et_ciudad_registro) EditText et_ciudad;
     @BindView(R.id.ll_btn__pais) LinearLayout flecha_pais;
     @BindView(R.id.ll_btn_ciudad) LinearLayout flecha_ciudad;
-    @BindView(R.id.btnSectorIndustrial) LinearLayout flecha_sec_industria;
+    @BindView(R.id.btnSectorEmpresarial) LinearLayout flecha_sec_industria;
     //@BindView(R.id.btnServicio) LinearLayout flecha_servicio;
     @BindView(R.id.btnCertificado) LinearLayout flecha_certificado;
 

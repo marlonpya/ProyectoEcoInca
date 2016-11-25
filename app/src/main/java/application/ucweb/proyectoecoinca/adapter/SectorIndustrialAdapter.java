@@ -40,7 +40,7 @@ public class SectorIndustrialAdapter extends RealmBasedRecyclerViewAdapter<Busca
         viewHolder.titulo.setText(item.getDescripcion());
         if (item.isSeleccionado()) {
             viewHolder.check.setChecked(true);
-        } else{
+        } else {
             viewHolder.check.setChecked(false);
         }
         viewHolder.check.setOnClickListener(new View.OnClickListener() {
@@ -48,19 +48,14 @@ public class SectorIndustrialAdapter extends RealmBasedRecyclerViewAdapter<Busca
             public void onClick(View v) {
                 Realm realm = Realm.getDefaultInstance();
                 realm.beginTransaction();
-                BuscarDetalle nuevo_item = new BuscarDetalle();
-                nuevo_item.setId(item.getId());
-                nuevo_item.setDescripcion(item.getDescripcion());
-                nuevo_item.setTipo(item.getTipo());
+                item.setId(item.getId());
                 if (viewHolder.check.isChecked()) {
-                    nuevo_item.setSeleccionado(true);
-                    Log.d(TAG, item.getDescripcion());
+                    item.setSeleccionado(true);
                 } else {
-                    nuevo_item.setSeleccionado(false);
+                    item.setSeleccionado(false);
                 }
-                realm.copyToRealmOrUpdate(nuevo_item);
                 realm.commitTransaction();
-                Log.d(TAG, nuevo_item.toString());
+                Log.d(TAG, item.toString());
             }
         });
     }

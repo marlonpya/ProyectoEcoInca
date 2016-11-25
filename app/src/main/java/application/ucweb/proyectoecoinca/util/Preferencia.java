@@ -14,34 +14,4 @@ public class Preferencia {
 
     public static final String REGISTRO = "REGISTRO";
 
-    public static void setEmpresarial(String industria, Context context) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).edit();
-        editor.putString(Constantes.S_SEC_INDUSTRIAL, industria);
-        editor.commit();
-    }
-
-    public static String getEmpresarial(Context context) {
-        return context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).getString(Constantes.S_SEC_INDUSTRIAL, "");
-    }
-
-    public static void setProducto(String industria, Context context) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).edit();
-        editor.putString(Constantes.S_PRODUCTO_REGISTRO, industria);
-        editor.commit();
-    }
-
-    public static String getProducto(Context context) {
-        return context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).getString(Constantes.S_PRODUCTO_REGISTRO, "");
-    }
-
-    public static void setCertificado(String certificado, Context context) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).edit();
-        editor.putString(Constantes.S_CERTIFICADO_REGISTRO, certificado);
-        editor.commit();
-    }
-
-    public static String getCertificado(Context context) {
-        return context.getSharedPreferences(REGISTRO, Context.MODE_PRIVATE).getString(Constantes.S_CERTIFICADO_REGISTRO, "");
-    }
-
 }

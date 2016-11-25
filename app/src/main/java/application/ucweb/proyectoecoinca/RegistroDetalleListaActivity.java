@@ -1,14 +1,12 @@
 package application.ucweb.proyectoecoinca;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import application.ucweb.proyectoecoinca.adapter.SectorIndustrialAdapter;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.util.Constantes;
-import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
 import butterknife.OnClick;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
@@ -41,23 +39,6 @@ public class RegistroDetalleListaActivity extends BaseActivity {
 
     @OnClick(R.id.btnAceptarDetalleListaRegistrar)
     public void aceptarDetalleListaRegistrar() { onBackPressed(); }
-
-    @Override
-    public void onBackPressed() {
-        String buffer = "";
-        for (int i = 0; i < lista.size(); i++) {
-            if (lista.get(i).isSeleccionado()) {
-                buffer += "- "+lista.get(i).getDescripcion().toUpperCase()+ "\n";
-            }
-        }
-        switch (id_intent){
-            case 1: Preferencia.setProducto(buffer, this); break;
-            case 4: Preferencia.setEmpresarial(buffer, this); break;
-            case 6: Preferencia.setCertificado(buffer, this); break;
-        }
-        Log.d(TAG, buffer);
-        super.onBackPressed();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

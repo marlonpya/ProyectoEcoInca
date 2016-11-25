@@ -17,6 +17,11 @@ public class BuscarDetalle extends RealmObject {
     public static final String TAG = BuscarDetalle.class.getSimpleName();
     public static final String BUSDET_ID = "id";
     public static final String BUSDET_TIPO = "tipo";
+    public static final String BUSDET_SELECCIONADO = "seleccionado";
+
+    public static final boolean SELECCIONADO = true;
+    public static final int TIPO_EMPRESARIAL = 4;
+    public static final int TIPO_CERTIFICACIONES = 5;
 
     @PrimaryKey
     private long id;
@@ -100,21 +105,21 @@ public class BuscarDetalle extends RealmObject {
     public static void cargarEmpresarial(Context context) {
         Realm realm = Realm.getDefaultInstance();
         String[] array = context.getResources().getStringArray(R.array.sectores_empresariales);
-        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 4).max(BUSDET_ID);
+        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, TIPO_EMPRESARIAL).max(BUSDET_ID);
         if (number == null || number.intValue() == 0) {
             for (String nombre : array) {
                 realm.beginTransaction();
                 BuscarDetalle item = realm.createObject(BuscarDetalle.class);
                 item.setId(getUltimoId());
                 item.setDescripcion(nombre.toUpperCase());
-                item.setTipo(4);
+                item.setTipo(TIPO_EMPRESARIAL);
                 item.setSeleccionado(false);
                 realm.copyToRealm(item);
                 realm.commitTransaction();
                 Log.d(TAG, item.toString());
             }
         } else {
-            RealmResults<BuscarDetalle> results = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 4).findAll();
+            RealmResults<BuscarDetalle> results = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, TIPO_EMPRESARIAL).findAll();
             for (int i = 0; i < results.size(); i++) {
                 realm.beginTransaction();
                 BuscarDetalle item = results.get(i);
@@ -130,21 +135,21 @@ public class BuscarDetalle extends RealmObject {
     public static void cargarCertificaciones(Context context) {
         Realm realm = Realm.getDefaultInstance();
         String[] array = context.getResources().getStringArray(R.array.certificaciones);
-        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 5).max(BUSDET_ID);
+        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, TIPO_CERTIFICACIONES).max(BUSDET_ID);
         if (number == null || number.intValue() == 0) {
             for (String nombre : array) {
                 realm.beginTransaction();
                 BuscarDetalle item = realm.createObject(BuscarDetalle.class);
                 item.setId(getUltimoId());
                 item.setDescripcion(nombre.toUpperCase());
-                item.setTipo(5);
+                item.setTipo(TIPO_CERTIFICACIONES);
                 item.setSeleccionado(false);
                 realm.copyToRealm(item);
                 realm.commitTransaction();
                 Log.d(TAG, item.toString());
             }
         } else {
-            RealmResults<BuscarDetalle> results = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, 5).findAll();
+            RealmResults<BuscarDetalle> results = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, TIPO_CERTIFICACIONES).findAll();
             for (int i = 0; i < results.size(); i++) {
                 realm.beginTransaction();
                 BuscarDetalle item = results.get(i);
@@ -154,8 +159,21 @@ public class BuscarDetalle extends RealmObject {
                 Log.d(TAG, item.toString());
             }
         }
-
         realm.close();
+    }
+
+    public static String[] getMarcados(int tipo) {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<BuscarDetalle> certificaciones = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, tipo).equalTo(BUSDET_SELECCIONADO, SELECCIONADO).findAll();
+        String[] resultado = new String[certificaciones.size()];
+        if (certificaciones.size() <= 0) {
+            return new String[0];
+        } else {
+            for (int i = 0; i < certificaciones.size(); i++) {
+                resultado[i] = certificaciones.get(i).getDescripcion();
+            }
+        }
+        return resultado;
     }
 
 }
