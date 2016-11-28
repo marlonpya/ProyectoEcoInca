@@ -114,10 +114,7 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
         generarMarcados(et_sec_empresarial, BuscarDetalle.TIPO_EMPRESARIAL);
-        generarMarcados(et_certificado, BuscarDetalle.TIPO_CERTIFICACIONES);
-        /*et_sec_empresarial.setText(Preferencia.getEmpresarial(this));
-        et_certificado.setText(Preferencia.getCertificado(this));*/
-        mEditText.addTextChangedListener(new TextWatcher() {
+        generarMarcados(et_certificado, BuscarDetalle.TIPO_CERTIFICACIONES);        mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -157,16 +154,6 @@ public class RegistroActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == VALOR && resultCode == RESULT_OK && data !=null) {
-            /*Uri image = data.getData();
-            String[] filePath = { MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(image, filePath, null, null, null);
-            cursor.moveToFirst();
-
-            int index = cursor.getColumnIndex(filePath[0]);
-            String picturePath = cursor.getString(index);
-            cursor.close();
-            imagen_subir.setImageBitmap(BitmapFactory.decodeFile(picturePath));*/
-
             Uri imagen_selecionada = data.getData();
             String mi_path = Util.getPath(imagen_selecionada, getApplicationContext());
             Bitmap fotobitmap = BitmapFactory.decodeFile(mi_path);
@@ -182,6 +169,7 @@ public class RegistroActivity extends BaseActivity {
             } else {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 fotobitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                fotobitmap.recycle();
                 byte[] bytes_local = outputStream.toByteArray();
                 String imagen_encode = Base64.encodeToString(bytes_local, Base64.DEFAULT);
                 Log.d(TAG, "imagen_encode\n" + imagen_encode);
