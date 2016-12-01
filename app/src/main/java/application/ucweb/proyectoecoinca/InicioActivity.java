@@ -50,8 +50,7 @@ public class InicioActivity extends BaseActivity {
             BuscarDetalle.cargarPais();
             BuscarDetalle.cargarProducto();
             BuscarResultadoListaActivity.pruebaRRV();
-        }
-        Usuario.sesionDesarrollo(); //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:
+        } //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:
         verificarSesion();
     }
 
@@ -98,7 +97,9 @@ public class InicioActivity extends BaseActivity {
      * VALIDAMOS LAS SESIONES FACEBOOK, LINKEDIN O ECO-INCA
      */
     private void verificarSesion() {
-        if (FacebookA.iniciado() || LinkedinA.iniciado(this)) {
+        boolean sesion = false;
+        if (Usuario.getUsuario() != null) { sesion = Usuario.getUsuario().isSesion(); }
+        if (FacebookA.iniciado() || LinkedinA.iniciado(this) || sesion) {
             Intent intent = new Intent(this, PrincipalActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

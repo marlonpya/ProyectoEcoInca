@@ -4,9 +4,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 
 /**
  * Created by ucweb02 on 09/11/2016.
@@ -31,4 +36,13 @@ public class Util {
         return result;
     }
 
+    public static String generarLista(ArrayList<String> lista) {
+        String resultado = "";
+        if (lista.size() != 0) {
+            for (String unidad : lista) {
+                resultado += ("-" + unidad + "\n");
+            }
+        }
+        return resultado;
+    }
 }

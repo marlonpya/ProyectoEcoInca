@@ -3,6 +3,7 @@
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:fb="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_iniciar_sesion"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".IniciarSesionActivity">
@@ -45,10 +46,11 @@
                 android:layout_height="wrap_content">
 
                 <EditText
+                    android:id="@+id/tv_usuario_iniciar_sesion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/usuario"
-                    android:inputType="text"
+                    android:inputType="textEmailAddress"
                     android:textColorHint="@color/celeste"
                     android:textSize="@dimen/letra_s5">
 
@@ -61,6 +63,7 @@
                 android:paddingTop="30dp">
 
                 <EditText
+                    android:id="@+id/tv_contrasenia_iniciar_sesion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/contrasenia"

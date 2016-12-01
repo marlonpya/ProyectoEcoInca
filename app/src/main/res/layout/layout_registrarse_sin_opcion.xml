@@ -43,18 +43,16 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_nombre_registro"
+                        android:id="@+id/et_nombre_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/nombres_empresa_editar"
-                        android:imeOptions="actionDone"
                         android:inputType="textCapWords"
                         android:textColorHint="@color/celeste"
                         android:textSize="@dimen/letra_s4" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,7 +87,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_pais_registro"
+                        android:id="@+id/et_pais_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
@@ -152,7 +150,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_ciudad_registro"
+                        android:id="@+id/et_ciudad_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
@@ -255,7 +253,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_anio_fundacion_registro"
+                        android:id="@+id/et_anio_fundacion_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/anio_fundacion2"
@@ -299,7 +297,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/et_descripcion_emp_registro"
+                        android:id="@+id/et_descripcion_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/descripcion_empresa"
@@ -346,7 +344,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_sector_industrial_registro"
+                        android:id="@+id/et_sector_industrial_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
@@ -411,7 +409,7 @@
                     android:textSize="@dimen/letra_s3" />
 
                 <me.originqiu.library.EditTag
-                    android:id="@+id/et_sector_producto_registro"
+                    android:id="@+id/et_sector_producto_editar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/producto2"
@@ -521,7 +519,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_certificado_registro"
+                        android:id="@+id/et_certificado_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
@@ -588,7 +586,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_nombre_contacto_registro"
+                        android:id="@+id/et_nombre_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/usuario"
@@ -630,7 +628,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_apellido_registro"
+                        android:id="@+id/et_apellido_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/apellidos"
@@ -675,7 +673,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_cargo_contacto_registro"
+                        android:id="@+id/et_cargo_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/cargo"
@@ -720,7 +718,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_telefono_contacto_registro"
+                        android:id="@+id/et_telefono_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/telefono_oficina"
@@ -765,7 +763,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_movil_contacto_registro"
+                        android:id="@+id/et_movil_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/celular"
@@ -810,7 +808,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_mail_contacto_registro"
+                        android:id="@+id/et_mail_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
@@ -855,7 +853,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_website_contacto_registro"
+                        android:id="@+id/et_website_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/website"
@@ -900,7 +898,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_linkedin_contacto_registro"
+                        android:id="@+id/et_linkedin_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/linkedin"

@@ -118,6 +118,12 @@
     <string name="tipo_usuario">Defina un tipo de usuario</string>
     
     <!-- DIALOGOS -->
+
+    <!-- MENSAJE DIALOG -->
+    <string name="m_cargando_sesion">Iniciando sesión..</string>
+
+    <string name="m_ingrese_todos_campos">Ingrese todos los campos</string>
+
     <!-- CERRAR SESION-->
     <string name="m_cerrar_sesion">¿ Está seguro de cerrar sesión ?</string>
 

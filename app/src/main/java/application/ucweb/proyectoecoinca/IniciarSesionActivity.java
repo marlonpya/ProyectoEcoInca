@@ -1,11 +1,22 @@
 package application.ucweb.proyectoecoinca;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -23,13 +34,22 @@ import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
+import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
+import application.ucweb.proyectoecoinca.model.Usuario;
+import application.ucweb.proyectoecoinca.model.UsuarioCertificacion;
+import application.ucweb.proyectoecoinca.model.UsuarioProducto;
+import application.ucweb.proyectoecoinca.model.UsuarioSectorIndustrial;
+import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,6 +60,11 @@ public class IniciarSesionActivity extends BaseActivity {
     @BindView(R.id.iv_fondo_iniciar_sesion) ImageView fondo;
     @BindView(R.id.btnFacebook) LoginButton loginButton;
     private CallbackManager callbackManager;
+    @BindView(R.id.layout_iniciar_sesion) RelativeLayout layout;
+
+    @BindView(R.id.tv_usuario_iniciar_sesion) EditText tv_usuario;
+    @BindView(R.id.tv_contrasenia_iniciar_sesion) EditText tv_contrasenia;
+    private ProgressDialog pDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +72,6 @@ public class IniciarSesionActivity extends BaseActivity {
         setContentView(R.layout.activity_iniciar_sesion);
         iniciarLayout();
         callbackManager = CallbackManager.Factory.create();
-
     }
 
     @OnClick(R.id.btnFacebook)
@@ -139,11 +163,119 @@ public class IniciarSesionActivity extends BaseActivity {
 
     @OnClick(R.id.btnIngresar)
     public void irAMenuPrincipal() {
-        startActivity(new Intent(this, PrincipalActivity.class));
+        if (ConexionBroadcastReceiver.isConnected()) {
+            if (validarIniciarSesion(tv_usuario, tv_contrasenia)) requestIniciarSesion(tv_usuario, tv_contrasenia);
+        } else {
+            ConexionBroadcastReceiver.showSnack(layout);
+        }
+    }
+
+    private void requestIniciarSesion(EditText tv_usuario, EditText tv_contrasenia) {
+        final String txtUsuario = tv_usuario.getText().toString().trim();
+        final String txtContrasenia = tv_contrasenia.getText().toString().trim();
+        showDialog(pDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.URL_INICIAR_SESION,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        try {
+                            JSONObject jUsuario = new JSONObject(s);
+                            if (jUsuario.getBoolean("status")) {
+                                JSONObject jData = jUsuario.getJSONObject("data");
+
+                                JSONObject jEmpresa = jData.getJSONObject("empresa");
+                                JSONArray jSector_Industrial = jData.getJSONArray("sector_industrial");
+                                JSONArray jProducto = jData.getJSONArray("producto");
+                                JSONArray jCertificado = jData.getJSONArray("certificado");
+                                Log.d(TAG, "jEmpresa_" + jEmpresa.toString());
+                                Log.d(TAG, "jSector_Industrial" + jSector_Industrial.toString());
+                                Log.d(TAG, "jProducto" + jProducto.toString());
+                                Log.d(TAG, "jCertificado" + jCertificado.toString());
+                                Usuario usuario = new Usuario();
+                                usuario.setTipo_empresa(jEmpresa.getInt("EMP_TIPO"));
+                                usuario.setImagen_empresa(jEmpresa.getString("EMP_IMAGEN"));
+                                usuario.setNombre_empresa(jEmpresa.getString("EMP_NOMBRE"));
+                                usuario.setPais(jEmpresa.getString("EMP_PAIS"));
+                                usuario.setCiudad(jEmpresa.getString("EMP_CIUDAD"));
+                                usuario.setEmail_empresa(jEmpresa.getString("EMP_EMAIL"));
+                                usuario.setAnio_fundacion(jEmpresa.getString("EMP_ANIO_FUNDACION"));
+                                usuario.setDescripcion(jEmpresa.getString("EMP_DESCRIPCION"));
+                                usuario.setNombre_contacto(jEmpresa.getString("CON_NOMBRE"));
+                                usuario.setApellido_contacto(jEmpresa.getString("CON_APELLIDO"));
+                                usuario.setCargo_contacto(jEmpresa.getString("CON_CARGO"));
+                                usuario.setTelefono(jEmpresa.getString("CON_TELEFONO"));
+                                usuario.setCelular(jEmpresa.getString("CON_CELULAR"));
+                                usuario.setEmail_contacto(jEmpresa.getString("CON_EMAIL"));
+                                usuario.setWeb(jEmpresa.getString("CON_WEB_SITE"));
+                                usuario.setLinkedin(jEmpresa.getString("CON_LINKED_IN"));
+                                usuario.setPlus(jEmpresa.getInt("EMP_TIPO_PLUS") == 1);
+                                Usuario.iniciarSesion(usuario);
+
+                                UsuarioCertificacion.eliminarCertificaciones();
+                                for (int i = 0; i < jCertificado.length();i ++) {
+                                    UsuarioCertificacion.crearCertificacion(jCertificado.getJSONObject(i).getString("CER_NOMBRE"));
+                                }
+
+                                UsuarioProducto.eliminarProductos();
+                                for (int i = 0; i < jProducto.length(); i++) {
+                                    UsuarioProducto.crearProducto(jProducto.getJSONObject(i).getString("PRO_NOMBRE"));
+                                }
+
+                                UsuarioSectorIndustrial.eliminarSectoresIndustriales();
+                                for (int i = 0; i < jSector_Industrial.length(); i++) {
+                                    UsuarioSectorIndustrial.crearSectorIndustrial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
+                                }
+                                hidepDialog(pDialog);
+                                startActivity(new Intent(IniciarSesionActivity.this, PrincipalActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            } else {
+                                hidepDialog(pDialog);
+                                new AlertDialog.Builder(IniciarSesionActivity.this)
+                                        .setTitle(R.string.titulo_dialogo)
+                                        .setMessage(jUsuario.getString("message"))
+                                        .setPositiveButton(R.string.aceptar, null)
+                                        .show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            hidepDialog(pDialog);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        hidepDialog(pDialog);
+                    }
+                }
+        ){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", txtUsuario);
+                params.put("contrasenia", txtContrasenia);
+                return params;
+            }
+        };
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    private boolean validarIniciarSesion(EditText tv_usuario, EditText tv_contrasenia) {
+        boolean resultado = false;
+        String txtUsuario = tv_usuario.getText().toString().trim();
+        String txtContrasenia = tv_contrasenia.getText().toString().trim();
+        if (!txtUsuario.isEmpty() || !txtContrasenia.isEmpty()) resultado = true;
+        else Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show();
+        return resultado;
     }
 
     private void iniciarLayout() {
         usarGlide(this, R.drawable.fondo_iniciar_sesion, fondo);
+        pDialog = new ProgressDialog(this);
+        pDialog.setTitle(R.string.app_name);
+        pDialog.setMessage(getString(R.string.m_cargando_sesion));
     }
 
     private static Scope buildScope() {
@@ -172,4 +304,6 @@ public class IniciarSesionActivity extends BaseActivity {
             }
         });
     }
+
+
 }

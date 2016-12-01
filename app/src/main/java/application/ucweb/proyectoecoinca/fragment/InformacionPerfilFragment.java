@@ -41,7 +41,7 @@ public class InformacionPerfilFragment extends Fragment {
         Usuario usuario = Usuario.getUsuario();
         ciudad.setText(usuario.getCiudad());
         pais.setText(usuario.getPais());
-        anio_fundacion.setText(Util.dateYYYY(usuario.getAnio_fundacion()));
+        anio_fundacion.setText(usuario.getAnio_fundacion());
         descripcion.setText(usuario.getDescripcion());
     }
 

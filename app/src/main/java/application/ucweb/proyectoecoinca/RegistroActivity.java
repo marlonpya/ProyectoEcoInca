@@ -333,7 +333,7 @@ public class RegistroActivity extends BaseActivity {
                 !et_email_contacto.getText().toString().trim().equals("") &&
                 !et_website.getText().toString().trim().equals("") &&
                 !et_linkedin.getText().toString().trim().equals("")) { resultado = true; }
-        else { Toast.makeText(getApplicationContext(), "ingrese todos los campos", Toast.LENGTH_SHORT).show(); }
+        else { Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show(); }
         return (resultado && resultado_imagen);
     }
 
