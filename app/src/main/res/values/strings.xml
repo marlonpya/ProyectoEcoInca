@@ -98,7 +98,6 @@
 
     <string name="anio_fundacion2">Año de Fundación</string>
     <string name="descripcion_empresa">Descripción de Empresa(200 caracteres)</string>
-    <string name="sector_industrial">Sector Industrial</string>
     <string name="sector_empresarial">Sector Empresarial</string>
     <string name="producto2">Producto</string>
     <string name="servicio2">Servicio</string>
@@ -121,6 +120,10 @@
 
     <!-- MENSAJE DIALOG -->
     <string name="m_cargando_sesion">Iniciando sesión..</string>
+
+    <string name="m_actualizando">Actualizando..</string>
+
+    <string name="m_confirmar_actualizacion">¿ Está seguro de actualizar su perfil de empresa ?</string>
 
     <string name="m_ingrese_todos_campos">Ingrese todos los campos</string>
 

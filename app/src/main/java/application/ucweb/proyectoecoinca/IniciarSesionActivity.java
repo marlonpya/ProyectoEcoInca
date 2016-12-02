@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -48,7 +47,7 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.model.UsuarioCertificacion;
 import application.ucweb.proyectoecoinca.model.UsuarioProducto;
-import application.ucweb.proyectoecoinca.model.UsuarioSectorIndustrial;
+import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
@@ -223,9 +222,9 @@ public class IniciarSesionActivity extends BaseActivity {
                                     UsuarioProducto.crearProducto(jProducto.getJSONObject(i).getString("PRO_NOMBRE"));
                                 }
 
-                                UsuarioSectorIndustrial.eliminarSectoresIndustriales();
+                                UsuarioSectorEmpresarial.eliminarSectoresEmpresariales();
                                 for (int i = 0; i < jSector_Industrial.length(); i++) {
-                                    UsuarioSectorIndustrial.crearSectorIndustrial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
+                                    UsuarioSectorEmpresarial.crearSectorEmpresarial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
                                 }
                                 hidepDialog(pDialog);
                                 startActivity(new Intent(IniciarSesionActivity.this, PrincipalActivity.class)

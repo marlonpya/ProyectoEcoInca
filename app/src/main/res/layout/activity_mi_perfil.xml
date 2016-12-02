@@ -61,6 +61,7 @@
                     android:textSize="@dimen/letra_s6" />
 
                 <Button
+                    android:id="@+id/btnEditarPerfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

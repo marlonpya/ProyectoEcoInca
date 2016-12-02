@@ -3,6 +3,8 @@ package application.ucweb.proyectoecoinca.model;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import application.ucweb.proyectoecoinca.R;
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -162,18 +164,31 @@ public class BuscarDetalle extends RealmObject {
         realm.close();
     }
 
-    public static String[] getMarcados(int tipo) {
+    public static ArrayList<String> getMarcados(int tipo) {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<BuscarDetalle> certificaciones = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, tipo).equalTo(BUSDET_SELECCIONADO, SELECCIONADO).findAll();
-        String[] resultado = new String[certificaciones.size()];
-        if (certificaciones.size() <= 0) {
-            return new String[0];
+        RealmResults<BuscarDetalle> marcados = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, tipo).equalTo(BUSDET_SELECCIONADO, SELECCIONADO).findAll();
+        ArrayList<String> resultado = new ArrayList<>();
+        if (marcados.size() <= 0) {
+            return resultado;
         } else {
-            for (int i = 0; i < certificaciones.size(); i++) {
-                resultado[i] = certificaciones.get(i).getDescripcion();
+            for (int i = 0; i < marcados.size(); i++) {
+                resultado.add(marcados.get(i).getDescripcion());
             }
         }
         return resultado;
     }
 
+    public static void desmarcar() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<BuscarDetalle> lista = realm.where(BuscarDetalle.class).between(BUSDET_TIPO, 4, 5).findAll();
+        for (int i = 0; i < lista.size(); i++) {
+            realm.beginTransaction();
+            BuscarDetalle item = lista.get(i);
+            item.setId(item.getId());
+            item.setSeleccionado(false);
+            realm.commitTransaction();
+        }
+        Log.d(TAG, "desmarcar");
+        realm.close();
+    }
 }

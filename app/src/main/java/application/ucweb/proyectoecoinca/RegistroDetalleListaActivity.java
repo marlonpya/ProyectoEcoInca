@@ -2,13 +2,13 @@ package application.ucweb.proyectoecoinca;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 import application.ucweb.proyectoecoinca.adapter.SectorIndustrialAdapter;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
-import butterknife.OnClick;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -16,6 +16,8 @@ import io.realm.RealmResults;
 public class RegistroDetalleListaActivity extends BaseActivity {
     public static final String TAG = RegistroDetalleListaActivity.class.getSimpleName();
     @BindView(R.id.rrvListaDetalleRegistro) RealmRecyclerView realmRecyclerView;
+    @BindView(R.id.toolbar_principal)
+    android.support.v7.widget.Toolbar toolbar;
     private Realm realm;
     private SectorIndustrialAdapter adapter;
     private RealmResults<BuscarDetalle> lista;
@@ -35,15 +37,12 @@ public class RegistroDetalleListaActivity extends BaseActivity {
         adapter = new SectorIndustrialAdapter(this, lista, true, true);
         realmRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+        setToolbarSon(toolbar, this, getString(R.string.resultados_busqueda));
     }
-
-    @OnClick(R.id.btnAceptarDetalleListaRegistrar)
-    public void aceptarDetalleListaRegistrar() { onBackPressed(); }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
     }
-
 }

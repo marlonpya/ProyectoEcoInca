@@ -2,8 +2,6 @@ package application.ucweb.proyectoecoinca.model;
 
 import android.util.Log;
 
-import java.util.Date;
-
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -141,7 +139,7 @@ public class Usuario extends RealmObject {
         realm.commitTransaction();
         UsuarioCertificacion.eliminarCertificaciones();
         UsuarioProducto.eliminarProductos();
-        UsuarioSectorIndustrial.eliminarSectoresIndustriales();
+        UsuarioSectorEmpresarial.eliminarSectoresEmpresariales();
     }
 
     public static Usuario getUsuario() {

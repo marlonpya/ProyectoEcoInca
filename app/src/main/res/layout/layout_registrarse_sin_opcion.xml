@@ -1,6 +1,7 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_registrarse_sin_opcion"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -211,7 +212,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_email_registro"
+                        android:id="@+id/et_email_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
@@ -344,11 +345,11 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_sector_industrial_editar"
+                        android:id="@+id/et_sector_empresarial_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:hint="@string/sector_industrial"
+                        android:hint="@string/sector_empresarial"
                         android:textColor="@color/plomo_oscuro"
                         android:textColorHint="@color/celeste"
                         android:textSize="@dimen/letra_s4" />
@@ -808,7 +809,7 @@
                     android:paddingTop="10dp">
 
                     <EditText
-                        android:id="@+id/et_mail_contacto_editar"
+                        android:id="@+id/et_email_contacto_editar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email"

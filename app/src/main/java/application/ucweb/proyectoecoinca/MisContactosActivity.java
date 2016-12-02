@@ -4,6 +4,10 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.android.volley.toolbox.JsonArrayRequest;
+
+import org.json.JSONArray;
+
 import application.ucweb.proyectoecoinca.adapter.EmpresaResultadoAdapter;
 import application.ucweb.proyectoecoinca.adapter.MisContactosAdapter;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
@@ -26,6 +30,17 @@ public class MisContactosActivity extends BaseActivity {
         setContentView(R.layout.activity_mis_contactos);
         iniciarLayout();
         iniciarRRV();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+            }
+        });
     }
 
     private void iniciarRRV() {

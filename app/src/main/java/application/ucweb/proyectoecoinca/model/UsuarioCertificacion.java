@@ -16,7 +16,7 @@ import io.realm.annotations.Required;
  */
 @RealmClass
 public class UsuarioCertificacion extends RealmObject {
-    public static final String TAG = UsuarioSectorIndustrial.class.getSimpleName();
+    public static final String TAG = UsuarioSectorEmpresarial.class.getSimpleName();
     public static final String ID = "id";
 
     public static int getUltimoId() {

@@ -16,20 +16,20 @@ import io.realm.annotations.Required;
  */
 
 @RealmClass
-public class UsuarioSectorIndustrial extends RealmObject {
-    public static final String TAG = UsuarioSectorIndustrial.class.getSimpleName();
+public class UsuarioSectorEmpresarial extends RealmObject {
+    public static final String TAG = UsuarioSectorEmpresarial.class.getSimpleName();
     public static final String ID = "id";
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
-        Number number = realm.where(UsuarioSectorIndustrial.class).max(ID);
+        Number number = realm.where(UsuarioSectorEmpresarial.class).max(ID);
         return number == null ? 0 : number.intValue() + 1;
     }
 
-    public static void crearSectorIndustrial(String industria) {
+    public static void crearSectorEmpresarial(String industria) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        UsuarioSectorIndustrial item = realm.createObject(UsuarioSectorIndustrial.class);
+        UsuarioSectorEmpresarial item = realm.createObject(UsuarioSectorEmpresarial.class);
         item.setId(getUltimoId());
         item.setDescripcion(industria);
         realm.copyToRealm(item);
@@ -38,18 +38,18 @@ public class UsuarioSectorIndustrial extends RealmObject {
         Log.d(TAG, item.toString());
     }
 
-    public static void eliminarSectoresIndustriales() {
+    public static void eliminarSectoresEmpresariales() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(UsuarioSectorIndustrial.class).findAll().deleteAllFromRealm();
+        realm.where(UsuarioSectorEmpresarial.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
     }
 
-    public static ArrayList<String> getSectoresIndustriales() {
+    public static ArrayList<String> getSectoresEmpresariales() {
         Realm realm = Realm.getDefaultInstance();
         ArrayList<String> sectorIndustriales = new ArrayList<>();
-        RealmResults<UsuarioSectorIndustrial> sectorIndustriales_realm = realm.where(UsuarioSectorIndustrial.class).findAll();
-        for (UsuarioSectorIndustrial industria : sectorIndustriales_realm) {
+        RealmResults<UsuarioSectorEmpresarial> sectorIndustriales_realm = realm.where(UsuarioSectorEmpresarial.class).findAll();
+        for (UsuarioSectorEmpresarial industria : sectorIndustriales_realm) {
             sectorIndustriales.add(industria.getDescripcion());
         }
         return sectorIndustriales;

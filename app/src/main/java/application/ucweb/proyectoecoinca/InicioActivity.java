@@ -51,6 +51,9 @@ public class InicioActivity extends BaseActivity {
             BuscarDetalle.cargarProducto();
             BuscarResultadoListaActivity.pruebaRRV();
         } //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:
+
+        BuscarDetalle.cargarEmpresarial(this);
+        BuscarDetalle.cargarCertificaciones(this);
         verificarSesion();
     }
 

@@ -8,12 +8,13 @@
     android:orientation="vertical"
     tools:context=".MisContactosActivity">
 
-    <include layout="@layout/toolbar_principal"/>
+    <include layout="@layout/toolbar_principal" />
 
     <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
         android:id="@+id/rrvListaMisContactos"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:rrvIsRefreshable="true"
         app:rrvLayoutType="LinearLayout" />
 
 </LinearLayout>

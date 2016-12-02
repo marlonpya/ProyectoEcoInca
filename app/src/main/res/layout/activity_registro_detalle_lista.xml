@@ -9,26 +9,13 @@
     android:weightSum="1"
     tools:context="application.ucweb.proyectoecoinca.RegistroDetalleListaActivity">
 
+    <include layout="@layout/toolbar_principal" />
+
     <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
         android:id="@+id/rrvListaDetalleRegistro"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".88"
+        android:layout_height="match_parent"
         app:rrvLayoutType="LinearLayout" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".12"
-        android:gravity="center">
-
-        <Button
-            android:id="@+id/btnAceptarDetalleListaRegistrar"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/redondear_ecoinca"
-            android:text="@string/siguiente"
-            android:textColor="@color/blanco" />
-    </LinearLayout>
 
 </LinearLayout>

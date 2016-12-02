@@ -36,8 +36,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
@@ -142,12 +144,14 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.btnSectorEmpresarial)
     public void irADetalleSectorIndustrial() {
-        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_EMPRESARIAL));
+        startActivity(new Intent(this, RegistroDetalleListaActivity.class)
+                .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_EMPRESARIAL));
     }
 
     @OnClick(R.id.btnCertificado)
     public void irADetalleCertificado() {
-        startActivity(new Intent(this, RegistroDetalleListaActivity.class).putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_CERTIFICACIONES));
+        startActivity(new Intent(this, RegistroDetalleListaActivity.class)
+                .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_CERTIFICACIONES));
     }
 
     @Override
@@ -251,9 +255,9 @@ public class RegistroActivity extends BaseActivity {
             final String tipo_empresa,
             final String anio_fundacion,
             final String descripcion,
-            final String[] sector_empresarial,
-            final String[] productos,
-            final String[] certificaciones,
+            final ArrayList<String> sector_empresarial,
+            final List<String> productos,
+            final ArrayList<String> certificaciones,
             final String nombre,
             final String apellido,
             final String cargo,
@@ -377,7 +381,7 @@ public class RegistroActivity extends BaseActivity {
                                     et_anio_f.getText().toString().trim(),
                                     et_descripcion_e.getText().toString().trim(),
                                     BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL),
-                                    getProductos(et_producto),
+                                    et_producto.getTagList(),
                                     BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES),
                                     et_nombre_contacto_registro.getText().toString(),
                                     et_apellido.getText().toString(),
@@ -398,74 +402,13 @@ public class RegistroActivity extends BaseActivity {
         } else { ConexionBroadcastReceiver.showSnack(layout); }
     }
 
-    private String[] getProductos(EditTag et_producto ) {
-        String[] array = new String[et_producto.getTagList().size()];
-        for (int i = 0; i < et_producto.getTagList().size(); i++) {
-            array[i] = et_producto.getTagList().get(i);
-        }
-        Log.d(TAG, "getProductos: " + Arrays.toString(array));
-        Log.d(TAG, "getProductos: size->"+String.valueOf(et_producto.getTagList().size()));
-        return array;
-    }
-
-    private void make() throws JSONException {
-        String[] sector_empresarial = {"sector1", "sector2"};
-        String[] productos = {"prod1", "prod2"};
-        String[] certificaciones = {"cer1", "cer2"};
-        Map<String, String> param = new HashMap<>();
-
-        JSONArray jsonArray = new JSONArray();
-        JSONArray jsonSectorEmp = new JSONArray();
-        JSONArray jsonProductos = new JSONArray();
-        JSONArray jsonCertificaciones = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("imagen", "imagen");
-        jsonObject.put("nombre_empresa", "nombre_empresa");
-        jsonObject.put("pais", "pais");
-        jsonObject.put("ciudad", "ciudad");
-        jsonObject.put("email", "email");
-        jsonObject.put("tipo_empresa", "tipo_empresa");
-        jsonObject.put("anio_fundacion", "anio_fundacion");
-        jsonObject.put("descripcion", "descripcion");
-        jsonObject.put("nombre", "nombre");
-        jsonObject.put("apellido", "apellido");
-        jsonObject.put("cargo", "cargo");
-        jsonObject.put("telefono", "telefono");
-        jsonObject.put("celular", "celular");
-        jsonObject.put("email_usuario", "email_usuario");
-        jsonObject.put("website", "website");
-        jsonObject.put("linkedin", "linkedin");
-        jsonArray.put(jsonObject);
-
-        JSONObject json_sector_emp = new JSONObject();
-        for (String sector_emp : sector_empresarial) {
-            json_sector_emp.put("sector_emp", sector_emp);
-        }
-        jsonArray.put(jsonSectorEmp);
-        for (String producto : productos) {
-            JSONObject json_productos = new JSONObject();
-            json_productos.put("producto", producto);
-            jsonProductos.put(json_productos);
-        }
-        jsonArray.put(jsonProductos);
-        for (String certificacion : certificaciones) {
-            JSONObject json_certificacion = new JSONObject();
-            json_certificacion.put("certificacion", certificacion);
-            jsonCertificaciones.put(json_certificacion);
-        }
-        jsonArray.put(jsonCertificaciones);
-        param.put("fasfasf", jsonArray.toString());
-        Log.d(TAG, "parámetros_"+param.toString());
-    }
-
     private static void generarMarcados(EditText editText, int tipo) {
         String generado = "";
-        String[] marcados = BuscarDetalle.getMarcados(tipo);
-        for (int i = 0; i < marcados.length; i++) {
-            generado += ("- " + marcados[i] + "\n");
+        ArrayList<String> marcados = BuscarDetalle.getMarcados(tipo);
+        for (int i = 0; i < marcados.size(); i++) {
+            generado += ("- " + marcados.get(i) + "\n");
         }
-        if (!generado.equals("- \n") && marcados.length > 0) editText.setText(generado);
+        if (!generado.equals("- \n") && marcados.size() > 0) editText.setText(generado);
         else editText.setText("");
     }
-
 }
