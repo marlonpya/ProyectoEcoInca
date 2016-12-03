@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
 
+import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 
 
@@ -51,8 +52,8 @@ public class ConexionBroadcastReceiver extends BroadcastReceiver {
         void onNetworkConnectionChanged(boolean isConnected);
     }
 
-    public static void showSnack(View view) {
-        String message = "Lo sentimos, usted no tiene conexión a internet.";
+    public static void showSnack(View view, Context context) {
+        String message = context.getString(R.string.m_no_conneccion_request);
         int color = Color.WHITE;
         Snackbar snackbar = Snackbar.make(view, message, Snackbar.LENGTH_LONG);
         View sbView = snackbar.getView();

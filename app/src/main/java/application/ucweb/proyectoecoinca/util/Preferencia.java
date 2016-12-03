@@ -14,6 +14,9 @@ public class Preferencia {
     private SharedPreferences preferencia;
     private static final String actualizar_sector_empresarial = "actualizar_sector_empresarial";
     private static final String actualizar_certificacion = "actualizar_certificacion";
+    private static final String busqueda_empresarial = "busqueda_empresarial";
+    private static final String busqueda_pais = "busqueda_pais";
+
 
     public Preferencia(Activity activity) {
         preferencia = activity.getSharedPreferences(NOMBRE, Context.MODE_PRIVATE);
@@ -33,5 +36,21 @@ public class Preferencia {
 
     public void setActualizar_certificacion(boolean actualizar_certificacion) {
         preferencia.edit().putBoolean(this.actualizar_certificacion, actualizar_certificacion).commit();
+    }
+
+    public boolean isBusqueda_empresarial() {
+        return preferencia.getBoolean(busqueda_empresarial, false);
+    }
+
+    public void setBusqueda_empresarial(String busqueda_empresarial) {
+        preferencia.edit().putString(this.busqueda_empresarial, busqueda_empresarial).commit();
+    }
+
+    public boolean isBusqueda_pais() {
+        return preferencia.getBoolean(busqueda_pais, false);
+    }
+
+    public void setBusqueda_pais(String busqueda_pais) {
+        preferencia.edit().putString(this.busqueda_pais, busqueda_pais).commit();
     }
 }

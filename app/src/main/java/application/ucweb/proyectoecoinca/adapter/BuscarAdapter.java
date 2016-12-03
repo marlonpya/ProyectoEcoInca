@@ -1,8 +1,10 @@
 package application.ucweb.proyectoecoinca.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +16,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import application.ucweb.proyectoecoinca.BuscarDetalleListaActivity;
-import application.ucweb.proyectoecoinca.BuscarResultadoListaActivity;
+import application.ucweb.proyectoecoinca.PlusActivity;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Buscar;
+import application.ucweb.proyectoecoinca.model.BuscarDetalle;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,13 +52,34 @@ public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.ViewHolder
         BaseActivity.usarGlide(context, item.getIcono(), holder.imagen);
         BaseActivity.usarGlide(context, R.drawable.icono_buscar_derecho2, holder.flecha_derecha);
         holder.flecha_derecha.setColorFilter(Color.parseColor("#00b2e2"));
-        holder.boton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, BuscarDetalleListaActivity.class)
-                        .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, position + 4));
+        if (position == 0) {
+            holder.boton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(new Intent(context, BuscarDetalleListaActivity.class)
+                            .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_EMPRESARIAL));
+                }
+            });
+        } else {
+            if (Usuario.getUsuario() != null ) {
+                if (Usuario.getUsuario().isPlus()) {
+                    new AlertDialog.Builder(context)
+                            .setTitle(R.string.app_name)
+                            .setMessage(R.string.m_usuario_no_plus)
+                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    context.startActivity(new Intent(context, PlusActivity.class));
+                                }
+                            })
+                            .setNegativeButton(R.string.cancelar, null)
+                            .show();
+                } else {
+                    context.startActivity(new Intent(context, BuscarDetalleListaActivity.class)
+                    .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.PAIS));
+                }
             }
-        });
+        }
     }
 
     @Override

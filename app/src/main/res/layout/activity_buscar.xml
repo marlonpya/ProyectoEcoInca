@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/plomo_suave"
     android:orientation="vertical"
+    android:id="@+id/layout_activity_buscar"
     tools:context="application.ucweb.proyectoecoinca.BuscarActivity">
 
     <include layout="@layout/toolbar_principal" />
@@ -25,6 +26,7 @@
             android:weightSum="1">
 
             <EditText
+                android:id="@+id/et_descripcion_de_busqueda"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_weight=".85"

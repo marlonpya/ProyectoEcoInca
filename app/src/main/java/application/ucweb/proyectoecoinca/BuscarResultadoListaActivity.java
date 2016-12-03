@@ -28,7 +28,6 @@ public class BuscarResultadoListaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_resultado_lista);
         iniciarLayout();
-        if (Empresa.getUltimoId() == 0) pruebaRRV();
         cargarRRV();
     }
 
@@ -39,26 +38,6 @@ public class BuscarResultadoListaActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         cantidad_encontrados.setText(String.valueOf(lista_empresas.size()));
-    }
-
-    public static void pruebaRRV() {
-        int[] array = { R.drawable.icono_ejemplo_empresa01,R.drawable.icono_ejemplo_empresa02,
-                R.drawable.icono_ejemplo_empresa03,R.drawable.icono_empresa04,R.drawable.icono_empresa05,
-                R.drawable.icono_empresa06, R.drawable.icono_empresa07, R.drawable.icono_empresa08,
-                R.drawable.icono_empresa09, R.drawable.icono_empresa10, R.drawable.icono_empresa11};
-        int[] tipos = {0,1,2,0,1,2,0,1,2,0,1};
-        Realm realm = Realm.getDefaultInstance();
-        for (int i = 0; i < array.length; i++) {
-            realm.beginTransaction();
-            Empresa empresa = realm.createObject(Empresa.class);
-            empresa.setId(Empresa.getUltimoId());
-            empresa.setNombre("Empresa "+ String.valueOf((i + 1)));
-            empresa.setImagen(array[i]);
-            empresa.setTipo(tipos[i]);
-            realm.copyToRealm(empresa);
-            realm.commitTransaction();
-            Log.d(TAG, empresa.toString());
-        }
     }
 
     private void iniciarLayout() {

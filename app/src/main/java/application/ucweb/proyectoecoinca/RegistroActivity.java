@@ -399,7 +399,7 @@ public class RegistroActivity extends BaseActivity {
                 }
             };
             Configuracion.getInstance().addToRequestQueue(request, TAG);
-        } else { ConexionBroadcastReceiver.showSnack(layout); }
+        } else { ConexionBroadcastReceiver.showSnack(layout, this); }
     }
 
     private static void generarMarcados(EditText editText, int tipo) {

@@ -165,7 +165,7 @@ public class IniciarSesionActivity extends BaseActivity {
         if (ConexionBroadcastReceiver.isConnected()) {
             if (validarIniciarSesion(tv_usuario, tv_contrasenia)) requestIniciarSesion(tv_usuario, tv_contrasenia);
         } else {
-            ConexionBroadcastReceiver.showSnack(layout);
+            ConexionBroadcastReceiver.showSnack(layout, this);
         }
     }
 

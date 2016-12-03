@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import application.ucweb.proyectoecoinca.MiPerfilActivity;
 import application.ucweb.proyectoecoinca.MiPerfilEmpresaActivity;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;

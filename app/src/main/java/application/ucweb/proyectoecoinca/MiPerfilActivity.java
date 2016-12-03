@@ -37,7 +37,6 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.fragment.InformacionPerfilEditarFragment;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.model.UsuarioCertificacion;
-import application.ucweb.proyectoecoinca.model.UsuarioProducto;
 import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
@@ -238,6 +237,7 @@ public class MiPerfilActivity extends BaseActivity {
         super.onDestroy();
         new Preferencia(this).setActualizar_certificacion(false);
         new Preferencia(this).setActualizar_sector_empresarial(false);
-        BuscarDetalle.desmarcar();
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
     }
 }

@@ -36,7 +36,6 @@ public class CompradorListaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_comprador_lista, container, false);
         ButterKnife.bind(this, view);
 
-        if (Empresa.getUltimoId() == 0) pruebaRRV();
         cargarRRV();
         return view;
     }
@@ -47,24 +46,6 @@ public class CompradorListaFragment extends Fragment {
         adapter = new EmpresaAdapter(getActivity(), lista_empresas, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-    }
-
-    private void pruebaRRV() {
-        int[] array = { R.drawable.icono_empresa01,R.drawable.icono_empresa02,
-                R.drawable.icono_empresa03,R.drawable.icono_empresa04,R.drawable.icono_empresa05,
-                R.drawable.icono_empresa06, R.drawable.icono_empresa07, R.drawable.icono_empresa08,
-                R.drawable.icono_empresa09, R.drawable.icono_empresa10, R.drawable.icono_empresa11};
-        realm = Realm.getDefaultInstance();
-        for (int i = 0; i < array.length; i++) {
-            realm.beginTransaction();
-            Empresa empresa = realm.createObject(Empresa.class);
-            empresa.setId(Empresa.getUltimoId());
-            empresa.setNombre("Empresa "+ i);
-            empresa.setImagen(array[i]);
-            realm.copyToRealm(empresa);
-            realm.commitTransaction();
-            Log.d(TAG, empresa.toString());
-        }
     }
 
 }
