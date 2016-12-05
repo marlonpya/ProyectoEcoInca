@@ -52,10 +52,10 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
                 .putExtra(Constantes.L_ID_EMPRESA, item.getId()));
             }
         });
-        switch (item.getTipo()) {
-            case 0: viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.comprador); break;
-            case 1: viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.vendedor); break;
-            case 2: viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.ambos); break;
+        switch (item.getTipo_negocio()) {
+            case Empresa.N_COMPRADOR    : viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.comprador);   break;
+            case Empresa.N_VENDEDOR     : viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.vendedor);    break;
+            case Empresa.N_AMBOS        : viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.ambos);       break;
         }
 
     }

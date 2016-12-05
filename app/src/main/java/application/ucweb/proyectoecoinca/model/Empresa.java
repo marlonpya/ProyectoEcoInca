@@ -1,5 +1,7 @@
 package application.ucweb.proyectoecoinca.model;
 
+import android.util.Log;
+
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -10,25 +12,26 @@ import io.realm.annotations.Required;
  * Created by ucweb02 on 06/10/2016.
  */
 public class Empresa extends RealmObject{
-    // COMPRADOR = 0, VENDEDOR = 1, AMBOS = 2
+    public static final String TAG = Empresa.class.getSimpleName();
     public static final String ID = "id";
-    public static final String COMODIN = "comodin";
+    public static final String TIPO_EMPRESA = "tipo_empresa";
 
-    public static final int COMPRADOR   = 0;
-    public static final int VENDEDOR    = 1;
-    public static final int AMBOS       = 2;
+    //tipo_negocio
+    public static final int N_COMPRADOR   = 0;
+    public static final int N_VENDEDOR    = 1;
+    public static final int N_AMBOS       = 2;
 
-    public static final int DEFAULT     = 0;
-    public static final int BUSQUEDA    = 1;
+    //tipo_empresa
+    public static final int E_BUSQUEDA     = 0;
+    public static final int E_CONTACTO     = 1;
 
     @PrimaryKey
     private long id;
     @Required
     private String nombre;
-    @Required
+    private int tipo_negocio;
     private String imagen;
-    private int tipo;
-    private int comodin;
+    private int tipo_empresa;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -36,11 +39,26 @@ public class Empresa extends RealmObject{
         return number == null ? 0 : number.intValue() + 1;
     }
 
-    private void eliminarEmpresas(int tipo) {
+    public static void eliminarPorTipoEmpresa(int tipo_empresa) {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Empresa> empresas = realm.where(Empresa.class).equalTo(COMODIN, tipo).findAll();
+        RealmResults<Empresa> empresas = realm.where(Empresa.class).equalTo(TIPO_EMPRESA, tipo_empresa).findAll();
         empresas.deleteAllFromRealm();
         realm.close();
+    }
+
+    public static void registrarEmpresa(Empresa emp, int tipo_empresa) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        Empresa empresa = realm.createObject(Empresa.class);
+        empresa.setId(getUltimoId());
+        empresa.setNombre(emp.getNombre());
+        empresa.setTipo_negocio(emp.getTipo_negocio());
+        empresa.setImagen(emp.getImagen());
+        empresa.setTipo_empresa(tipo_empresa);
+        realm.copyToRealm(empresa);
+        realm.commitTransaction();
+        realm.close();
+        Log.d(TAG, empresa.toString());
     }
 
     public long getId() {
@@ -67,19 +85,19 @@ public class Empresa extends RealmObject{
         this.imagen = imagen;
     }
 
-    public int getTipo() {
-        return tipo;
+    public int getTipo_empresa() {
+        return tipo_empresa;
     }
 
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
+    public void setTipo_empresa(int tipo_empresa) {
+        this.tipo_empresa = tipo_empresa;
     }
 
-    public int getComodin() {
-        return comodin;
+    public int getTipo_negocio() {
+        return tipo_negocio;
     }
 
-    public void setComodin(int comodin) {
-        this.comodin = comodin;
+    public void setTipo_negocio(int tipo_negocio) {
+        this.tipo_negocio = tipo_negocio;
     }
 }

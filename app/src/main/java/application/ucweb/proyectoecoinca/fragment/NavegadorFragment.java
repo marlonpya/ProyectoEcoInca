@@ -34,6 +34,7 @@ import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.adapter.NavegadorAdapter;
 import application.ucweb.proyectoecoinca.apis.LinkedinA;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
+import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.ItemNavegador;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import butterknife.BindView;
@@ -47,6 +48,7 @@ public class NavegadorFragment extends Fragment {
     @BindView(R.id.btnSalir) Button btnSalir;
     @BindView(R.id.iv_navegador_icono_empresa) ImageView icono_empresa;
     @BindView(R.id.tv_navegador_nombre_empresa) TextView nombre_empresa;
+    @BindView(R.id.tv_tipo_empresa) TextView tipo_empresa;
     @BindView(R.id.rv_lista_navegador) RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -204,6 +206,11 @@ public class NavegadorFragment extends Fragment {
     private void sesion() {
         BaseActivity.usarGlideCircular(getContext(), Usuario.getUsuario().getImagen_empresa(), icono_empresa);
         nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
+        switch (Usuario.getUsuario().getTipo_empresa()) {
+            case Empresa.N_VENDEDOR : tipo_empresa.setText(R.string.vendedor); break;
+            case Empresa.N_COMPRADOR: tipo_empresa.setText(R.string.comprador); break;
+            case Empresa.N_AMBOS    : tipo_empresa.setText(R.string.ambos); break;
+        }
     }
 
 }

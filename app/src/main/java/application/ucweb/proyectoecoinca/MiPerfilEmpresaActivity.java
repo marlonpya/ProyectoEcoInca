@@ -17,7 +17,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     @BindView(R.id.iv_fondo_mi_perfil_empresa) ImageView fondo;
     @BindView(R.id.iv_perfil_empresa) ImageView imagen_empresa;
     @BindView(R.id.tv_nombre_empresa) TextView nombre_empresa;
-    private long id;
+    private long id_intent;
     private Realm realm;
     private Empresa empresa;
 
@@ -26,14 +26,15 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_perfil_empresa);
         iniciarLayout();
+
         recibirId();
     }
 
     private void recibirId() {
         if (getIntent().hasExtra(Constantes.L_ID_EMPRESA)) {
-            id = getIntent().getLongExtra(Constantes.L_ID_EMPRESA, -1);
+            id_intent = getIntent().getLongExtra(Constantes.L_ID_EMPRESA, -1);
             realm = Realm.getDefaultInstance();
-            empresa = realm.where(Empresa.class).equalTo(Empresa.ID, id).findFirst();
+            empresa = realm.where(Empresa.class).equalTo(Empresa.ID, id_intent).findFirst();
             usarGlideCircular(this, empresa.getImagen(), imagen_empresa);
             nombre_empresa.setText(empresa.getNombre());
         }

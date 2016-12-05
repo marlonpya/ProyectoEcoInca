@@ -21,13 +21,14 @@ public class BuscarDetalleListaActivity extends BaseActivity {
     private Realm realm;
     private RealmResults<BuscarDetalle> lista;
     private BuscarDetalleAdapter adapter;
-    private int id_intent;
+    private int tipo_busqueda;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_detalle_lista);
         iniciarLayout();
+
         iniciarRRV();
     }
 
@@ -36,10 +37,10 @@ public class BuscarDetalleListaActivity extends BaseActivity {
     }
 
     private void iniciarRRV() {
-        id_intent = getIntent().getIntExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 0);
-        Log.d(TAG, "iniciarRRV/"+String.valueOf(id_intent));
+        tipo_busqueda = getIntent().getIntExtra(Constantes.POSICION_I_DETALLE_BUSCAR, 0);
+        Log.d(TAG, "tipo_busqueda_"+String.valueOf(tipo_busqueda));
         realm = Realm.getDefaultInstance();
-        lista = realm.where(BuscarDetalle.class).equalTo(BuscarDetalle.BUSDET_TIPO, id_intent).findAll();
+        lista = realm.where(BuscarDetalle.class).equalTo(BuscarDetalle.BUSDET_TIPO, tipo_busqueda).findAll();
         adapter = new BuscarDetalleAdapter(this, lista, true, true);
         realmRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

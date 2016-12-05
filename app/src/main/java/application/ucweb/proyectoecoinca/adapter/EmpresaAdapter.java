@@ -49,10 +49,10 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                 .putExtra(Constantes.L_ID_EMPRESA, item.getId()));
             }
         });
-        switch (item.getTipo()) {
-            case 0: viewHolder.indicador.setColorFilter(viewHolder.comprador); break;
-            case 1: viewHolder.indicador.setColorFilter(viewHolder.vendedor); break;
-            case 2: viewHolder.indicador.setColorFilter(viewHolder.ambos); break;
+        switch (item.getTipo_negocio()) {
+            case Empresa.N_COMPRADOR: viewHolder.indicador.setColorFilter(viewHolder.comprador);    break;
+            case Empresa.N_VENDEDOR: viewHolder.indicador.setColorFilter(viewHolder.vendedor);      break;
+            case Empresa.N_AMBOS: viewHolder.indicador.setColorFilter(viewHolder.ambos);            break;
         }
     }
 

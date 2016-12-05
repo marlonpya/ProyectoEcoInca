@@ -15,14 +15,14 @@ import io.realm.annotations.PrimaryKey;
  * Created by ucweb02 on 12/10/2016.
  */
 public class BuscarDetalle extends RealmObject {
-    //TIPO: 1 = PRODUCTO, 2 = SERVICIO, 3 = COMPAÑÍA, 4 = INDUSTRIA, 5 = PAÍS, 6 = CERTIFICACION, 7 = PAIS
+    //TIPO: 1 = PRODUCTO, 2 = SERVICIO, 3 = COMPAÑÍA, 4 = INDUSTRIA, 5 = PAÍS, 6 = CERTIFICACION, 7 = TIPO_PAIS
     public static final String TAG = BuscarDetalle.class.getSimpleName();
     public static final String BUSDET_ID = "id";
     public static final String BUSDET_TIPO = "tipo";
     public static final String BUSDET_SELECCIONADO = "seleccionado";
 
     public static final boolean SELECCIONADO        = true;
-    public static final int PAIS                    = 1;
+    public static final int TIPO_PAIS               = 1;
     public static final int TIPO_EMPRESARIAL        = 4;
     public static final int TIPO_CERTIFICACIONES    = 5;
 
@@ -70,7 +70,7 @@ public class BuscarDetalle extends RealmObject {
         this.seleccionado = seleccionado;
     }
 
-    //PAIS 1 ; CIUDAD; 2; PRODUCTOS 3; EMPRESARIAL 4; CERTIFICACIONES 5;
+    //TIPO_PAIS 1 ; CIUDAD; 2; PRODUCTOS 3; EMPRESARIAL 4; CERTIFICACIONES 5;
     public static void cargarPais() {
         Realm realm = Realm.getDefaultInstance();
         String[] array = {"Alemania", "Peru", "Estados Unidos", "Bolivia", "Ecuador", "Mexico", "Colombia", "Venezuela", "Arabia", "Argentina", "Guatemala"};
@@ -79,7 +79,7 @@ public class BuscarDetalle extends RealmObject {
             BuscarDetalle item = realm.createObject(BuscarDetalle.class);
             item.setId(getUltimoId());
             item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(PAIS);
+            item.setTipo(TIPO_PAIS);
             item.setSeleccionado(false);
             realm.copyToRealm(item);
             realm.commitTransaction();

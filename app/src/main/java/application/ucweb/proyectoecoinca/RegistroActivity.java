@@ -99,14 +99,12 @@ public class RegistroActivity extends BaseActivity {
     private ProgressDialog pDialog;
     private static int VALOR = 1;
     private int TIPO_EMPRESA = -1;
-    private Realm realm;
     private String imagen_base = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        realm = Realm.getDefaultInstance();
         iniciarLayout();
     }
 

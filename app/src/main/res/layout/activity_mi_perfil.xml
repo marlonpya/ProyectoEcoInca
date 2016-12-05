@@ -39,12 +39,12 @@
                     <ImageView
                         android:layout_width="90dp"
                         android:layout_height="90dp"
-                        android:layout_alignStart="@+id/imageView"
+                        android:layout_alignStart="@+id/iv_imagen_empresa_mi_perfil"
                         android:layout_centerVertical="true"
                         android:background="@drawable/imagen_contorno_fondo_blanco" />
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/iv_imagen_empresa_mi_perfil"
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_centerHorizontal="true"
@@ -54,11 +54,12 @@
                 </RelativeLayout>
 
                 <TextView
+                    android:id="@+id/tv_nombre_mi_perfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" COSECHA PARTNES"
                     android:textColor="@color/celeste"
-                    android:textSize="@dimen/letra_s6" />
+                    android:textSize="@dimen/letra_s6"
+                    tools:text=" COSECHA PARTNES" />
 
                 <Button
                     android:id="@+id/btnEditarPerfil"
@@ -89,9 +90,9 @@
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
-                    android:background="#fafafa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="#fafafa"
                     android:paddingTop="10dp" />
             </LinearLayout>
 

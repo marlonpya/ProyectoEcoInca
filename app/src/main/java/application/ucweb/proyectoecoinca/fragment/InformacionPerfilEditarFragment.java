@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.RegistroDetalleListaActivity;
@@ -42,7 +43,7 @@ public class InformacionPerfilEditarFragment extends Fragment {
     @BindView(R.id.et_nombre_editar) EditText et_nombre_editar;
     @BindView(R.id.et_pais_editar) EditText et_pais;
     @BindView(R.id.et_ciudad_editar) EditText et_ciudad;
-    @BindView(R.id.et_email_editar) EditText et_email;
+    @BindView(R.id.tv_email_editar) TextView tv_email;
     @BindView(R.id.et_anio_fundacion_editar) EditText et_anio_fundacion;
     @BindView(R.id.et_descripcion_editar) EditText et_descripcion;
     @BindView(R.id.et_sector_empresarial_editar) EditText et_sector_empresarial;
@@ -140,7 +141,7 @@ public class InformacionPerfilEditarFragment extends Fragment {
             et_nombre_editar.setText(usuario.getNombre_empresa());
             et_pais.setText(usuario.getPais());
             et_ciudad.setText(usuario.getCiudad());
-            et_email.setText(usuario.getEmail_empresa());
+            tv_email.setText(usuario.getEmail_empresa());
             et_anio_fundacion.setText(usuario.getAnio_fundacion());
             et_descripcion.setText(usuario.getDescripcion());
             et_sector_empresarial.setText(Util.generarLista(UsuarioSectorEmpresarial.getSectoresEmpresariales()));

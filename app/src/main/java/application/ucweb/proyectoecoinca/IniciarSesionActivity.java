@@ -272,6 +272,7 @@ public class IniciarSesionActivity extends BaseActivity {
 
     private void iniciarLayout() {
         usarGlide(this, R.drawable.fondo_iniciar_sesion, fondo);
+
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
         pDialog.setMessage(getString(R.string.m_cargando_sesion));
@@ -303,6 +304,4 @@ public class IniciarSesionActivity extends BaseActivity {
             }
         });
     }
-
-
 }

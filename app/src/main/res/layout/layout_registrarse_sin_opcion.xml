@@ -206,20 +206,13 @@
                 android:layout_weight=".8"
                 android:gravity="center|left">
 
-                <android.support.design.widget.TextInputLayout
+                <TextView
+                    android:id="@+id/tv_email_editar"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingTop="10dp">
-
-                    <EditText
-                        android:id="@+id/et_email_editar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/email"
-                        android:inputType="textEmailAddress"
-                        android:textColorHint="@color/celeste"
-                        android:textSize="@dimen/letra_s4" />
-                </android.support.design.widget.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textSize="@dimen/letra_s4"
+                    tools:text="Email" />
             </LinearLayout>
 
         </LinearLayout>

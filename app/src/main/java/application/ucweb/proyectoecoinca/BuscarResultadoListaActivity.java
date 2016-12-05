@@ -29,11 +29,12 @@ public class BuscarResultadoListaActivity extends BaseActivity {
         setContentView(R.layout.activity_buscar_resultado_lista);
         iniciarLayout();
         cargarRRV();
+
     }
 
     private void cargarRRV() {
         realm = Realm.getDefaultInstance();
-        lista_empresas = realm.where(Empresa.class).findAll();
+        lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_BUSQUEDA).findAll();
         adapter = new EmpresaResultadoAdapter(this, lista_empresas, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -48,5 +49,11 @@ public class BuscarResultadoListaActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //Empresa.eliminarPorTipoEmpresa(Empresa.E_BUSQUEDA);
     }
 }

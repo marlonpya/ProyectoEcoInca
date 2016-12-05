@@ -3,6 +3,7 @@ package application.ucweb.proyectoecoinca.model;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -36,6 +37,20 @@ public class UsuarioProducto extends RealmObject {
         realm.commitTransaction();
         realm.close();
         Log.d(TAG, item.toString());
+    }
+
+    public static void crearProducto(List<String> producto) {
+        Realm realm = Realm.getDefaultInstance();
+        for (int i = 0; i < producto.size(); i++ ) {
+            realm.beginTransaction();
+            UsuarioProducto item = realm.createObject(UsuarioProducto.class);
+            item.setId(getUltimoId());
+            item.setDescripcion(producto.get(i));
+            realm.copyToRealm(item);
+            realm.commitTransaction();
+            Log.d(TAG, item.toString());
+        }
+        realm.close();
     }
 
     public static void eliminarProductos() {

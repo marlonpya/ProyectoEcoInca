@@ -38,6 +38,20 @@ public class UsuarioSectorEmpresarial extends RealmObject {
         Log.d(TAG, item.toString());
     }
 
+    public static void crearSectorEmpresarial(ArrayList<String> industria) {
+        Realm realm = Realm.getDefaultInstance();
+        for (int i = 0; i < industria.size(); i++) {
+            realm.beginTransaction();
+            UsuarioSectorEmpresarial item = realm.createObject(UsuarioSectorEmpresarial.class);
+            item.setId(getUltimoId());
+            item.setDescripcion(industria.get(i));
+            realm.copyToRealm(item);
+            realm.commitTransaction();
+            Log.d(TAG, item.toString());
+        }
+        realm.close();
+    }
+
     public static void eliminarSectoresEmpresariales() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

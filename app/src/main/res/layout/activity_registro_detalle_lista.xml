@@ -7,7 +7,7 @@
     android:background="@color/blanco"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="application.ucweb.proyectoecoinca.RegistroDetalleListaActivity">
+    tools:context=".RegistroDetalleListaActivity">
 
     <include layout="@layout/toolbar_principal" />
 
@@ -16,6 +16,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:rrvLayoutType="LinearLayout" />
-
 
 </LinearLayout>

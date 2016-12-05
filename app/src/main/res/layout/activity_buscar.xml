@@ -2,12 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_activity_buscar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/plomo_suave"
     android:orientation="vertical"
-    android:id="@+id/layout_activity_buscar"
-    tools:context="application.ucweb.proyectoecoinca.BuscarActivity">
+    tools:context=".BuscarActivity">
 
     <include layout="@layout/toolbar_principal" />
 

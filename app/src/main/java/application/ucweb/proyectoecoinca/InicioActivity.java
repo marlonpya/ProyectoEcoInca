@@ -49,7 +49,6 @@ public class InicioActivity extends BaseActivity {
         if(BuscarDetalle.getUltimoId() == 0 ) {
             BuscarDetalle.cargarPais();
             BuscarDetalle.cargarProducto();
-            BuscarResultadoListaActivity.pruebaRRV();
         } //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:
 
         BuscarDetalle.cargarEmpresarial(this);

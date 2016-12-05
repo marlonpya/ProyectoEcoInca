@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import butterknife.ButterKnife;
  * Created by ucweb02 on 06/10/2016.
  */
 public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.ViewHolder> {
+    public static final String TAG = BuscarAdapter.class.getSimpleName();
     private Context context;
     private ArrayList<Buscar> lista;
     private LayoutInflater inflater;
@@ -52,34 +54,35 @@ public class BuscarAdapter extends RecyclerView.Adapter<BuscarAdapter.ViewHolder
         BaseActivity.usarGlide(context, item.getIcono(), holder.imagen);
         BaseActivity.usarGlide(context, R.drawable.icono_buscar_derecho2, holder.flecha_derecha);
         holder.flecha_derecha.setColorFilter(Color.parseColor("#00b2e2"));
-        if (position == 0) {
-            holder.boton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        holder.boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (position == 0) {
                     context.startActivity(new Intent(context, BuscarDetalleListaActivity.class)
                             .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_EMPRESARIAL));
-                }
-            });
-        } else {
-            if (Usuario.getUsuario() != null ) {
-                if (Usuario.getUsuario().isPlus()) {
-                    new AlertDialog.Builder(context)
-                            .setTitle(R.string.app_name)
-                            .setMessage(R.string.m_usuario_no_plus)
-                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    context.startActivity(new Intent(context, PlusActivity.class));
-                                }
-                            })
-                            .setNegativeButton(R.string.cancelar, null)
-                            .show();
                 } else {
-                    context.startActivity(new Intent(context, BuscarDetalleListaActivity.class)
-                    .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.PAIS));
+                    if (Usuario.getUsuario() != null) {
+                        Log.d(TAG, String.valueOf(Usuario.getUsuario().isPlus()));
+                        if (!Usuario.getUsuario().isPlus()) {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(R.string.app_name)
+                                    .setMessage(R.string.m_usuario_no_plus)
+                                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            context.startActivity(new Intent(context, PlusActivity.class));
+                                        }
+                                    })
+                                    .setNegativeButton(R.string.cancelar, null)
+                                    .show();
+                        } else {
+                            context.startActivity(new Intent(context, BuscarDetalleListaActivity.class)
+                                    .putExtra(Constantes.POSICION_I_DETALLE_BUSCAR, BuscarDetalle.TIPO_PAIS));
+                        }
+                    }
                 }
             }
-        }
+        });
     }
 
     @Override

@@ -7,7 +7,7 @@ public class Constantes {
 
     public static final String URL_REGISTRAR_USUARIO    = "http://uc-web.mobi/PHPLiaisonRepositorio2/api-rest/registrarUsuario";
     public static final String URL_INICIAR_SESION       = "http://uc-web.mobi/PHPLiaisonRepositorio2/api-rest/iniciarSesion";
-    public static final String URL_ACTUALIZAR_EMPRESA   = "http://uc-web.mobi/PHPLiaisonRepositorio2/api-rest/actualizarUsuario";
+    public static final String URL_ACTUALIZAR_EMPRESA   = "http://uc-web.mobi/LIAISON/api-rest/actualizarUsuario";
     public static final String URL_BUSQUEDA_SIMPLE      = "";
 
     public static final String POSICION_I_DETALLE_BUSCAR = "POSICION_I_DETALLE_BUSCAR";

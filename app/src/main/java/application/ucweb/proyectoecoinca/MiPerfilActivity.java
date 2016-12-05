@@ -36,7 +36,9 @@ import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.fragment.InformacionPerfilEditarFragment;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.model.UsuarioCertificacion;
+import application.ucweb.proyectoecoinca.model.UsuarioProducto;
 import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
@@ -50,6 +52,8 @@ public class MiPerfilActivity extends BaseActivity {
     @BindView(R.id.pager) ViewPager pager;
     @BindView(R.id.toolbar_principal) Toolbar toolbar;
     @BindView(R.id.iv_fondo_mi_perfil) ImageView fondo;
+    @BindView(R.id.iv_imagen_empresa_mi_perfil) ImageView imagen_empresa;
+    @BindView(R.id.tv_nombre_mi_perfil) TextView nombre_empresa;
     private TabMiPerfilAdapter adapter;
     private ProgressDialog pDialog;
 
@@ -58,6 +62,9 @@ public class MiPerfilActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_perfil);
         iniciarLayout();
+
+        BaseActivity.usarGlide(this, Usuario.getUsuario().getImagen_empresa(), imagen_empresa);
+        nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
 
         tab_layout.addTab(tab_layout.newTab());
         tab_layout.addTab(tab_layout.newTab());
@@ -101,7 +108,7 @@ public class MiPerfilActivity extends BaseActivity {
             String nombre_empresa   = ((EditText)fragment.getView().findViewById(R.id.et_nombre_editar)).getText().toString();
             String pais             = ((EditText)fragment.getView().findViewById(R.id.et_pais_editar)).getText().toString();
             String ciudad           = ((EditText)fragment.getView().findViewById(R.id.et_ciudad_editar)).getText().toString();
-            String email            = ((EditText)fragment.getView().findViewById(R.id.et_email_editar)).getText().toString();
+            String email            = ((TextView)fragment.getView().findViewById(R.id.tv_email_editar)).getText().toString();
             String anio_f           = ((EditText)fragment.getView().findViewById(R.id.et_anio_fundacion_editar)).getText().toString();
             String descripcion_emp  = ((EditText)fragment.getView().findViewById(R.id.et_descripcion_editar)).getText().toString();
             String nombre_contaco   = ((EditText)fragment.getView().findViewById(R.id.et_nombre_contacto_editar)).getText().toString();
@@ -179,7 +186,21 @@ public class MiPerfilActivity extends BaseActivity {
                         Log.d(TAG, s);
                         try {
                             JSONObject jData = new JSONObject(s);
+                            if (jData.getBoolean("status")) {
+                                UsuarioSectorEmpresarial.eliminarSectoresEmpresariales();
+                                UsuarioSectorEmpresarial.crearSectorEmpresarial(BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL));
+
+                                Fragment fragment = getSupportFragmentManager().findFragmentById(InformacionPerfilEditarFragment.ID);
+                                List<String> productos = ((EditTag)fragment.getView().findViewById(R.id.et_sector_producto_editar)).getTagList();
+
+                                UsuarioProducto.eliminarProductos();
+                                UsuarioProducto.crearProducto(productos);
+
+                                UsuarioCertificacion.eliminarCertificaciones();
+                                UsuarioCertificacion.crearCertificacion(BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES));
+                            }
                             Log.d(TAG, jData.toString());
+                            //if la data es ok eliminar y crear; sector_empresarial, productos y certificaciones.
                             hidepDialog(pDialog);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -37,6 +37,20 @@ public class UsuarioCertificacion extends RealmObject {
         Log.d(TAG, item.toString());
     }
 
+    public static void crearCertificacion(ArrayList<String> certificacion) {
+        Realm realm = Realm.getDefaultInstance();
+        for (int i = 0; i < certificacion.size(); i++ ) {
+            realm.beginTransaction();
+            UsuarioCertificacion item = realm.createObject(UsuarioCertificacion.class);
+            item.setId(getUltimoId());
+            item.setDescripcion(certificacion.get(i));
+            realm.copyToRealm(item);
+            realm.commitTransaction();
+            Log.d(TAG, item.toString());
+        }
+        realm.close();
+    }
+
     public static void eliminarCertificaciones() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

@@ -26,6 +26,7 @@
 
     <!-- NAVEGADOR FRAGMENT-->
     <string name="salir">Salir</string>
+
     <string name="vendedor">Vendedor</string>
 
     <string name="nav_inicio">Inicio</string>
