@@ -110,6 +110,7 @@ public class BuscarActivity extends BaseActivity {
                                 empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
                                 empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
                                 empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+                                empresa.setTipo_match(Empresa.M_DESCONOCIDO);
                                 Empresa.registrarEmpresa(empresa, Empresa.E_BUSQUEDA);
                             }
                             hidepDialog(pDialog);
@@ -169,6 +170,7 @@ public class BuscarActivity extends BaseActivity {
         JSONObject jCriterio = new JSONObject();
         jCriterio.put("criterio", et_busqueda.getText().toString().trim());
         jCriterio.put("tipo", Usuario.getUsuario().getTipo_empresa());
+        jCriterio.put("id_usuario", Usuario.getUsuario().getId_empresa());
         jsonArray.put(jCriterio);
 
         JSONArray jEmpresarial = new JSONArray();

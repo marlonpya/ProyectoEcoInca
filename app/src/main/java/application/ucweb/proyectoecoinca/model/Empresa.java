@@ -14,6 +14,7 @@ import io.realm.annotations.Required;
 public class Empresa extends RealmObject{
     public static final String TAG = Empresa.class.getSimpleName();
     public static final String ID = "id";
+    public static final String ID_SERVER = "id_server";
     public static final String TIPO_EMPRESA = "tipo_empresa";
 
     //tipo_negocio
@@ -81,6 +82,14 @@ public class Empresa extends RealmObject{
         realm.commitTransaction();
         realm.close();
         Log.d(TAG, empresa.toString());
+    }
+
+    public static int identificarEmpresaContacto(int id_empresa_contacto) {
+        int tipo = M_DESCONOCIDO;
+        Realm realm = Realm.getDefaultInstance();
+        Empresa empresa = realm.where(Empresa.class).equalTo(ID_SERVER, id_empresa_contacto).findFirst();
+        if (empresa != null) tipo = empresa.getTipo_match();
+        return tipo;
     }
 
     public long getId() {

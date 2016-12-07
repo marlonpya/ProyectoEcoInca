@@ -12,13 +12,31 @@ public class Preferencia {
     public static final String NOMBRE = "Preferencia";
 
     private SharedPreferences preferencia;
+    private static final String TOKEN_FCM = "token_fcm";
+    private static final String CANT_TOKEN_FCM = "cant_token_fcm";
     private static final String ACTUALIZAR_SECTOR_EMPRESARIAL = "actualizar_sector_empresarial";
     private static final String ACTUALIZAR_CERTIFICACION = "actualizar_certificacion";
     private static final String BUSQUEDA_EMPRESARIAL = "busqueda_empresarial";
     private static final String BUSQUEDA_PAIS = "busqueda_pais";
 
-    public Preferencia(Activity activity) {
+    public Preferencia(Context activity) {
         preferencia = activity.getSharedPreferences(NOMBRE, Context.MODE_PRIVATE);
+    }
+
+    public String getTokenFcm() {
+        return preferencia.getString(TOKEN_FCM, "");
+    }
+
+    public void setTokenFcm(String tokenFcm) {
+        preferencia.edit().putString(this.TOKEN_FCM, tokenFcm).commit();
+    }
+
+    public int getCantTokenFcm() {
+        return preferencia.getInt(CANT_TOKEN_FCM, 0);
+    }
+
+    public void setCantTokenFcm(int cantidad) {
+        preferencia.edit().putInt(this.CANT_TOKEN_FCM, cantidad).commit();
     }
 
     public boolean isActualizar_sector_empresarial() {

@@ -292,6 +292,8 @@ public class RegistroActivity extends BaseActivity {
         jsonObject.put("email_usuario", email_usuario);
         jsonObject.put("website", website);
         jsonObject.put("linkedin", linkedin);
+        jsonObject.put("dispositivo", "android"); //<-- Agregado !
+        jsonObject.put("token", "token"); //<-- Agregado !
         jsonArray.put(jsonObject);
         JSONArray jsonArrayEmpresarial = new JSONArray();
         for (String sector_emp : sector_empresarial) {
