@@ -2,7 +2,6 @@ package application.ucweb.proyectoecoinca;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -28,8 +27,8 @@ public class BuscarResultadoListaActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar_resultado_lista);
         iniciarLayout();
-        cargarRRV();
 
+        cargarRRV();
     }
 
     private void cargarRRV() {

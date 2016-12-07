@@ -92,6 +92,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="@string/pais_editar"
+                        android:imeOptions="actionNone"
                         android:maxLines="1"
                         android:textColor="@color/plomo_oscuro"
                         android:textColorHint="@color/celeste"
@@ -180,7 +181,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
@@ -216,6 +216,48 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/email"
                         android:inputType="textEmailAddress"
+                        android:textColorHint="@color/celeste"
+                        android:textSize="@dimen/letra_s4" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".2"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/icono_registrarse_lapiz" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".8"
+                android:gravity="center|left">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingTop="10dp">
+
+                    <EditText
+                        android:id="@+id/et_contrasenia_registro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/contrasenia"
+                        android:inputType="textPassword"
                         android:textColorHint="@color/celeste"
                         android:textSize="@dimen/letra_s4" />
                 </android.support.design.widget.TextInputLayout>

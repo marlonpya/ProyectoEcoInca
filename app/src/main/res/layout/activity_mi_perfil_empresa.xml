@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_activity_mi_perfil_empresa"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MiPerfilEmpresaActivity">
@@ -32,9 +33,9 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:background="@drawable/imagen_contorno_fondo_blanco"
+                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true" />
+                    android:background="@drawable/imagen_contorno_fondo_blanco" />
 
                 <ImageView
                     android:id="@+id/iv_perfil_empresa"
@@ -50,11 +51,12 @@
                 android:id="@+id/tv_nombre_empresa"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" COSECHA PARTNES"
+                tools:text=" COSECHA PARTNES"
                 android:textColor="@color/celeste"
                 android:textSize="@dimen/letra_s6" />
 
             <Button
+                android:id="@+id/btnVamosHacerNegocio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -85,6 +87,7 @@
                 android:weightSum="1">
 
                 <Button
+                    android:id="@+id/btnVerPerfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -111,10 +114,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_ciudad_empresa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Lima"
-                        android:textSize="@dimen/letra_s5" />
+                        android:textSize="@dimen/letra_s5"
+                        tools:text="Lima" />
 
                 </LinearLayout>
 
@@ -135,10 +139,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_pais_empresa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Perú (PE)"
-                        android:textSize="@dimen/letra_s5" />
+                        android:textSize="@dimen/letra_s5"
+                        tools:text="Perú (PE)" />
 
                 </LinearLayout>
 
@@ -159,10 +164,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_anio_f_empresa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2006"
-                        android:textSize="@dimen/letra_s5" />
+                        android:textSize="@dimen/letra_s5"
+                        tools:text="2006" />
 
                 </LinearLayout>
 
@@ -186,9 +192,10 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_descripcion_empresa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente.\n“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente””" />
+                        tools:text="“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente.\n“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente””" />
 
                 </LinearLayout>
             </LinearLayout>

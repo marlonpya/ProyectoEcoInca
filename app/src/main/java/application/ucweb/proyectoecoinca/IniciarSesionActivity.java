@@ -193,6 +193,7 @@ public class IniciarSesionActivity extends BaseActivity {
                                 Log.d(TAG, "jProducto" + jProducto.toString());
                                 Log.d(TAG, "jCertificado" + jCertificado.toString());
                                 Usuario usuario = new Usuario();
+                                usuario.setId_empresa(jEmpresa.getInt("EMP_ID"));
                                 usuario.setTipo_empresa(jEmpresa.getInt("EMP_TIPO"));
                                 usuario.setImagen_empresa(jEmpresa.getString("EMP_IMAGEN"));
                                 usuario.setNombre_empresa(jEmpresa.getString("EMP_NOMBRE"));
@@ -276,6 +277,7 @@ public class IniciarSesionActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
         pDialog.setMessage(getString(R.string.m_cargando_sesion));
+        pDialog.setCancelable(false);
     }
 
     private static Scope buildScope() {

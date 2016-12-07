@@ -130,15 +130,18 @@
 
     <string name="m_ingrese_todos_campos">Ingrese todos los campos</string>
 
-    <string name="m_usuario_no_plus">Opción sólo habilitado para usuarios Plus. \nCompre usuario Plus</string>
+    <string name="m_usuario_no_plus">Opción sólo habilitado para usuarios Plus.\nCompre usuario Plus.</string>
 
     <string name="m_no_conneccion_request">Lo sentimos, usted no tiene conexión a internet.</string>
+
+    <string name="m_error_pdf">Es posible que la empresa no tenga un PDF.</string>
 
     <!-- CERRAR SESION-->
     <string name="m_cerrar_sesion">¿ Está seguro de cerrar sesión ?</string>
 
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
+    <string name="empresarial">Empresarial</string>
 
     <array name="certificaciones">
         <item>BPM</item>

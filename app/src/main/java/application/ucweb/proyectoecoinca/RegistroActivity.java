@@ -78,6 +78,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.et_nombre_contacto_registro) TextView et_nombre_contacto_registro;
     @BindView(R.id.et_cargo_contacto_registro) TextView et_cargo_contacto_registro;
     @BindView(R.id.et_certificado_registro) EditText et_certificado;
+    @BindView(R.id.et_contrasenia_registro) EditText et_contrasenia;
     @BindView(R.id.tv_titulo_producto) TextView titulo_producto;
     @BindView(R.id.et_telefono_contacto_registro) TextView et_telefono_oficina;
     @BindView(R.id.et_movil_contacto_registro) TextView et_celular;
@@ -106,6 +107,10 @@ public class RegistroActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         iniciarLayout();
+
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
     }
 
     @Override
@@ -114,7 +119,8 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
         generarMarcados(et_sec_empresarial, BuscarDetalle.TIPO_EMPRESARIAL);
-        generarMarcados(et_certificado, BuscarDetalle.TIPO_CERTIFICACIONES);        mEditText.addTextChangedListener(new TextWatcher() {
+        generarMarcados(et_certificado, BuscarDetalle.TIPO_CERTIFICACIONES);
+        mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
@@ -250,6 +256,7 @@ public class RegistroActivity extends BaseActivity {
             final String pais,
             final String ciudad,
             final String email,
+            final String contrasenia,
             final String tipo_empresa,
             final String anio_fundacion,
             final String descripcion,
@@ -273,6 +280,7 @@ public class RegistroActivity extends BaseActivity {
         jsonObject.put("pais", pais);
         jsonObject.put("ciudad", ciudad);
         jsonObject.put("email", email);
+        jsonObject.put("contrasenia", contrasenia);
         jsonObject.put("tipo_empresa", tipo_empresa);
         jsonObject.put("anio_fundacion", anio_fundacion);
         jsonObject.put("descripcion", descripcion);
@@ -375,6 +383,7 @@ public class RegistroActivity extends BaseActivity {
                                     et_pais.getText().toString().trim(),
                                     et_ciudad.getText().toString().trim(),
                                     et_email.getText().toString().trim(),
+                                    et_contrasenia.getText().toString().trim(),
                                     String.valueOf(TIPO_EMPRESA),
                                     et_anio_f.getText().toString().trim(),
                                     et_descripcion_e.getText().toString().trim(),
@@ -408,5 +417,13 @@ public class RegistroActivity extends BaseActivity {
         }
         if (!generado.equals("- \n") && marcados.size() > 0) editText.setText(generado);
         else editText.setText("");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
     }
 }

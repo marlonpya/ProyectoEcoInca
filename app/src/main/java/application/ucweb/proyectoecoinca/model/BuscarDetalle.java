@@ -15,7 +15,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by ucweb02 on 12/10/2016.
  */
 public class BuscarDetalle extends RealmObject {
-    //TIPO: 1 = PRODUCTO, 2 = SERVICIO, 3 = COMPAÑÍA, 4 = INDUSTRIA, 5 = PAÍS, 6 = CERTIFICACION, 7 = TIPO_PAIS
+    //TIPO:q, 2 = SERVICIO, 3 = COMPAÑÍA, 4 = INDUSTRIA, 5 = PAÍS, 6 = CERTIFICACION, 7 = TIPO_PAIS
     public static final String TAG = BuscarDetalle.class.getSimpleName();
     public static final String BUSDET_ID = "id";
     public static final String BUSDET_TIPO = "tipo";
@@ -80,23 +80,6 @@ public class BuscarDetalle extends RealmObject {
             item.setId(getUltimoId());
             item.setDescripcion(nombre.toUpperCase());
             item.setTipo(TIPO_PAIS);
-            item.setSeleccionado(false);
-            realm.copyToRealm(item);
-            realm.commitTransaction();
-            Log.d(TAG, item.toString());
-        }
-        realm.close();
-    }
-
-    public static void cargarProducto() {
-        Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Chia", "Papa", "Arroz", "Quinua", "Maca", "Quaker"};
-        for(String nombre : array) {
-            realm.beginTransaction();
-            BuscarDetalle item = realm.createObject(BuscarDetalle.class);
-            item.setId(getUltimoId());
-            item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(3);
             item.setSeleccionado(false);
             realm.copyToRealm(item);
             realm.commitTransaction();
@@ -190,5 +173,4 @@ public class BuscarDetalle extends RealmObject {
         Log.d(TAG, "desmarcar");
         realm.close();
     }
-
 }

@@ -1,12 +1,17 @@
 package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -31,6 +36,7 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Buscar;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
@@ -51,11 +57,19 @@ public class BuscarActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar);
         iniciarLayout();
+
+        View view = getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
     }
 
     private ArrayList<Buscar> getListaBusqueda() {
         lista_busqueda = new ArrayList<>();
-        lista_busqueda.add(new Buscar(getString(R.string.industria), R.drawable.imagen_row_buscar_industria));
+        lista_busqueda.add(new Buscar(getString(R.string.empresarial), R.drawable.imagen_row_buscar_industria));
         lista_busqueda.add(new Buscar(getString(R.string.b_pais), R.drawable.imagen_row_buscar_pais));
         return lista_busqueda;
     }
@@ -64,17 +78,7 @@ public class BuscarActivity extends BaseActivity {
     public void buscar() {
         if(ConexionBroadcastReceiver.isConnected()) {
             if (validarBusqueda()) {
-                if (!BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL).isEmpty() &&
-                        !BuscarDetalle.getMarcados(BuscarDetalle.TIPO_PAIS).isEmpty()) {
-                    Log.d(TAG, "empresarial y pais");
-                }else if (!BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL).isEmpty()) {
-                    Log.d(TAG, "empresarial");
-                } else if (!BuscarDetalle.getMarcados(BuscarDetalle.TIPO_PAIS).isEmpty()) {
-                    Log.d(TAG, "pais");
-                } else {
-                    requestBusquedaSimple();
-                    Log.d(TAG, "por defecto");
-                }
+                requestBusquedaSimple();
             }
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
@@ -90,33 +94,48 @@ public class BuscarActivity extends BaseActivity {
                     @Override
                     public void onResponse(String s) {
                         Log.d(TAG, s);
+                        Empresa.eliminarPorTipoEmpresa(Empresa.E_BUSQUEDA);
                         try {
                             JSONObject jData = new JSONObject(s);
-                            JSONArray jArray = jData.getJSONArray("resultado");
+                            Log.d(TAG, jData.toString());
+                            JSONArray jArray = jData.getJSONArray("data");
                             for (int i = 0; i < jArray.length(); i++) {
                                 Empresa empresa = new Empresa();
-                                empresa.setNombre(jArray.getJSONObject(i).getString("nombre"));
-                                empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("tipo_negocio"));
-                                empresa.setImagen(jArray.getJSONObject(i).getString("imagen"));
+                                empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
+                                empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
+                                empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
+                                empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
+                                empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
+                                empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
+                                empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
+                                empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
+                                empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 Empresa.registrarEmpresa(empresa, Empresa.E_BUSQUEDA);
                             }
-                            //eliminar los anteriores empresas
-                            //if (jData.getBoolean("status")) startActivity(new Intent(BuscarActivity.this, BuscarResultadoListaActivity.class));
+                            hidepDialog(pDialog);
+                            if (jData.getBoolean("status")) startActivity(new Intent(BuscarActivity.this, BuscarResultadoListaActivity.class));
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hidepDialog(pDialog);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        hidepDialog(pDialog);
                     }
                 }
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                return super.getParams();
+                Map<String, String> params = new HashMap<>();
+                try {
+                    params = getHashBusqueda();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return params;
             }
         };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
@@ -140,27 +159,16 @@ public class BuscarActivity extends BaseActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
         pDialog.setMessage(getString(R.string.m_busqueda));
+        pDialog.setCancelable(false);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
-        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) onBackPressed();
-        return super.onOptionsItemSelected(item);
-    }
-
-    private HashMap<String, String> getHashBusqueda()throws JSONException {
+    private HashMap<String, String> getHashBusqueda() throws JSONException {
         HashMap<String, String> hashMap = new HashMap<>();
         JSONArray jsonArray = new JSONArray();
 
         JSONObject jCriterio = new JSONObject();
         jCriterio.put("criterio", et_busqueda.getText().toString().trim());
+        jCriterio.put("tipo", Usuario.getUsuario().getTipo_empresa());
         jsonArray.put(jCriterio);
 
         JSONArray jEmpresarial = new JSONArray();
@@ -169,7 +177,7 @@ public class BuscarActivity extends BaseActivity {
             jOEmpresarial.put("empresarial", BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL).get(i));
             jEmpresarial.put(jOEmpresarial);
         }
-        jEmpresarial.put(jsonArray);
+        jsonArray.put(jEmpresarial);
 
         JSONArray jPais = new JSONArray();
         for (int j = 0; j < BuscarDetalle.getMarcados(BuscarDetalle.TIPO_PAIS).size(); j++) {
@@ -177,9 +185,23 @@ public class BuscarActivity extends BaseActivity {
             jOPais.put("pais", BuscarDetalle.getMarcados(BuscarDetalle.TIPO_PAIS).get(j));
             jPais.put(jOPais);
         }
-        jPais.put(jsonArray);
+        jsonArray.put(jPais);
 
-        hashMap.put("buscar",jsonArray.toString());
+        hashMap.put("buscarEmpresa",jsonArray.toString());
+        Log.d(TAG, hashMap.toString());
         return hashMap;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) onBackPressed();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
+        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
     }
 }

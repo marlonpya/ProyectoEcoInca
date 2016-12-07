@@ -33,7 +33,7 @@
         <activity android:name=".PlusActivity" />
         <activity android:name=".BuscarDetalleListaActivity" />
         <activity android:name=".RegistroDetalleListaActivity" />
-        <activity android:name=".MisContactosActivity"></activity>
+        <activity android:name=".MisContactosActivity"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </application>
 

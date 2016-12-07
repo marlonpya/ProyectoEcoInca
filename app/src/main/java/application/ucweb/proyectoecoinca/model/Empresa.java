@@ -17,21 +17,34 @@ public class Empresa extends RealmObject{
     public static final String TIPO_EMPRESA = "tipo_empresa";
 
     //tipo_negocio
-    public static final int N_COMPRADOR   = 0;
-    public static final int N_VENDEDOR    = 1;
-    public static final int N_AMBOS       = 2;
+    public static final int N_COMPRADOR     = 0;
+    public static final int N_VENDEDOR      = 1;
+    public static final int N_AMBOS         = 2;
 
     //tipo_empresa
-    public static final int E_BUSQUEDA     = 0;
-    public static final int E_CONTACTO     = 1;
+    public static final int E_BUSQUEDA      = 0;
+    public static final int E_CONTACTO      = 1;
+
+    //tipo_match si (tipo_empresa == E_CONTACTO)
+    public static final int M_ESPERA        = 0;
+    public static final int M_ACEPTADO      = 1;
+    public static final int M_RECHAZADO     = 2;
+    public static final int M_DESCONOCIDO   =-1;
 
     @PrimaryKey
     private long id;
+    private int id_server;
     @Required
     private String nombre;
     private int tipo_negocio;
     private String imagen;
     private int tipo_empresa;
+    private String ciudad;
+    private String pais;
+    private String anio_f;
+    private String descripcion;
+    private String pdf;
+    private int tipo_match;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -41,8 +54,10 @@ public class Empresa extends RealmObject{
 
     public static void eliminarPorTipoEmpresa(int tipo_empresa) {
         Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
         RealmResults<Empresa> empresas = realm.where(Empresa.class).equalTo(TIPO_EMPRESA, tipo_empresa).findAll();
         empresas.deleteAllFromRealm();
+        realm.commitTransaction();
         realm.close();
     }
 
@@ -51,10 +66,17 @@ public class Empresa extends RealmObject{
         realm.beginTransaction();
         Empresa empresa = realm.createObject(Empresa.class);
         empresa.setId(getUltimoId());
+        empresa.setId_server(emp.getId_server());
         empresa.setNombre(emp.getNombre());
         empresa.setTipo_negocio(emp.getTipo_negocio());
         empresa.setImagen(emp.getImagen());
         empresa.setTipo_empresa(tipo_empresa);
+        empresa.setCiudad(emp.getCiudad());
+        empresa.setPais(emp.getPais());
+        empresa.setAnio_f(emp.getAnio_f());
+        empresa.setDescripcion(emp.getDescripcion());
+        empresa.setPdf(emp.getPdf());
+        empresa.setTipo_match(emp.getTipo_match());
         realm.copyToRealm(empresa);
         realm.commitTransaction();
         realm.close();
@@ -67,6 +89,14 @@ public class Empresa extends RealmObject{
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getId_server() {
+        return id_server;
+    }
+
+    public void setId_server(int id_server) {
+        this.id_server = id_server;
     }
 
     public String getNombre() {
@@ -99,5 +129,53 @@ public class Empresa extends RealmObject{
 
     public void setTipo_negocio(int tipo_negocio) {
         this.tipo_negocio = tipo_negocio;
+    }
+
+    public String getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getAnio_f() {
+        return anio_f;
+    }
+
+    public void setAnio_f(String anio_f) {
+        this.anio_f = anio_f;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getPdf() {
+        return pdf;
+    }
+
+    public void setPdf(String pdf) {
+        this.pdf = pdf;
+    }
+
+    public int getTipo_match() {
+        return tipo_match;
+    }
+
+    public void setTipo_match(int tipo_match) {
+        this.tipo_match = tipo_match;
     }
 }

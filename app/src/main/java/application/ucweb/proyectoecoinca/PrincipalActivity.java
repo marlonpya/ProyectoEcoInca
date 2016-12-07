@@ -30,7 +30,6 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
     @BindView(R.id.iv_mundo_principal) ImageView imagen_mundo;
 
     private NavegadorFragment navegadorFragment;
-    private int posicion_fragment = 0;
     private ObjectAnimator animator;
 
     @Override
@@ -97,15 +96,7 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            if (posicion_fragment != 0) {
-                FragmentManager manager = getSupportFragmentManager();
-                FragmentTransaction transaction = manager.beginTransaction();
-                transaction.replace(R.id.contenedor, new InicioFragment());
-                transaction.commit();
-                posicion_fragment = 0;
-            } else {
-                super.onBackPressed();
-            }
+            super.onBackPressed();
         }
     }
 

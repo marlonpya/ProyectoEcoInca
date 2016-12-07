@@ -57,7 +57,6 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
             case Empresa.N_VENDEDOR     : viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.vendedor);    break;
             case Empresa.N_AMBOS        : viewHolder.icono_tipo_empresa.setColorFilter(viewHolder.ambos);       break;
         }
-
     }
 
     public class ViewHolder extends RealmViewHolder {

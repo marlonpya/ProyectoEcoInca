@@ -18,6 +18,7 @@ public class Usuario extends RealmObject {
     public static final String ID = "id";
     @PrimaryKey
     private long id;
+    private int id_empresa;
     @Required
     private String nombre_empresa;
     @Required
@@ -66,6 +67,7 @@ public class Usuario extends RealmObject {
         if (user == null) {
             Usuario user2 = realm.createObject(Usuario.class);
             user2.setId(1);
+            user2.setId_empresa(usuario.getId_empresa());
             user2.setTipo_empresa(usuario.getTipo_empresa());
             user2.setImagen_empresa(usuario.getImagen_empresa());
             user2.setNombre_empresa(usuario.getNombre_empresa());
@@ -88,6 +90,7 @@ public class Usuario extends RealmObject {
             Log.d(TAG, user2.toString());
         } else {
             user.setId(1);
+            user.setId_empresa(usuario.getId_empresa());
             user.setTipo_empresa(usuario.getTipo_empresa());
             user.setImagen_empresa(usuario.getImagen_empresa());
             user.setNombre_empresa(usuario.getNombre_empresa());
@@ -118,6 +121,7 @@ public class Usuario extends RealmObject {
         Usuario user = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
         realm.beginTransaction();
         user.setId(1);
+        user.setId_empresa(0);
         user.setTipo_empresa(0);
         user.setImagen_empresa("");
         user.setNombre_empresa("");
@@ -179,6 +183,14 @@ public class Usuario extends RealmObject {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public int getId_empresa() {
+        return id_empresa;
+    }
+
+    public void setId_empresa(int id_empresa) {
+        this.id_empresa = id_empresa;
     }
 
     public String getNombre_empresa() {
