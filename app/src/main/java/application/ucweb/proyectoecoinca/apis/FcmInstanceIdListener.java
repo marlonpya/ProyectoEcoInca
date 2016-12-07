@@ -75,7 +75,7 @@ public class FcmInstanceIdListener extends FirebaseInstanceIdService {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-                params.put("id_empresa", String.valueOf(id_empresa));
+                params.put("idempresa", String.valueOf(id_empresa));
                 params.put("token", token);
                 params.put("dispositivo", "android");
                 return params;

@@ -9,8 +9,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.util.Map;
-
 import application.ucweb.proyectoecoinca.PrincipalActivity;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.util.Preferencia;
@@ -30,6 +28,7 @@ public class FcmListenerService extends FirebaseMessagingService {
             Log.d(TAG, remoteMessage.getData().get(i));
         }
         Log.d(TAG, String.valueOf(remoteMessage.getData()));
+        if (preferencia.isNotificacionActivada()) mostrarNotificacion("");
     }
 
     private void mostrarNotificacion(String contacto) {

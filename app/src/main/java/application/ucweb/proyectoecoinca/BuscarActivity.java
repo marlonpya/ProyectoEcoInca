@@ -170,7 +170,7 @@ public class BuscarActivity extends BaseActivity {
         JSONObject jCriterio = new JSONObject();
         jCriterio.put("criterio", et_busqueda.getText().toString().trim());
         jCriterio.put("tipo", Usuario.getUsuario().getTipo_empresa());
-        jCriterio.put("id_usuario", Usuario.getUsuario().getId_empresa());
+        jCriterio.put("idempresa", Usuario.getUsuario().getId_empresa());
         jsonArray.put(jCriterio);
 
         JSONArray jEmpresarial = new JSONArray();

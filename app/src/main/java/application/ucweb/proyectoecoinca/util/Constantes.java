@@ -9,9 +9,9 @@ public class Constantes {
     public static final String URL_INICIAR_SESION       = "http://uc-web.mobi/LIAISON/api-rest/iniciarSesion";
     public static final String URL_ACTUALIZAR_EMPRESA   = "http://uc-web.mobi/LIAISON/api-rest/actualizarUsuario";
     public static final String URL_BUSQUEDA_SIMPLE      = "http://uc-web.mobi/LIAISON/api-rest/buscar";
-    public static final String URL_VAMOS_AL_NEGOCIO = "";
-    public static final String URL_CONTACTOS = "";
-    public static final String URL_ACTUALIZAR_TOKEN = "";
+    public static final String URL_VAMOS_AL_NEGOCIO     = "http://uc-web.mobi/LIAISON/api-rest/negociosmatch";
+    public static final String URL_CONTACTOS            = "http://uc-web.mobi/LIAISON/api-rest/negocios";
+    public static final String URL_ACTUALIZAR_TOKEN     = "http://uc-web.mobi/LIAISON/api-rest/updatetoke";
 
     public static final String POSICION_I_DETALLE_BUSCAR = "POSICION_I_DETALLE_BUSCAR";
 
@@ -48,7 +48,8 @@ public class Constantes {
             "Ucayali"};
 
     public static final String[] getPaises() {
-        final String ARRAY_PAISES[] = {"Afganistán" +
+        final String ARRAY_PAISES[] = {
+                "Afganistán" ,
                 "Albania" ,
                 "Alemania" ,
                 "Andorra" ,
@@ -242,17 +243,6 @@ public class Constantes {
                 "Yibuti" ,
                 "Zambia" ,
                 "Zimbabue" };
-        /*String[] nuevo = new String[ARRAY_PAISES.length];
-        for (int i = 0; i < ARRAY_PAISES.length; i++) {
-
-            for (int j = 0; j < ARRAY_PAISES[i].length(); j ++){
-                if (ARRAY_PAISES[i].equals("'\'")){
-
-                }
-            }
-            String limpio =
-            nuevo[i] = ARRAY_PAISES[i];
-        }*/
         return ARRAY_PAISES;
     }
 

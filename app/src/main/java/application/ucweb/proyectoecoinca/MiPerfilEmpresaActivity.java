@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -91,43 +92,50 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         switch (Empresa.identificarEmpresaContacto(empresa.getTipo_empresa())) {
             case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
             case Empresa.M_RECHAZADO    : requestVamosHacerNegocio(); break;
-            case Empresa.M_ACEPTADO     : break;
-            case Empresa.M_ESPERA       : break;
+            case Empresa.M_ACEPTADO     : mostrarMensaje(Empresa.M_ACEPTADO); break;
+            case Empresa.M_ESPERA       : mostrarMensaje(Empresa.M_ACEPTADO); break;
         }
     }
 
+    private void mostrarMensaje(int tipo) {
+        String texto = tipo == Empresa.M_ACEPTADO ? getString(R.string.m_contacto_aceptado) : getString(R.string.m_contacto_espera);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setMessage(texto)
+                .setPositiveButton(R.string.aceptar, null)
+                .show();
+    }
+
     private void requestVamosHacerNegocio() {
-        if (empresa.getTipo_empresa() == Empresa.E_BUSQUEDA) {
-            if (ConexionBroadcastReceiver.isConnected()) {
-                hidepDialog(pDialog);
-                StringRequest request = new StringRequest(
-                        Request.Method.POST,
-                        Constantes.URL_VAMOS_AL_NEGOCIO,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String s) {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            hidepDialog(pDialog);
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    Constantes.URL_VAMOS_AL_NEGOCIO,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
 
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
-
-                            }
                         }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("id_empresa", strid_empresa);
-                        params.put("id_usuario", strid_usuario);
-                        return params;
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
                     }
-                };
-                Configuracion.getInstance().addToRequestQueue(request, TAG);
-            } else {
-                ConexionBroadcastReceiver.showSnack(layout, this);
-            }
+            ) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("id_empresa", strid_empresa);
+                    params.put("id_usuario", strid_usuario);
+                    return params;
+                }
+            };
+            Configuracion.getInstance().addToRequestQueue(request, TAG);
+        } else {
+            ConexionBroadcastReceiver.showSnack(layout, this);
         }
     }
 
@@ -205,7 +213,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 startActivity(intent);
             }catch(ActivityNotFoundException e){
                 Log.d(TAG, e.getMessage());
-                Toast.makeText(MiPerfilEmpresaActivity.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MiPerfilEmpresaActivity.this, R.string.m_error_ver_pdf, Toast.LENGTH_SHORT).show();
             }
             hidepDialog(pDialog);
         }

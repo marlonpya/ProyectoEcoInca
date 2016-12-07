@@ -3,6 +3,7 @@ package application.ucweb.proyectoecoinca.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by ucweb02 on 03/10/2016.
@@ -12,6 +13,7 @@ public class Preferencia {
     public static final String NOMBRE = "Preferencia";
 
     private SharedPreferences preferencia;
+    private static final String NOTIFICACION_ACTIVADA = "notificacion_activada";
     private static final String TOKEN_FCM = "token_fcm";
     private static final String CANT_TOKEN_FCM = "cant_token_fcm";
     private static final String ACTUALIZAR_SECTOR_EMPRESARIAL = "actualizar_sector_empresarial";
@@ -21,6 +23,16 @@ public class Preferencia {
 
     public Preferencia(Context activity) {
         preferencia = activity.getSharedPreferences(NOMBRE, Context.MODE_PRIVATE);
+    }
+
+    public boolean isNotificacionActivada() {
+        Log.d(TAG, String.valueOf(preferencia.getBoolean(NOTIFICACION_ACTIVADA, false)));
+        return preferencia.getBoolean(NOTIFICACION_ACTIVADA, false);
+    }
+
+    public void setNotificacionActivada(boolean notificacionActivada) {
+        Log.d(TAG, String.valueOf(notificacionActivada));
+        preferencia.edit().putBoolean(this.NOTIFICACION_ACTIVADA, notificacionActivada).commit();
     }
 
     public String getTokenFcm() {
