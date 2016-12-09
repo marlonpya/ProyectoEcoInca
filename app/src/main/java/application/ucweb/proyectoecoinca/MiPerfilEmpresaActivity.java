@@ -1,9 +1,7 @@
 package application.ucweb.proyectoecoinca;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,7 +23,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,6 +36,7 @@ import java.util.Map;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
@@ -59,8 +57,9 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     private long id_intent;
     private Realm realm;
     private Empresa empresa;
-    String strnombre_empresa = "";
-    String strid_empresa ="";
+    private String strnombre_empresa = "";
+    private String strid_empresa = "";
+    private String strid_usuario = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +70,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         recibirId();
         strnombre_empresa = empresa.getNombre();
         strid_empresa = String.valueOf(empresa.getId_server());
+        strid_usuario = String.valueOf(Usuario.getUsuario().getId_empresa());
     }
 
     private void recibirId() {
@@ -89,42 +89,59 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
 
     @OnClick(R.id.btnVamosHacerNegocio)
     public void vamosHacerNegocio() {
-        if (empresa.getTipo_empresa() == Empresa.E_BUSQUEDA) {
-            if (ConexionBroadcastReceiver.isConnected()) {
-                hidepDialog(pDialog);
-                StringRequest request = new StringRequest(
-                        Request.Method.POST,
-                        Constantes.URL_VAMOS_AL_NEGOCIO,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String s) {
+        switch (Empresa.identificarEmpresaContacto(empresa.getTipo_empresa())) {
+            case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
+            case Empresa.M_RECHAZADO    : requestVamosHacerNegocio(); break;
+            case Empresa.M_ACEPTADO     : mostrarMensaje(Empresa.M_ACEPTADO); break;
+            case Empresa.M_ESPERA       : mostrarMensaje(Empresa.M_ACEPTADO); break;
+        }
+    }
 
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError volleyError) {
+    private void mostrarMensaje(int tipo) {
+        String texto = tipo == Empresa.M_ACEPTADO ? getString(R.string.m_contacto_aceptado) : getString(R.string.m_contacto_espera);
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setMessage(texto)
+                .setPositiveButton(R.string.aceptar, null)
+                .show();
+    }
 
-                            }
+    private void requestVamosHacerNegocio() {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            hidepDialog(pDialog);
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    Constantes.URL_VAMOS_AL_NEGOCIO,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+
                         }
-                ) {
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<>();
-                        params.put("id_empresa", String.valueOf(empresa.getId_server()));
-                        return params;
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+
+                        }
                     }
-                };
-                Configuracion.getInstance().addToRequestQueue(request, TAG);
-            } else {
-                ConexionBroadcastReceiver.showSnack(layout, this);
-            }
+            ) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("id_empresa", strid_empresa);
+                    params.put("id_usuario", strid_usuario);
+                    return params;
+                }
+            };
+            Configuracion.getInstance().addToRequestQueue(request, TAG);
+        } else {
+            ConexionBroadcastReceiver.showSnack(layout, this);
         }
     }
 
     @OnClick(R.id.btnVerPerfil)
     public void descargarPDFEmpresa() {
-        DownloadFile instancia = (DownloadFile) new DownloadFile().execute("http://uc-web.mobi/LIAISON/uploads/50/50pdf.pdf", "50pdf.pdf");
+        new DownloadFile().execute("http://uc-web.mobi/LIAISON/uploads/50/50pdf.pdf", "50pdf.pdf");
     }
 
     public static void downloadFile(String fileUrl, File directory) {
@@ -152,20 +169,25 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private class DownloadFile extends AsyncTask<String, Void, Void>{
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showDialog(pDialog);
+        }
+
+        @Override
         protected Void doInBackground(String... strings) {
-            String fileUrl = strings[0];   // -> http://maven.apache.org/maven-1.x/maven.pdf
-            String fileName = strings[1];  // -> maven.pdf
-            String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
+            String fileUrl = strings[0];   // http://uc-web.mobi/LIAISON/uploads/50/50pdf.pdf
+            String fileName = strings[1];  // 50pdf.pdf
+            String extStorageDirectory = Environment.getExternalStorageDirectory().getAbsolutePath().toString();
             File folder = new File(extStorageDirectory, strnombre_empresa);
             if (folder.mkdir()) {
                 File pdfFile = new File(folder, fileName);
-
+                Log.d(TAG, String.valueOf(folder));
                 try{
                     pdfFile.createNewFile();
                 }catch (IOException e){
@@ -179,18 +201,21 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            File pdfFile = new File(Environment.getExternalStorageDirectory() + "/" + strnombre_empresa + "/" + strid_empresa+"pdf.pdf");  // -> filename = maven.pdf
+            File pdfFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + strnombre_empresa + "/"+ strid_empresa + ".pdf");  // -> id debe coincidir !
             Uri path = Uri.fromFile(pdfFile);
             Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
             pdfIntent.setDataAndType(path, "application/pdf");
-            pdfIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            pdfIntent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 
+            Intent intent = Intent.createChooser(pdfIntent, "Open file");
+            Log.d(TAG, String.valueOf(pdfFile));
             try{
-                startActivity(pdfIntent);
+                startActivity(intent);
             }catch(ActivityNotFoundException e){
                 Log.d(TAG, e.getMessage());
-                Toast.makeText(MiPerfilEmpresaActivity.this, "No Application available to view PDF", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MiPerfilEmpresaActivity.this, R.string.m_error_ver_pdf, Toast.LENGTH_SHORT).show();
             }
+            hidepDialog(pDialog);
         }
     }
 

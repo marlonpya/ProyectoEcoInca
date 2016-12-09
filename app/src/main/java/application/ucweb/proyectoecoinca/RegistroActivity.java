@@ -137,7 +137,11 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.btnSiguienteRegistro)
     public void siguienteRegistro() {
-        if (validarRegistroEmpresa()) requestRegistrarEmpresa();
+        if (ConexionBroadcastReceiver.isConnected()) {
+            if (validarRegistroEmpresa()) requestRegistrarEmpresa();
+        } else {
+            ConexionBroadcastReceiver.showSnack(layout, this);
+        }
     }
 
     @OnClick(R.id.fabRegistroAgregarImagen)
@@ -292,6 +296,8 @@ public class RegistroActivity extends BaseActivity {
         jsonObject.put("email_usuario", email_usuario);
         jsonObject.put("website", website);
         jsonObject.put("linkedin", linkedin);
+        jsonObject.put("dispositivo", "android"); //<-- Agregado !
+        jsonObject.put("token", "token"); //<-- Agregado !
         jsonArray.put(jsonObject);
         JSONArray jsonArrayEmpresarial = new JSONArray();
         for (String sector_emp : sector_empresarial) {
@@ -360,6 +366,14 @@ public class RegistroActivity extends BaseActivity {
                             try {
                                 JSONObject jsonObject = new JSONObject(s);
                                 Log.d(TAG, jsonObject.toString());
+                                if (jsonObject.getBoolean("status")) {
+                                    Toast.makeText(getApplicationContext(), R.string.m_creado_true, Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(RegistroActivity.this, IniciarSesionActivity.class)
+                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                } else {
+                                    int codigo = jsonObject.getInt("codigo");
+                                    mostrarMensaje(codigo);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -409,6 +423,26 @@ public class RegistroActivity extends BaseActivity {
         } else { ConexionBroadcastReceiver.showSnack(layout, this); }
     }
 
+    private void mostrarMensaje(int tipo) {
+        String extra = "";
+        switch (tipo) {
+            case -10    : extra = getString(R.string.m_registro_10); break;
+            case -9     : extra = getString(R.string.m_registro_9); break;
+            case -8     : extra = getString(R.string.m_registro_8); break;
+            case -7     : extra = getString(R.string.m_registro_7); break;
+            case -6     : extra = getString(R.string.m_registro_6); break;
+            case -5     : extra = getString(R.string.m_registro_5); break;
+            case -4     : extra = getString(R.string.m_registro_4); break;
+            case -3     : extra = getString(R.string.m_registro_3); break;
+            case -2     : extra = getString(R.string.m_registro_2); break;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setMessage(extra)
+                .setPositiveButton(R.string.aceptar, null)
+                .show();
+    }
+
     private static void generarMarcados(EditText editText, int tipo) {
         String generado = "";
         ArrayList<String> marcados = BuscarDetalle.getMarcados(tipo);
@@ -427,3 +461,4 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
     }
 }
+

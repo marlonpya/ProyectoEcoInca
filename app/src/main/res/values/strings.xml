@@ -134,7 +134,25 @@
 
     <string name="m_no_conneccion_request">Lo sentimos, usted no tiene conexión a internet.</string>
 
-    <string name="m_error_pdf">Es posible que la empresa no tenga un PDF.</string>
+    <string name="m_error_pdf">Es posible que la empresa no posea un PDF.</string>
+
+    <string name="m_contacto_aceptado">Esta empresa ya es contacto suya.</string>
+    <string name="m_contacto_espera">Esta empresa ya se le envió anteriormente un mensaje de negocio.</string>
+
+    <string name="m_error_ver_pdf">Esta aplicación no tiene aplicativo para PDF</string>
+
+    <string name="m_creado_true">Su cuenta fue creada exitosamente</string>
+    
+    <string name="m_registro_10">Tipo de imagen no permitida.</string>
+    <string name="m_registro_9">Error al ingresar certificados.</string>
+    <string name="m_registro_8">Error al ingresar empresa.</string>
+    <string name="m_registro_7">Se requiere de menos de 10 productos.</string>
+    <string name="m_registro_6">Se requiere de productos para el registro.</string>
+
+    <string name="m_registro_5">Se requiere de menos de 10 sectores empresariales.</string>
+    <string name="m_registro_4">Se requiere de sectores empresariales para el registro.</string>
+    <string name="m_registro_3">El Email ingresado ya se encuentra registrado.</string>
+    <string name="m_registro_2">No se recibieron los parámetros necesarios.</string>
 
     <string name="m_existen_campos_vacíos">No se permiten campos vacíos para editar.</string>
 

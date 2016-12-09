@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "34280768151",
+    "firebase_url": "https://proyectoliaison.firebaseio.com",
+    "project_id": "proyectoliaison",
+    "storage_bucket": "proyectoliaison.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34280768151:android:18369329d585da89",
+        "android_client_info": {
+          "package_name": "application.ucweb.proyectoecoinca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34280768151-pcjvoq21hfja44igkdbe3gcpsnsb32rp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "application.ucweb.proyectoecoinca",
+            "certificate_hash": "F1EAB589E12E3C928ADC58C15F7F35E47D9D1147"
+          }
+        },
+        {
+          "client_id": "34280768151-mlfegdk41sk7p4oakmvpebied4kdbr43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1WcwU3ZqmANkGMbSr-dTjLE05qDfDpbU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34280768151-mlfegdk41sk7p4oakmvpebied4kdbr43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -37,8 +38,10 @@ import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.ItemNavegador;
 import application.ucweb.proyectoecoinca.model.Usuario;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,11 +53,13 @@ public class NavegadorFragment extends Fragment {
     @BindView(R.id.tv_navegador_nombre_empresa) TextView nombre_empresa;
     @BindView(R.id.tv_tipo_empresa) TextView tipo_empresa;
     @BindView(R.id.rv_lista_navegador) RecyclerView recyclerView;
+    @BindView(R.id.switchNotificacion) Switch switchNotificacion;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private FragmentDrawerListener drawerListener;
     private NavegadorAdapter adapter;
     private View containerView;
+    private Preferencia preferencia;
 
     public NavegadorFragment() { }
 
@@ -63,6 +68,8 @@ public class NavegadorFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navegador, container, false);
         ButterKnife.bind(this, view);
+
+        preferencia = new Preferencia(getActivity());
 
         adapter = new NavegadorAdapter(getListaNavegador(), getActivity());
         recyclerView.setAdapter(adapter);
@@ -79,6 +86,12 @@ public class NavegadorFragment extends Fragment {
         }));
         sesion();
         return view;
+    }
+
+    @OnCheckedChanged(R.id.switchNotificacion)
+    public void onNotifactionActivadas(boolean zwitch) {
+        if (zwitch) preferencia.setNotificacionActivada(true);
+        else preferencia.setNotificacionActivada(false);
     }
 
     @Override

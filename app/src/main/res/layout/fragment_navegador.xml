@@ -148,6 +148,7 @@
                         android:textSize="@dimen/letra_s5" />
 
                     <Switch
+                        android:id="@+id/switchNotificacion"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
