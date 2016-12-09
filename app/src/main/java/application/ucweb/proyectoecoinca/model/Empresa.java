@@ -14,6 +14,7 @@ import io.realm.annotations.Required;
 public class Empresa extends RealmObject{
     public static final String TAG = Empresa.class.getSimpleName();
     public static final String ID = "id";
+    public static final String ID_SERVER = "id_server";
     public static final String TIPO_EMPRESA = "tipo_empresa";
 
     //tipo_negocio
@@ -81,6 +82,46 @@ public class Empresa extends RealmObject{
         realm.commitTransaction();
         realm.close();
         Log.d(TAG, empresa.toString());
+    }
+
+    public static void registrarEmpresa(Empresa emp) {
+        Realm realm = Realm.getDefaultInstance();
+        Empresa empresa = realm.where(Empresa.class).equalTo(ID_SERVER, emp.getId_server()).findFirst();
+        realm.beginTransaction();
+        if (empresa == null) {
+            Empresa emp_new = realm.createObject(Empresa.class);
+            emp_new.setId(emp.getId());
+            emp_new.setId_server(emp.getId_server());
+            emp_new.setNombre(emp.getNombre());
+            emp_new.setAnio_f(emp.getAnio_f());
+            emp_new.setCiudad(emp.getCiudad());
+            emp_new.setDescripcion(emp.getDescripcion());
+            emp_new.setImagen(emp.getImagen());
+            emp_new.setPais(emp.getPais());
+            emp_new.setPdf(emp.getPdf());
+            emp_new.setTipo_empresa(emp.getTipo_empresa());
+            emp_new.setTipo_match(emp.getTipo_match());
+            emp_new.setTipo_negocio(emp.getTipo_negocio());
+            realm.copyToRealmOrUpdate(emp_new);
+            Log.d(TAG, emp_new.toString());
+        } else {
+            empresa.setId(emp.getId());
+            empresa.setId_server(emp.getId_server());
+            empresa.setNombre(emp.getNombre());
+            empresa.setAnio_f(emp.getAnio_f());
+            empresa.setCiudad(emp.getCiudad());
+            empresa.setDescripcion(emp.getDescripcion());
+            empresa.setImagen(emp.getImagen());
+            empresa.setPais(emp.getPais());
+            empresa.setPdf(emp.getPdf());
+            empresa.setTipo_empresa(emp.getTipo_empresa());
+            empresa.setTipo_match(emp.getTipo_match());
+            empresa.setTipo_negocio(emp.getTipo_negocio());
+            Log.d(TAG, empresa.toString());
+        }
+        realm.commitTransaction();
+        realm.close();
+        Log.d(TAG, "iniciarSesion()");
     }
 
     public long getId() {

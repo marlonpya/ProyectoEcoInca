@@ -13,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,6 +42,7 @@ import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.model.UsuarioCertificacion;
 import application.ucweb.proyectoecoinca.model.UsuarioProducto;
 import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
+import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
@@ -48,6 +51,7 @@ import me.originqiu.library.EditTag;
 
 public class MiPerfilActivity extends BaseActivity {
     public static final String TAG = MiPerfilActivity.class.getSimpleName();
+    @BindView(R.id.layout_activity_mi_perfil) RelativeLayout layout;
     @BindView(R.id.tab_layout) TabLayout tab_layout;
     @BindView(R.id.pager) ViewPager pager;
     @BindView(R.id.toolbar_principal) Toolbar toolbar;
@@ -63,7 +67,7 @@ public class MiPerfilActivity extends BaseActivity {
         setContentView(R.layout.activity_mi_perfil);
         iniciarLayout();
 
-        BaseActivity.usarGlide(this, Usuario.getUsuario().getImagen_empresa(), imagen_empresa);
+        usarGlideCircular(this, Usuario.getUsuario().getImagen_empresa(), imagen_empresa);
         nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
 
         tab_layout.addTab(tab_layout.newTab());
@@ -95,11 +99,47 @@ public class MiPerfilActivity extends BaseActivity {
                 .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        requestEditarPerfil();
+                        if (ConexionBroadcastReceiver.isConnected()) {
+                            if (validarEditar()) requestEditarPerfil();
+                        } else {
+                            ConexionBroadcastReceiver.showSnack(layout, MiPerfilActivity.this);
+                        }
                     }
                 })
                 .setNegativeButton(R.string.cancelar, null)
                 .show();
+    }
+
+    private boolean validarEditar() {
+        boolean resultado = false;
+        Fragment fragment = getSupportFragmentManager().findFragmentById(InformacionPerfilEditarFragment.ID);
+        if (fragment != null) {
+            EditTag productos       = (EditTag) fragment.getView().findViewById(R.id.et_sector_producto_editar);
+            TextView sector_empresarial = (EditText) fragment.getView().findViewById(R.id.et_sector_empresarial_editar);
+            String nombre_empresa   = ((EditText)fragment.getView().findViewById(R.id.et_nombre_editar)).getText().toString();
+            String pais             = ((EditText)fragment.getView().findViewById(R.id.et_pais_editar)).getText().toString();
+            String ciudad           = ((EditText)fragment.getView().findViewById(R.id.et_ciudad_editar)).getText().toString();
+            String email            = ((TextView)fragment.getView().findViewById(R.id.tv_email_editar)).getText().toString();
+            String anio_f           = ((EditText)fragment.getView().findViewById(R.id.et_anio_fundacion_editar)).getText().toString();
+            String descripcion_emp  = ((EditText)fragment.getView().findViewById(R.id.et_descripcion_editar)).getText().toString();
+            String nombre_contaco   = ((EditText)fragment.getView().findViewById(R.id.et_nombre_contacto_editar)).getText().toString();
+            String apellido         = ((EditText)fragment.getView().findViewById(R.id.et_apellido_editar)).getText().toString();
+            String cargo            = ((EditText)fragment.getView().findViewById(R.id.et_cargo_contacto_editar)).getText().toString();
+            String telefono         = ((EditText)fragment.getView().findViewById(R.id.et_telefono_contacto_editar)).getText().toString();
+            String celular          = ((EditText)fragment.getView().findViewById(R.id.et_movil_contacto_editar)).getText().toString();
+            String email_contacto   = ((EditText)fragment.getView().findViewById(R.id.et_email_contacto_editar)).getText().toString();
+            String web              = ((EditText)fragment.getView().findViewById(R.id.et_website_contacto_editar)).getText().toString();
+            String linkedin         = ((EditText)fragment.getView().findViewById(R.id.et_linkedin_contacto_editar)).getText().toString();
+
+            resultado = !productos.getTagList().isEmpty() && !sector_empresarial.getText().toString().isEmpty() &&
+                        !nombre_empresa.isEmpty() && !pais.isEmpty() && !ciudad.isEmpty() && !email.isEmpty() &&
+                        !anio_f.isEmpty() && !descripcion_emp.isEmpty() && !nombre_contaco.isEmpty() && !apellido.isEmpty() &&
+                        !cargo.isEmpty() && !telefono.isEmpty() && !telefono.isEmpty() && !telefono.isEmpty() &&
+                        !celular.isEmpty() && !email_contacto.isEmpty() && !email_contacto.isEmpty() && !web.isEmpty() && !linkedin.isEmpty();
+        }
+        if (!resultado) Toast.makeText(this, R.string.m_existen_campos_vacíos, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, String.valueOf(resultado));
+        return resultado;
     }
 
     private Map<String, String> crearHashMap() throws JSONException {

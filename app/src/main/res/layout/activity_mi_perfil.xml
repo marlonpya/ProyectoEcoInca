@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/blanco"
     android:orientation="vertical"
+    android:id="@+id/layout_activity_mi_perfil"
     tools:context=".MiPerfilActivity">
 
     <ImageView

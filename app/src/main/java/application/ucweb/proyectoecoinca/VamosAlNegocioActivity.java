@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import application.ucweb.proyectoecoinca.adapter.SeguirAdapter;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
+import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import butterknife.BindView;
 
 public class VamosAlNegocioActivity extends BaseActivity {
@@ -32,10 +34,11 @@ public class VamosAlNegocioActivity extends BaseActivity {
         adapter = new SeguirAdapter(getSupportFragmentManager(), tab_layout.getTabCount());
         pager.setAdapter(adapter);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab_layout));
+        if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_VENDEDOR) pager.setCurrentItem(1);
         tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition());
+                if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) pager.setCurrentItem(tab.getPosition());
             }
 
             @Override
