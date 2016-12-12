@@ -6,6 +6,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import application.ucweb.proyectoecoinca.adapter.SeguirAdapter;
@@ -33,25 +36,53 @@ public class VamosAlNegocioActivity extends BaseActivity {
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
         adapter = new SeguirAdapter(getSupportFragmentManager(), tab_layout.getTabCount());
         pager.setAdapter(adapter);
-        pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab_layout));
-        if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_VENDEDOR) pager.setCurrentItem(1);
-        tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) pager.setCurrentItem(tab.getPosition());
+        if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_VENDEDOR) {
+            tab_layout.getTabAt(1).select();
+            LinearLayout tabStrip = ((LinearLayout)tab_layout.getChildAt(0));
+            for(int i = 0; i < tabStrip.getChildCount(); i++) {
+                tabStrip.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
             }
+        } else if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_COMPRADOR) {
+            tab_layout.getTabAt(0).select();
+            LinearLayout tabStrip = ((LinearLayout)tab_layout.getChildAt(0));
+            for(int i = 0; i < tabStrip.getChildCount(); i++) {
+                tabStrip.getChildAt(i).setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+            }
+        } else {
+            //tab_layout.setupWithViewPager(pager);
+            pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab_layout));
+            tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    pager.setCurrentItem(tab.getPosition());
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) { }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
-        });
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) { }
+            });
+        }
     }
 
     private void setupTabLayout() {
         TextView customTab1 = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.textview_tab_fragment_perfil, null);
         TextView customTab2 = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.textview_tab_fragment_perfil, null);
+        switch (Usuario.getUsuario().getTipo_empresa()) {
+            case Empresa.N_COMPRADOR : customTab2.setTextColor(getResources().getColor(R.color.plomo));   break;
+            case Empresa.N_VENDEDOR : customTab1.setTextColor(getResources().getColor(R.color.plomo));    break;
+        }
         customTab1.setText(R.string.soy_comprador);
         tab_layout.getTabAt(0).setCustomView(customTab1);
         customTab2.setText(R.string.soy_vendedor);

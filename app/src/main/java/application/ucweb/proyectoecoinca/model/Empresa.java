@@ -124,6 +124,23 @@ public class Empresa extends RealmObject{
         Log.d(TAG, "iniciarSesion()");
     }
 
+    public static int identificarEmpresaContacto(int id_empresa_contacto) {
+        int tipo = M_DESCONOCIDO;
+        Realm realm = Realm.getDefaultInstance();
+        Empresa empresa = realm.where(Empresa.class).equalTo(ID_SERVER, id_empresa_contacto).findFirst();
+        if (empresa != null) tipo = empresa.getTipo_match();
+        return tipo;
+    }
+
+    public static void limpiarEmpresa() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        RealmResults<Empresa> empresas = realm.where(Empresa.class).findAll();
+        empresas.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
     public long getId() {
         return id;
     }

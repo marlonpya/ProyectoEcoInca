@@ -22,6 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -57,9 +60,10 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     private long id_intent;
     private Realm realm;
     private Empresa empresa;
-    private String strnombre_empresa = "";
-    private String strid_empresa = "";
-    private String strid_usuario = "";
+    private String idempresa = "";
+    private String idtipoempresa = "";
+    private String idempresaseguido = "";
+    private String nombreempresa = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +72,10 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         iniciarLayout();
 
         recibirId();
-        strnombre_empresa = empresa.getNombre();
-        strid_empresa = String.valueOf(empresa.getId_server());
-        strid_usuario = String.valueOf(Usuario.getUsuario().getId_empresa());
+        nombreempresa = empresa.getNombre();
+        idempresa = String.valueOf(Usuario.getUsuario().getId_empresa());
+        idtipoempresa = String.valueOf(Usuario.getUsuario().getTipo_empresa());
+        idempresaseguido = String.valueOf(empresa.getId_server());
     }
 
     private void recibirId() {
@@ -108,28 +113,36 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
 
     private void requestVamosHacerNegocio() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            hidepDialog(pDialog);
+            showDialog(pDialog);
             StringRequest request = new StringRequest(
                     Request.Method.POST,
                     Constantes.URL_VAMOS_AL_NEGOCIO,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String s) {
-
+                            Log.d(TAG, s);
+                            try {
+                                JSONObject jData = new JSONObject(s);
+                                Log.d(TAG, jData.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            hidepDialog(pDialog);
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-
+                            hidepDialog(pDialog);
                         }
                     }
             ) {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("id_empresa", strid_empresa);
-                    params.put("id_usuario", strid_usuario);
+                    params.put("idempresa", idempresa);
+                    params.put("idtipoempresa", idtipoempresa);
+                    params.put("idempresaseguido", idempresaseguido);
                     return params;
                 }
             };
@@ -184,7 +197,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
             String fileUrl = strings[0];   // http://uc-web.mobi/LIAISON/uploads/50/50pdf.pdf
             String fileName = strings[1];  // 50pdf.pdf
             String extStorageDirectory = Environment.getExternalStorageDirectory().getAbsolutePath().toString();
-            File folder = new File(extStorageDirectory, strnombre_empresa);
+            File folder = new File(extStorageDirectory, nombreempresa);
             if (folder.mkdir()) {
                 File pdfFile = new File(folder, fileName);
                 Log.d(TAG, String.valueOf(folder));
@@ -201,7 +214,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            File pdfFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + strnombre_empresa + "/"+ strid_empresa + ".pdf");  // -> id debe coincidir !
+            File pdfFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + nombreempresa + "/"+ idempresa + ".pdf");  // -> id debe coincidir !
             Uri path = Uri.fromFile(pdfFile);
             Intent pdfIntent = new Intent(Intent.ACTION_VIEW);
             pdfIntent.setDataAndType(path, "application/pdf");

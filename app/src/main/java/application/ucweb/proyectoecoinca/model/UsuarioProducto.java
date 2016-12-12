@@ -53,13 +53,6 @@ public class UsuarioProducto extends RealmObject {
         realm.close();
     }
 
-    public static void eliminarProductos() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(UsuarioProducto.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-    }
-
     public static ArrayList<String> getProductos() {
         Realm realm = Realm.getDefaultInstance();
         ArrayList<String> productos = new ArrayList<>();
@@ -68,6 +61,14 @@ public class UsuarioProducto extends RealmObject {
             productos.add(industria.getDescripcion());
         }
         return productos;
+    }
+
+    public static void limpiarProductos() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(UsuarioProducto.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
     }
 
     @PrimaryKey

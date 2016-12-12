@@ -39,6 +39,7 @@ import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.ItemNavegador;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.Preferencia;
+import application.ucweb.proyectoecoinca.util.RealmHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -111,7 +112,7 @@ public class NavegadorFragment extends Fragment {
                                 } else if(LinkedinA.iniciado(getContext())){
                                     LISessionManager.getInstance(getContext()).clearSession();
                                 }
-                                Usuario.cerrarSesion();
+                                RealmHelper.limpiarSesion();
                                 Intent intent = new Intent(getActivity(), InicioActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -181,7 +182,6 @@ public class NavegadorFragment extends Fragment {
                 toolbar.setAlpha(1 - slideOffset / 2);
             }
         };
-        //mDrawerToggle.setHomeAsUpIndicator(drwIconoNavegador);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerLayout.post(new Runnable() {
             @Override
@@ -199,7 +199,6 @@ public class NavegadorFragment extends Fragment {
         lista.add(new ItemNavegador(getString(R.string.nav_vamos_al_negocio), R.drawable.icono_vamos_al_negocio));
         lista.add(new ItemNavegador(getString(R.string.nav_liaison_plus), R.drawable.icono_liaison_plus));
         lista.add(new ItemNavegador(getString(R.string.nav_contactos), R.drawable.nav_contactos));
-        //lista.add(new ItemNavegador(getString(R.string.nav_configuracion), R.drawable.icono_configuracion));
         return lista;
     }
 

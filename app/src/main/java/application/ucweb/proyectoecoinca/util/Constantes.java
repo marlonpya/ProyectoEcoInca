@@ -9,9 +9,12 @@ public class Constantes {
     public static final String URL_INICIAR_SESION       = "http://uc-web.mobi/LIAISON/api-rest/iniciarSesion";
     public static final String URL_ACTUALIZAR_EMPRESA   = "http://uc-web.mobi/LIAISON/api-rest/actualizarUsuario";
     public static final String URL_BUSQUEDA_SIMPLE      = "http://uc-web.mobi/LIAISON/api-rest/buscar";
-    public static final String URL_VAMOS_AL_NEGOCIO     = "";
+    public static final String URL_VAMOS_AL_NEGOCIO     = "http://uc-web.mobi/LIAISON/api-rest/negociosmatch";
+
     public static final String URL_CONTACTOS            = "";
     public static final String URL_MIS_SEGUIDORES       = "http://uc-web.mobi/LIAISON/api-rest/negocios";
+    public static final String URL_ACTUALIZAR_TOKEN     = "";
+    public static final String CULQUI_KEY               = "uH8iz8aw8DPHKs2+G5/gem6DssaRjmUUldqDoa5SWh0=";
 
     public static final String POSICION_I_DETALLE_BUSCAR = "POSICION_I_DETALLE_BUSCAR";
 

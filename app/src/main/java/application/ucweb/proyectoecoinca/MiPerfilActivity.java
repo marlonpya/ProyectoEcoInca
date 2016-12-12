@@ -227,16 +227,16 @@ public class MiPerfilActivity extends BaseActivity {
                         try {
                             JSONObject jData = new JSONObject(s);
                             if (jData.getBoolean("status")) {
-                                UsuarioSectorEmpresarial.eliminarSectoresEmpresariales();
+                                UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
                                 UsuarioSectorEmpresarial.crearSectorEmpresarial(BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL));
 
                                 Fragment fragment = getSupportFragmentManager().findFragmentById(InformacionPerfilEditarFragment.ID);
                                 List<String> productos = ((EditTag)fragment.getView().findViewById(R.id.et_sector_producto_editar)).getTagList();
 
-                                UsuarioProducto.eliminarProductos();
+                                UsuarioProducto.limpiarProductos();
                                 UsuarioProducto.crearProducto(productos);
 
-                                UsuarioCertificacion.eliminarCertificaciones();
+                                UsuarioCertificacion.limpiarCertificacion();
                                 UsuarioCertificacion.crearCertificacion(BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES));
                             }
                             Log.d(TAG, jData.toString());

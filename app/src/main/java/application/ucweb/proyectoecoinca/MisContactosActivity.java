@@ -9,6 +9,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 
@@ -59,6 +60,7 @@ public class MisContactosActivity extends BaseActivity {
     }
 
     private void requestContactos() {
+        recyclerView.setRefreshing(true);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 Constantes.URL_CONTACTOS,
@@ -67,18 +69,34 @@ public class MisContactosActivity extends BaseActivity {
                     public void onResponse(String s) {
                         Log.d(TAG, s);
                         try {
-                            JSONObject jsonObject = new JSONObject(s);
-                            JSONArray jsonArray = jsonObject.getJSONArray("data");
-                            Log.d(TAG, jsonObject.toString());
+                            JSONObject jData = new JSONObject(s);
+                            JSONArray jArray = jData.getJSONArray("data");
+                            for (int i = 0; i < jArray.length(); i++) {
+                                Empresa empresa = new Empresa();
+                                empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
+                                empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
+                                empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
+                                empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
+                                empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
+                                empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
+                                empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
+                                empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
+                                empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+                                empresa.setTipo_match(Empresa.M_DESCONOCIDO);
+                                Empresa.registrarEmpresa(empresa);
+                            }
+                            recyclerView.setRefreshing(false);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            recyclerView.setRefreshing(false);
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-
+                        VolleyLog.d(volleyError.getMessage());
+                        recyclerView.setRefreshing(false);
                     }
                 }
         ) {

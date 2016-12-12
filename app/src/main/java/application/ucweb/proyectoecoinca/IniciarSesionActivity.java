@@ -213,17 +213,17 @@ public class IniciarSesionActivity extends BaseActivity {
                                 usuario.setPlus(jEmpresa.getInt("EMP_TIPO_PLUS") == 1);
                                 Usuario.iniciarSesion(usuario);
 
-                                UsuarioCertificacion.eliminarCertificaciones();
+                                UsuarioCertificacion.limpiarCertificacion();
                                 for (int i = 0; i < jCertificado.length();i ++) {
                                     UsuarioCertificacion.crearCertificacion(jCertificado.getJSONObject(i).getString("CER_NOMBRE"));
                                 }
 
-                                UsuarioProducto.eliminarProductos();
+                                UsuarioProducto.limpiarProductos();
                                 for (int i = 0; i < jProducto.length(); i++) {
                                     UsuarioProducto.crearProducto(jProducto.getJSONObject(i).getString("PRO_NOMBRE"));
                                 }
 
-                                UsuarioSectorEmpresarial.eliminarSectoresEmpresariales();
+                                UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
                                 for (int i = 0; i < jSector_Industrial.length(); i++) {
                                     UsuarioSectorEmpresarial.crearSectorEmpresarial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
                                 }

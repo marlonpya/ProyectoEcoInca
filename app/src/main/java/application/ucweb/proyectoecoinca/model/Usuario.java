@@ -141,9 +141,9 @@ public class Usuario extends RealmObject {
         user.setPlus(false);
         user.setSesion(false);
         realm.commitTransaction();
-        UsuarioCertificacion.eliminarCertificaciones();
-        UsuarioProducto.eliminarProductos();
-        UsuarioSectorEmpresarial.eliminarSectoresEmpresariales();
+        UsuarioCertificacion.limpiarCertificacion();
+        UsuarioProducto.limpiarProductos();
+        UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
     }
 
     public static Usuario getUsuario() {
@@ -154,26 +154,6 @@ public class Usuario extends RealmObject {
         } else{
             Log.e(TAG, "getUsuario: USUARIO NULLO");
             return null;
-        }
-    }
-
-    public static void sesionDesarrollo() {
-        Realm realm = Realm.getDefaultInstance();
-        Usuario user = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
-        if (user == null) {
-            realm.beginTransaction();
-            Usuario usuario = realm.createObject(Usuario.class);
-            usuario.setId(1);
-            usuario.setNombre_empresa("ECO INCA");
-            usuario.setTipo_empresa(0);
-            usuario.setImagen_empresa("http://www.ecoinca.com/site/templates/eco_inca_b/images/logo.jpg");
-            usuario.setCiudad("Lima");
-            usuario.setPais("Perú");
-            usuario.setAnio_fundacion("1995");
-            usuario.setDescripcion("blkgdklsdglsdgkllsdgljljljllljksdgllsdglsglnsgjl");
-            realm.copyToRealmOrUpdate(usuario);
-            realm.commitTransaction();
-            Log.d(TAG, usuario.toString());
         }
     }
 

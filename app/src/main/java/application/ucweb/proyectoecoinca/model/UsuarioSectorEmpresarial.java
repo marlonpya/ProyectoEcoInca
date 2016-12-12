@@ -52,13 +52,6 @@ public class UsuarioSectorEmpresarial extends RealmObject {
         realm.close();
     }
 
-    public static void eliminarSectoresEmpresariales() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(UsuarioSectorEmpresarial.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-    }
-
     public static ArrayList<String> getSectoresEmpresariales() {
         Realm realm = Realm.getDefaultInstance();
         ArrayList<String> sectorIndustriales = new ArrayList<>();
@@ -68,6 +61,14 @@ public class UsuarioSectorEmpresarial extends RealmObject {
         }
         return sectorIndustriales;
      }
+
+    public static void limpiarSectoresEmpresariales() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(UsuarioSectorEmpresarial.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
 
     @PrimaryKey
     private long id;

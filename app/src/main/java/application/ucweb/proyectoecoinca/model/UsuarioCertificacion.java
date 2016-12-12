@@ -51,13 +51,6 @@ public class UsuarioCertificacion extends RealmObject {
         realm.close();
     }
 
-    public static void eliminarCertificaciones() {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        realm.where(UsuarioCertificacion.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
-    }
-
     public static ArrayList<String> getSectoresIndustriales() {
         Realm realm = Realm.getDefaultInstance();
         ArrayList<String> certificaciones = new ArrayList<>();
@@ -66,6 +59,14 @@ public class UsuarioCertificacion extends RealmObject {
             certificaciones.add(industria.getDescripcion());
         }
         return certificaciones;
+    }
+
+    public static void limpiarCertificacion() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.where(UsuarioCertificacion.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();
     }
 
     @PrimaryKey
