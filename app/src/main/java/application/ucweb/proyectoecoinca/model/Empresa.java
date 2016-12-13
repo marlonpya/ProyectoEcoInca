@@ -15,22 +15,26 @@ public class Empresa extends RealmObject{
     public static final String TAG = Empresa.class.getSimpleName();
     public static final String ID = "id";
     public static final String ID_SERVER = "id_server";
+    public static final String TIPO_NEGOCIO = "tipo_negocio";
     public static final String TIPO_EMPRESA = "tipo_empresa";
+    public static final String TIPO_MATCH   = "tipo_match";
 
     //tipo_negocio
-    public static final int N_COMPRADOR     = 0;
-    public static final int N_VENDEDOR      = 1;
-    public static final int N_AMBOS         = 2;
+    public static final int N_COMPRADOR         = 0;
+    public static final int N_VENDEDOR          = 1;
+    public static final int N_AMBOS             = 2;
 
     //tipo_empresa
-    public static final int E_BUSQUEDA      = 0;
-    public static final int E_CONTACTO      = 1;
+    public static final int E_BUSQUEDA          = 0;
+    public static final int E_CONTACTO          = 1;
 
     //tipo_match si (tipo_empresa == E_CONTACTO)
-    public static final int M_ESPERA        = 0;
-    public static final int M_ACEPTADO      = 1;
-    public static final int M_RECHAZADO     = 2;
-    public static final int M_DESCONOCIDO   =-1;
+    public static final int M_ESPERA            = 0;
+    public static final int M_ACEPTADO          = 1;
+    public static final int M_RECHAZADO         = 2;
+    public static final int M_DESCONOCIDO       = -1;
+
+    public static final int ID_MACTH_DEFAULT    = -1;
 
     @PrimaryKey
     private long id;
@@ -46,6 +50,7 @@ public class Empresa extends RealmObject{
     private String descripcion;
     private String pdf;
     private int tipo_match;
+    private int id_match;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -81,7 +86,7 @@ public class Empresa extends RealmObject{
         realm.copyToRealm(empresa);
         realm.commitTransaction();
         realm.close();
-        Log.d(TAG, empresa.toString());
+        Log.d(TAG, "registrarEmpresa"+emp.getNombre());
     }
 
     public static void registrarEmpresa(Empresa emp) {
@@ -102,6 +107,7 @@ public class Empresa extends RealmObject{
             emp_new.setTipo_empresa(emp.getTipo_empresa());
             emp_new.setTipo_match(emp.getTipo_match());
             emp_new.setTipo_negocio(emp.getTipo_negocio());
+            emp_new.setId_match(emp_new.getId_match());
             realm.copyToRealmOrUpdate(emp_new);
             Log.d(TAG, emp_new.toString());
         } else {
@@ -117,11 +123,12 @@ public class Empresa extends RealmObject{
             empresa.setTipo_empresa(emp.getTipo_empresa());
             empresa.setTipo_match(emp.getTipo_match());
             empresa.setTipo_negocio(emp.getTipo_negocio());
+            empresa.setId_match(emp.getId_match());
             Log.d(TAG, empresa.toString());
         }
         realm.commitTransaction();
+        Log.d(TAG, "registrarEmpresa_"+emp.getNombre());
         realm.close();
-        Log.d(TAG, "iniciarSesion()");
     }
 
     public static int identificarEmpresaContacto(int id_empresa_contacto) {
@@ -130,6 +137,16 @@ public class Empresa extends RealmObject{
         Empresa empresa = realm.where(Empresa.class).equalTo(ID_SERVER, id_empresa_contacto).findFirst();
         if (empresa != null) tipo = empresa.getTipo_match();
         return tipo;
+    }
+
+    public static void eliminarEmpresa(int id_empresa) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        Empresa empresas = realm.where(Empresa.class).equalTo(ID, id_empresa).findFirst();
+        Log.d(TAG, "eliminarEmpresa_" +empresas.getNombre());
+        empresas.deleteFromRealm();
+        realm.commitTransaction();
+        realm.close();
     }
 
     public static void limpiarEmpresa() {
@@ -235,5 +252,13 @@ public class Empresa extends RealmObject{
 
     public void setTipo_match(int tipo_match) {
         this.tipo_match = tipo_match;
+    }
+
+    public int getId_match() {
+        return id_match;
+    }
+
+    public void setId_match(int id_match) {
+        this.id_match = id_match;
     }
 }

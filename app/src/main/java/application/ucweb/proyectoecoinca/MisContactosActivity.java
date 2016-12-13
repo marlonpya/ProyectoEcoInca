@@ -10,7 +10,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -20,7 +19,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import application.ucweb.proyectoecoinca.adapter.EmpresaResultadoAdapter;
 import application.ucweb.proyectoecoinca.adapter.MisContactosAdapter;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
@@ -45,6 +43,7 @@ public class MisContactosActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_contactos);
         iniciarLayout();
+
         iniciarRRV();
     }
 
@@ -83,6 +82,7 @@ public class MisContactosActivity extends BaseActivity {
                                 empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
                                 empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 empresa.setTipo_match(Empresa.M_DESCONOCIDO);
+                                empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
                                 Empresa.registrarEmpresa(empresa);
                             }
                             recyclerView.setRefreshing(false);
@@ -112,7 +112,9 @@ public class MisContactosActivity extends BaseActivity {
 
     private void iniciarRRV() {
         realm = Realm.getDefaultInstance();
-        lista_empresas = realm.where(Empresa.class).findAll();
+        lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
+                .or()
+                .equalTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
         adapter = new MisContactosAdapter(this, lista_empresas, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();

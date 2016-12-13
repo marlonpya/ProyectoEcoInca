@@ -33,7 +33,7 @@ public class FcmInstanceIdListener extends FirebaseInstanceIdService {
 
     @Override
     public void onTokenRefresh() {
-        super.onTokenRefresh();
+
         token = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, token);
 

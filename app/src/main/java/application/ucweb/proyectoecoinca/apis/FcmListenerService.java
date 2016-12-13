@@ -11,6 +11,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import application.ucweb.proyectoecoinca.PrincipalActivity;
 import application.ucweb.proyectoecoinca.R;
+import application.ucweb.proyectoecoinca.VamosAlNegocioActivity;
 import application.ucweb.proyectoecoinca.util.Preferencia;
 
 /**
@@ -18,23 +19,23 @@ import application.ucweb.proyectoecoinca.util.Preferencia;
  */
 
 public class FcmListenerService extends FirebaseMessagingService {
-    public static final String TAG = FcmListenerService.class.getSimpleName();
+    private static final String TAG = FcmListenerService.class.getSimpleName();
     private Preferencia preferencia;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         preferencia = new Preferencia(this);
-        for (int i = 0; i < remoteMessage.getData().size(); i++) {
-            Log.d(TAG, remoteMessage.getData().get(i));
-        }
+        String data = remoteMessage.getData().get("data");
+        Log.d(TAG, data);
+
         Log.d(TAG, String.valueOf(remoteMessage.getData()));
-        if (preferencia.isNotificacionActivada()) mostrarNotificacion("");
+        if (preferencia.isNotificacionActivada()) mostrarNotificacion(data);
     }
 
     private void mostrarNotificacion(String contacto) {
         int cant = preferencia.getCantTokenFcm();
 
-        Intent intent = new Intent(this, PrincipalActivity.class);
+        Intent intent = new Intent(this, VamosAlNegocioActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);

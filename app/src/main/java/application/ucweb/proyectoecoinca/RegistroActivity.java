@@ -47,6 +47,7 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindColor;
 import butterknife.BindDrawable;
@@ -98,6 +99,7 @@ public class RegistroActivity extends BaseActivity {
     @BindView(R.id.textView2) TextView texto_subir_logo;
     @BindColor(R.color.celeste) int CELESTE;
     private ProgressDialog pDialog;
+    private Preferencia preferencia;
     private static int VALOR = 1;
     private int TIPO_EMPRESA = -1;
     private String imagen_base = "";
@@ -107,6 +109,7 @@ public class RegistroActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         iniciarLayout();
+        preferencia = new Preferencia(this);
 
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
@@ -297,7 +300,7 @@ public class RegistroActivity extends BaseActivity {
         jsonObject.put("website", website);
         jsonObject.put("linkedin", linkedin);
         jsonObject.put("dispositivo", "android"); //<-- Agregado !
-        jsonObject.put("token", "token"); //<-- Agregado !
+        jsonObject.put("token", preferencia.getTokenFcm()); //<-- Agregado !
         jsonArray.put(jsonObject);
         JSONArray jsonArrayEmpresarial = new JSONArray();
         for (String sector_emp : sector_empresarial) {

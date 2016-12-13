@@ -46,7 +46,8 @@ public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, 
             @Override
             public void onClick(View v) {
                 getContext().startActivity(new Intent(getContext(), MiPerfilEmpresaActivity.class)
-                .putExtra(Constantes.L_ID_EMPRESA, item.getId()));
+                .putExtra(Constantes.L_ID_EMPRESA, item.getId())
+                .putExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO, true));
             }
         });
         switch (item.getTipo_negocio()) {

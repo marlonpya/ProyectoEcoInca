@@ -1,4 +1,4 @@
-package com.example;
+package com.culqi;
 
 import com.google.gson.GsonBuilder;
 

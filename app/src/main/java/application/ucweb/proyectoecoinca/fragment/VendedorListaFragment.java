@@ -39,10 +39,13 @@ public class VendedorListaFragment extends Fragment {
 
     private void iniciarRRV() {
         realm = Realm.getDefaultInstance();
-        lista = realm.where(Empresa.class).findAll();
+        lista = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
+                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_COMPRADOR)
+                .or()
+                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).findAll();
+
         adapter = new EmpresaResultadoAdapter(getActivity(), lista, true, true);
         realmRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
-
 }

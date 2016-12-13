@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
@@ -23,10 +24,19 @@ public class Util {
         return simpleDateFormat.format(date);
     }
 
+    public static String getRutaPDF(String ruta) {
+        StringBuilder total = new StringBuilder();
+        for (int i = (ruta.length() - 1); i >= 0; i--) {
+            total.append(ruta.charAt(i));
+            if (ruta.charAt(i) == '/') break;
+        }
+        return total.reverse().substring(1, total.length());
+    }
+
     public static String getPath(Uri uri, Context context) {
         String result = null;
         String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = context.getContentResolver( ).query( uri, proj, null, null, null );
+        Cursor cursor = context.getContentResolver().query( uri, proj, null, null, null );
         assert cursor != null;
         if ( cursor.moveToFirst()) {
             int column_index = cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );

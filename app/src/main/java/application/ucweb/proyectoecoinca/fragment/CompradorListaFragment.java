@@ -56,9 +56,9 @@ public class CompradorListaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comprador_lista, container, false);
         ButterKnife.bind(this, view);
-        iniciarPDialog();
+        //iniciarPDialog();
 
-        if (ConexionBroadcastReceiver.isConnected()) requestMisSeguidores();
+        //if (ConexionBroadcastReceiver.isConnected()) requestMisSeguidores();
 
         cargarRRV();
         return view;
@@ -66,61 +66,13 @@ public class CompradorListaFragment extends Fragment {
 
     private void cargarRRV() {
         realm = Realm.getDefaultInstance();
-        lista_empresas = realm.where(Empresa.class).findAll();
+        lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
+                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_VENDEDOR)
+                .or()
+                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).findAll();
         adapter = new EmpresaAdapter(getActivity(), lista_empresas, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-    }
-
-    private void requestMisSeguidores() {
-        BaseActivity.showDialog(pDialog);
-        StringRequest request = new StringRequest(
-                Request.Method.POST,
-                Constantes.URL_MIS_SEGUIDORES,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String s) {
-                        Log.d(TAG, s);
-                        /*try {
-                            JSONObject jsonObject = new JSONObject(s);
-                            JSONArray jData = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < jData.length(); i++) {
-                                Empresa empresa = new Empresa();
-                                empresa.setId(Empresa.getUltimoId());
-                                empresa.setId_server(jData.getJSONObject(i).getInt(""));
-                                empresa.setTipo_negocio(jData.getJSONObject(i).getInt(""));
-                                empresa.setTipo_match(jData.getJSONObject(i).getInt(""));
-                                empresa.setTipo_empresa(jData.getJSONObject(i).getInt(""));
-                                empresa.setPdf(jData.getJSONObject(i).getString(""));
-                                empresa.setAnio_f(jData.getJSONObject(i).getString(""));
-                                empresa.setCiudad(jData.getJSONObject(i).getString(""));
-                                empresa.setDescripcion(jData.getJSONObject(i).getString(""));
-                                empresa.setImagen(jData.getJSONObject(i).getString(""));
-                                Empresa.registrarEmpresa(empresa);
-                                Log.d(TAG, empresa.toString());
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }*/
-                        BaseActivity.hidepDialog(pDialog);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        BaseActivity.hidepDialog(pDialog);
-                    }
-                }
-        ) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                HashMap<String, String> params = new HashMap<>();
-                params.put("idempresa", String.valueOf(Usuario.getUsuario().getId()));
-                params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
-                return params;
-            }
-        };
-        Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
     private void iniciarPDialog() {
@@ -129,5 +81,4 @@ public class CompradorListaFragment extends Fragment {
         pDialog.setMessage(getString(R.string.m_busqueda));
         pDialog.setCancelable(false);
     }
-
 }

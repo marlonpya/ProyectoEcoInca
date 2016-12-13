@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -42,6 +44,7 @@ import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -56,6 +59,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     @BindView(R.id.tv_pais_empresa) TextView tvPais;
     @BindView(R.id.tv_anio_f_empresa) TextView tvAnioF;
     @BindView(R.id.tv_descripcion_empresa) TextView tvDescripcion;
+    @BindView(R.id.btnVamosHacerNegocio) Button btnVamosHacerNegocio;
     private ProgressDialog pDialog;
     private long id_intent;
     private Realm realm;
@@ -64,6 +68,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     private String idtipoempresa = "";
     private String idempresaseguido = "";
     private String nombreempresa = "";
+    private String pdfempresa = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,8 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         idempresa = String.valueOf(Usuario.getUsuario().getId_empresa());
         idtipoempresa = String.valueOf(Usuario.getUsuario().getTipo_empresa());
         idempresaseguido = String.valueOf(empresa.getId_server());
+        pdfempresa = empresa.getPdf();
+        if (getIntent().hasExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO))  btnVamosHacerNegocio.setEnabled(false);
     }
 
     private void recibirId() {
@@ -154,33 +161,38 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
 
     @OnClick(R.id.btnVerPerfil)
     public void descargarPDFEmpresa() {
-        new DownloadFile().execute("http://uc-web.mobi/LIAISON/uploads/50/50pdf.pdf", "50pdf.pdf");
+        if (empresa.getPdf().isEmpty()) Toast.makeText(this, R.string.m_error_pdf, Toast.LENGTH_SHORT).show();
+        else new DownloadFile().execute(pdfempresa, Util.getRutaPDF(pdfempresa));
     }
 
-    public static void downloadFile(String fileUrl, File directory) {
-        try {
-            URL url = new URL(fileUrl);
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            //urlConnection.setRequestMethod("GET");
-            //urlConnection.setDoOutput(true);
-            urlConnection.connect();
+    public void downloadFile(String fileUrl, File directory) {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            try {
+                URL url = new URL(fileUrl);
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                //urlConnection.setRequestMethod("GET");
+                //urlConnection.setDoOutput(true);
+                urlConnection.connect();
 
-            InputStream inputStream = urlConnection.getInputStream();
-            FileOutputStream fileOutputStream = new FileOutputStream(directory);
-            int totalSize = urlConnection.getContentLength();
+                InputStream inputStream = urlConnection.getInputStream();
+                FileOutputStream fileOutputStream = new FileOutputStream(directory);
+                int totalSize = urlConnection.getContentLength();
 
-            byte[] buffer = new byte[1024];
-            int bufferLength = 0;
-            while ((bufferLength = inputStream.read(buffer)) > 0) {
-                fileOutputStream.write(buffer, 0, bufferLength);
+                byte[] buffer = new byte[1024];
+                int bufferLength = 0;
+                while ((bufferLength = inputStream.read(buffer)) > 0) {
+                    fileOutputStream.write(buffer, 0, bufferLength);
+                }
+                fileOutputStream.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            fileOutputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            ConexionBroadcastReceiver.showSnack(layout, this);
         }
     }
 

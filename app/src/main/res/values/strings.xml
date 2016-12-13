@@ -120,9 +120,12 @@
     <!-- DIALOGOS -->
 
     <!-- MENSAJE DIALOG -->
+    <string name="m_procesando">Procesando..</string>
+
     <string name="m_cargando_sesion">Iniciando sesión..</string>
 
     <string name="m_busqueda">Buscando..</string>
+    <string name="m_ignorado_ok">Empresa eliminada</string>
 
     <string name="m_actualizando">Actualizando..</string>
 

@@ -50,6 +50,7 @@ import application.ucweb.proyectoecoinca.model.UsuarioProducto;
 import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -64,6 +65,7 @@ public class IniciarSesionActivity extends BaseActivity {
     @BindView(R.id.tv_usuario_iniciar_sesion) EditText tv_usuario;
     @BindView(R.id.tv_contrasenia_iniciar_sesion) EditText tv_contrasenia;
     private ProgressDialog pDialog;
+    private Preferencia preferencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class IniciarSesionActivity extends BaseActivity {
         setContentView(R.layout.activity_iniciar_sesion);
         iniciarLayout();
         callbackManager = CallbackManager.Factory.create();
+        preferencia = new Preferencia(this);
     }
 
     @OnClick(R.id.btnFacebook)
@@ -211,6 +214,7 @@ public class IniciarSesionActivity extends BaseActivity {
                                 usuario.setWeb(jEmpresa.getString("CON_WEB_SITE"));
                                 usuario.setLinkedin(jEmpresa.getString("CON_LINKED_IN"));
                                 usuario.setPlus(jEmpresa.getInt("EMP_TIPO_PLUS") == 1);
+                                usuario.setCantidad_busqueda(jEmpresa.getInt("EMP_BUSQUEDA"));
                                 Usuario.iniciarSesion(usuario);
 
                                 UsuarioCertificacion.limpiarCertificacion();
@@ -256,6 +260,8 @@ public class IniciarSesionActivity extends BaseActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("email", txtUsuario);
                 params.put("contrasenia", txtContrasenia);
+                params.put("dispositivo", "android");
+                params.put("token", preferencia.getTokenFcm());
                 return params;
             }
         };

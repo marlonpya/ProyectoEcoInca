@@ -2,8 +2,10 @@ package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -76,9 +78,23 @@ public class BuscarActivity extends BaseActivity {
 
     @OnClick(R.id.btnBuscar)
     public void buscar() {
-        if(ConexionBroadcastReceiver.isConnected()) {
-            if (validarBusqueda()) {
-                requestBusquedaSimple();
+        if (ConexionBroadcastReceiver.isConnected()) {
+            if (Usuario.getUsuario().getCantidad_busqueda() <= 7) {
+                if (validarBusqueda()) {
+                    requestBusquedaSimple();
+                }
+            } else {
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.m_usuario_no_plus)
+                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                startActivity(new Intent(BuscarActivity.this, PlusActivity.class));
+                            }
+                        })
+                        .setNegativeButton(R.string.cancelar, null)
+                        .show();
             }
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
@@ -111,6 +127,7 @@ public class BuscarActivity extends BaseActivity {
                                 empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
                                 empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 empresa.setTipo_match(Empresa.M_DESCONOCIDO);
+                                empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
                                 Empresa.registrarEmpresa(empresa, Empresa.E_BUSQUEDA);
                             }
                             hidepDialog(pDialog);

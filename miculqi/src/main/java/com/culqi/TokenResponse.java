@@ -1,4 +1,4 @@
-package com.example;
+package com.culqi;
 
 /**
  * Created by William on 9/19/16.

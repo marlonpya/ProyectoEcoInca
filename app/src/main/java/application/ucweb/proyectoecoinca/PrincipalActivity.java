@@ -11,9 +11,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.fragment.InicioFragment;
@@ -39,6 +42,8 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         iniciarLayout();
         configuracionNavegador();
         cambiarFragment(0);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("liaison");
     }
 
     @Override
@@ -63,27 +68,6 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         transaction.replace(R.id.contenedor, new InicioFragment());
         transaction.commit();
     }
-
-    /*private void cambiarFragment(int position) {
-        String[] strings = {"Liaison", getString(R.string.nav_mi_perfil), getString(R.string.nav_buscar), getString(R.string.nav_vamos_al_negocio), getString(R.string.nav_liaison_plus), getString(R.string.nav_configuracion)};
-        Fragment fragment = null;
-        String titulo_toolbar = strings[position];
-        switch (position) {
-            case 0 : fragment = new InicioFragment(); posicion_fragment = 0; appBarLayout.setExpanded(true, true); break;
-            case 1 : fragment = new MiPerfilFragment(); posicion_fragment = 1; appBarLayout.setExpanded(false);         break;
-            case 2 : fragment = new BuscarFragment(); posicion_fragment = 1; appBarLayout.setExpanded(false);   break;
-            case 3 : fragment = new VamosAlNegocioFragment(); posicion_fragment = 1; appBarLayout.setExpanded(false);   break;
-        }
-        if (fragment != null) {
-            //toolbar.setTitle(titulo_toolbar);
-            FragmentManager manager = getSupportFragmentManager();
-            FragmentTransaction transaction = manager.beginTransaction();
-            transaction.replace(R.id.contenedor, fragment);
-            transaction.commit();
-            getSupportActionBar().setTitle(titulo_toolbar);
-            Log.d(TAG, "titulo_toolbar_"+titulo_toolbar);
-        }
-    }*/
 
     private void configuracionNavegador() {
         navegadorFragment = (NavegadorFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);

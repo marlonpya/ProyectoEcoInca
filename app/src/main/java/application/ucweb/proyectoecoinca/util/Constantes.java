@@ -13,8 +13,11 @@ public class Constantes {
 
     public static final String URL_CONTACTOS            = "";
     public static final String URL_MIS_SEGUIDORES       = "http://uc-web.mobi/LIAISON/api-rest/negocios";
-    public static final String URL_ACTUALIZAR_TOKEN     = "";
+    public static final String URL_ACTUALIZAR_TOKEN     = "http://uc-web.mobi/LIAISON/api-rest/updatetoke";
     public static final String CULQUI_KEY               = "uH8iz8aw8DPHKs2+G5/gem6DssaRjmUUldqDoa5SWh0=";
+
+    public static final String URL_IGNORAR_EMPRESA      = "http://uc-web.mobi/LIAISON/api-rest/Eliminarmatch";
+    public static final String B_DESACTIVAR_HACER_NEGOCIO = "B_DESACTIVAR_HACER_NEGOCIO";
 
     public static final String POSICION_I_DETALLE_BUSCAR = "POSICION_I_DETALLE_BUSCAR";
 

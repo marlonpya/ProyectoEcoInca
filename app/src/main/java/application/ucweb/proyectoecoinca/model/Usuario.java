@@ -56,10 +56,9 @@ public class Usuario extends RealmObject {
 
     private boolean sesion;
 
-    /**
-     * usuario => nombre_e, pais, ciudad, email_e, año_f, des, tipo_e, img, nom_c, ape_c, cargo_c, tlf, cel, email_c, web, linkedin, plus
-     * @param usuario
-     */
+    private int cantidad_busqueda;
+
+
     public static void iniciarSesion(Usuario usuario) {
         Realm realm = Realm.getDefaultInstance();
         Usuario user = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
@@ -86,6 +85,7 @@ public class Usuario extends RealmObject {
             user2.setLinkedin(usuario.getLinkedin());
             user2.setPlus(usuario.isPlus());
             user2.setSesion(true);
+            user2.setCantidad_busqueda(usuario.getCantidad_busqueda());
             realm.copyToRealmOrUpdate(user2);
             Log.d(TAG, user2.toString());
         } else {
@@ -109,6 +109,7 @@ public class Usuario extends RealmObject {
             user.setLinkedin(usuario.getLinkedin());
             user.setPlus(usuario.isPlus());
             user.setSesion(true);
+            user.setCantidad_busqueda(usuario.getCantidad_busqueda());
             Log.d(TAG, user.toString());
         }
         realm.commitTransaction();
@@ -140,6 +141,7 @@ public class Usuario extends RealmObject {
         user.setLinkedin("");
         user.setPlus(false);
         user.setSesion(false);
+        user.setCantidad_busqueda(0);
         realm.commitTransaction();
         UsuarioCertificacion.limpiarCertificacion();
         UsuarioProducto.limpiarProductos();
@@ -151,10 +153,19 @@ public class Usuario extends RealmObject {
         Usuario usuario = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
         if (usuario != null) {
             return usuario;
-        } else{
+        } else {
             Log.e(TAG, "getUsuario: USUARIO NULLO");
             return null;
         }
+    }
+
+    public static void aumentarCantidadBusqueda(int cantidad) {
+        Realm realm = Realm.getDefaultInstance();
+        Usuario usuario = getUsuario();
+        realm.beginTransaction();
+        usuario.setCantidad_busqueda(cantidad);
+        realm.commitTransaction();
+        realm.close();
     }
 
     public long getId() {
@@ -315,5 +326,13 @@ public class Usuario extends RealmObject {
 
     public void setSesion(boolean sesion) {
         this.sesion = sesion;
+    }
+
+    public int getCantidad_busqueda() {
+        return cantidad_busqueda;
+    }
+
+    public void setCantidad_busqueda(int cantidad_busqueda) {
+        this.cantidad_busqueda = cantidad_busqueda;
     }
 }

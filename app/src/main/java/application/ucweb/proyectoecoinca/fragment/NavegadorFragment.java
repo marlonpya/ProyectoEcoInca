@@ -71,6 +71,7 @@ public class NavegadorFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         preferencia = new Preferencia(getActivity());
+        switchNotificacion.setChecked(preferencia.isNotificacionActivada());
 
         adapter = new NavegadorAdapter(getListaNavegador(), getActivity());
         recyclerView.setAdapter(adapter);
