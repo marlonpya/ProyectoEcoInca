@@ -55,9 +55,10 @@ public class VamosAlNegocioActivity extends BaseActivity {
         tab_layout.addTab(tab_layout.newTab());
         setupTabLayout();
         tab_layout.setTabGravity(TabLayout.GRAVITY_FILL);
-        adapter = new SeguirAdapter(getSupportFragmentManager(), tab_layout.getTabCount());
-        pager.setAdapter(adapter);
         if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_VENDEDOR) {
+            adapter = new SeguirAdapter(getSupportFragmentManager(), tab_layout.getTabCount(), Empresa.N_VENDEDOR);
+            pager.setAdapter(adapter);
+
             tab_layout.getTabAt(1).select();
             LinearLayout tabStrip = ((LinearLayout)tab_layout.getChildAt(0));
             for(int i = 0; i < tabStrip.getChildCount(); i++) {
@@ -68,7 +69,12 @@ public class VamosAlNegocioActivity extends BaseActivity {
                     }
                 });
             }
+            pager.setCurrentItem(0);
+            pager.setOnTouchListener(null);
         } else if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_COMPRADOR) {
+            adapter = new SeguirAdapter(getSupportFragmentManager(), tab_layout.getTabCount(), Empresa.N_COMPRADOR);
+            pager.setAdapter(adapter);
+
             tab_layout.getTabAt(0).select();
             LinearLayout tabStrip = ((LinearLayout)tab_layout.getChildAt(0));
             for(int i = 0; i < tabStrip.getChildCount(); i++) {
@@ -79,7 +85,11 @@ public class VamosAlNegocioActivity extends BaseActivity {
                     }
                 });
             }
+            pager.setCurrentItem(1);
+            pager.setOnTouchListener(null);
         } else {
+            adapter = new SeguirAdapter(getSupportFragmentManager(), tab_layout.getTabCount(), Empresa.N_AMBOS);
+            pager.setAdapter(adapter);
             //tab_layout.setupWithViewPager(pager);
             pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab_layout));
             tab_layout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -142,6 +152,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setId(Empresa.getUltimoId());
                                 /*int id_empresa = jData.getJSONObject(i).getInt("SEG_ID_SEGUIDOR") != Usuario.getUsuario().getId_empresa() ? jData.getJSONObject(i).getInt("SEG_ID_SEGUIDOR") : jData.getJSONObject(i).getInt("SEG_ID_SEGUIDO");
                                 int tipo_empresa = id_empresa*/
+
                                 empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
                                 empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
                                 empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
@@ -153,7 +164,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setPdf(jData.getJSONObject(i).getString("EMP_PDF"));
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                                empresa.setId_match(jData.getJSONObject(i).getInt("SEG_MATCH"));
+                                empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
                                 Empresa.registrarEmpresa(empresa);
                                 Log.d(TAG, empresa.toString());
                             }
@@ -173,7 +184,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("idempresa", String.valueOf(Usuario.getUsuario().getId()));
+                params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
                 params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
                 return params;
             }

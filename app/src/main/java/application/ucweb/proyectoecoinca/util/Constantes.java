@@ -14,7 +14,9 @@ public class Constantes {
     public static final String URL_CONTACTOS            = "";
     public static final String URL_MIS_SEGUIDORES       = "http://uc-web.mobi/LIAISON/api-rest/negocios";
     public static final String URL_ACTUALIZAR_TOKEN     = "http://uc-web.mobi/LIAISON/api-rest/updatetoke";
-    public static final String CULQUI_KEY               = "uH8iz8aw8DPHKs2+G5/gem6DssaRjmUUldqDoa5SWh0=";
+    public static final String CULQUI_KEY               = "jB/Zf9PuPXXUSEY0wl/0sB8rZlqkrqle5wdskRIz5q0=";
+    public static final String URL_PAISES_DEPARTAMENTOS = "";
+    public static final String URL_ACEPTAR_NEGOCIO      = "http://uc-web.mobi/LIAISON/api-rest/AceptarNotificacion";
 
     public static final String URL_IGNORAR_EMPRESA      = "http://uc-web.mobi/LIAISON/api-rest/Eliminarmatch";
     public static final String B_DESACTIVAR_HACER_NEGOCIO = "B_DESACTIVAR_HACER_NEGOCIO";
@@ -27,7 +29,8 @@ public class Constantes {
     public static final String S_CERTIFICADO_REGISTRO = "S_CERTIFICADO_REGISTRO";
     public static final String L_ID_EMPRESA = "L_ID_EMPRESA";
 
-    public static final String ARRAY_DEPARTAMENTOS[] = {"Amazonas",
+    public static final String ARRAY_DEPARTAMENTOS[] = {
+            "Amazonas",
             "Ancash" ,
             "Apurimac" ,
             "Arequipa" ,
@@ -54,7 +57,7 @@ public class Constantes {
             "Ucayali"};
 
     public static final String[] getPaises() {
-        final String ARRAY_PAISES[] = {"Afganistán" +
+        final String ARRAY_PAISES[] = {"Afganistán" ,
                 "Albania" ,
                 "Alemania" ,
                 "Andorra" ,

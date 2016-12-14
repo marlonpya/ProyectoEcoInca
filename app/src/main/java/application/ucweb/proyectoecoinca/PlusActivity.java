@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-
 import com.culqi.Card;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
@@ -22,10 +21,12 @@ import butterknife.OnClick;
 public class PlusActivity extends BaseActivity {
     @BindView(R.id.toolbar_activity_plus) Toolbar toolbar;
     @BindView(R.id.iv_imagen_estrella) ImageView estrella;
-    @BindView(R.id.iv_contorno_check1) ImageView contorno1;
-    @BindView(R.id.iv_contorno_check2) ImageView contorno2;
-    @BindView(R.id.iv_check1) ImageView circulo_check1;
-    @BindView(R.id.iv_check2) ImageView circulo_check2;
+    @BindView(R.id.iv_cuadro_plus1) ImageView cuadro_plus1;
+    @BindView(R.id.iv_cuadro_plus2) ImageView cuadro_plus2;
+    @BindView(R.id.iv_cuadro_plus3) ImageView cuadro_plus3;
+    @BindView(R.id.iv_check_plus1) ImageView circulo_plus1;
+    @BindView(R.id.iv_check_plus2) ImageView circulo_plus2;
+    @BindView(R.id.iv_check_plus3) ImageView circulo_plus3;
     private int tipo_compra = 0;
     private int cvv = -1;
 
@@ -37,32 +38,8 @@ public class PlusActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.iv_contorno_check1)
-    public void opcionIzquierda() {
-        circulo_check1.setVisibility(View.VISIBLE);
-        contorno1.setColorFilter(Color.parseColor("#00b2e2"));
-
-        circulo_check2.setVisibility(View.GONE);
-        contorno2.setColorFilter(Color.parseColor("#FFAAAAAA"));
-        contorno2.setBackgroundColor(Color.WHITE);
-        tipo_compra = 1;
-    }
-
-    @OnClick(R.id.iv_contorno_check2)
-    public void opcionDerecha() {
-        circulo_check2.setVisibility(View.VISIBLE);
-        contorno2.setColorFilter(Color.parseColor("#00b2e2"));
-
-        circulo_check1.setVisibility(View.GONE);
-        contorno1.setColorFilter(Color.parseColor("#FFAAAAAA"));
-        contorno1.setBackgroundColor(Color.WHITE);
-        tipo_compra = 2;
-    }
-
     @OnClick(R.id.btnAceptarPlus)
-    public void aceptarPlus() {
-
-    }
+    public void aceptarPlus() { }
 
     private void mensajeCompra(int tipo_compra) {
         EditText editText = new EditText(this);
@@ -95,12 +72,55 @@ public class PlusActivity extends BaseActivity {
     private void iniciarLayout() {
         setToolbarSon(toolbar, this, getString(R.string.nav_liaison_plus));
         usarGlide(this, R.drawable.imagen_estrella_plus, estrella);
-        contorno1.setColorFilter(Color.parseColor("#FFAAAAAA"));
-        contorno1.setBackgroundColor(Color.WHITE);
-        contorno2.setColorFilter(Color.parseColor("#FFAAAAAA"));
-        contorno2.setBackgroundColor(Color.WHITE);
-        circulo_check1.setVisibility(View.GONE);
-        circulo_check2.setVisibility(View.GONE);
+        circulo_plus1.setVisibility(View.GONE);
+        circulo_plus2.setVisibility(View.GONE);
+        circulo_plus3.setVisibility(View.GONE);
+        cuadro_plus1.setBackgroundColor(Color.WHITE);
+        cuadro_plus2.setBackgroundColor(Color.WHITE);
+        cuadro_plus3.setBackgroundColor(Color.WHITE);
+        cuadro_plus1.setColorFilter(Color.parseColor("#FFAAAAAA"));
+        cuadro_plus2.setColorFilter(Color.parseColor("#FFAAAAAA"));
+        cuadro_plus3.setColorFilter(Color.parseColor("#FFAAAAAA"));
+    }
+
+    @OnClick(R.id.iv_cuadro_plus1)
+    public void seleccionarPlan1() {
+        limpiarMarcados(0);
+    }
+
+    @OnClick(R.id.iv_cuadro_plus2)
+    public void seleccionarPlan2() {
+        limpiarMarcados(1);
+    }
+
+    @OnClick(R.id.iv_cuadro_plus3)
+    public void seleccionarPlan3() {
+        limpiarMarcados(2);
+    }
+
+    private void limpiarMarcados(int tipo) {
+        circulo_plus1.setVisibility(View.GONE);
+        circulo_plus2.setVisibility(View.GONE);
+        circulo_plus3.setVisibility(View.GONE);
+        cuadro_plus1.setBackgroundColor(Color.WHITE);
+        cuadro_plus2.setBackgroundColor(Color.WHITE);
+        cuadro_plus3.setBackgroundColor(Color.WHITE);
+        cuadro_plus1.setColorFilter(Color.parseColor("#FFAAAAAA"));
+        cuadro_plus2.setColorFilter(Color.parseColor("#FFAAAAAA"));
+        cuadro_plus3.setColorFilter(Color.parseColor("#FFAAAAAA"));
+        if (tipo == 0) {
+            circulo_plus1.setVisibility(View.VISIBLE);
+            cuadro_plus1.setColorFilter(Color.parseColor("#00b2e2"));
+            tipo_compra = 0;
+        } else if (tipo == 1) {
+            circulo_plus2.setVisibility(View.VISIBLE);
+            cuadro_plus2.setColorFilter(Color.parseColor("#00b2e2"));
+            tipo_compra = 1;
+        } else if (tipo == 2) {
+            circulo_plus3.setVisibility(View.VISIBLE);
+            cuadro_plus3.setColorFilter(Color.parseColor("#00b2e2"));
+            tipo_compra = 2;
+        }
     }
 
     @Override

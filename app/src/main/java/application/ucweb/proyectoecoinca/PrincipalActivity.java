@@ -21,6 +21,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.fragment.InicioFragment;
 import application.ucweb.proyectoecoinca.fragment.NavegadorFragment;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -44,6 +45,9 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         cambiarFragment(0);
 
         FirebaseMessaging.getInstance().subscribeToTopic("liaison");
+
+        Log.d(TAG, new Preferencia(this).getTokenFcm());
+        Log.d(TAG, String.valueOf(new Preferencia(this).getTokenFcm().length()));
     }
 
     @Override

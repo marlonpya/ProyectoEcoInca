@@ -142,9 +142,18 @@ public class Empresa extends RealmObject{
     public static void eliminarEmpresa(int id_empresa) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        Empresa empresas = realm.where(Empresa.class).equalTo(ID, id_empresa).findFirst();
+        Empresa empresas = realm.where(Empresa.class).equalTo(ID_SERVER, id_empresa).findFirst();
         Log.d(TAG, "eliminarEmpresa_" +empresas.getNombre());
         empresas.deleteFromRealm();
+        realm.commitTransaction();
+        realm.close();
+    }
+
+    public static void actualizarMatch(long id, int match) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        Empresa empresa = realm.where(Empresa.class).equalTo(ID, id).findFirst();
+        empresa.setTipo_match(match);
         realm.commitTransaction();
         realm.close();
     }

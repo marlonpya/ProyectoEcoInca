@@ -79,7 +79,8 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                requestIgnorar(item.getId_match(), (int) item.getId());
+                                requestIgnorar(item.getId_match(), item.getId_server());
+                                notifyDataSetChanged();
                             }
                         })
                         .setNegativeButton(R.string.cancelar, null)

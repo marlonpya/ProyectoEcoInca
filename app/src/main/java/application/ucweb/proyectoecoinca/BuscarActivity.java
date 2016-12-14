@@ -79,7 +79,7 @@ public class BuscarActivity extends BaseActivity {
     @OnClick(R.id.btnBuscar)
     public void buscar() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            if (Usuario.getUsuario().getCantidad_busqueda() <= 7) {
+            if (Usuario.getUsuario().isPlus() || Usuario.getUsuario().getCantidad_busqueda() <= 7) {
                 if (validarBusqueda()) {
                     requestBusquedaSimple();
                 }
@@ -130,6 +130,8 @@ public class BuscarActivity extends BaseActivity {
                                 empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
                                 Empresa.registrarEmpresa(empresa, Empresa.E_BUSQUEDA);
                             }
+                            Log.d(TAG, String.valueOf(jData.getInt("cantbusqueda")));
+                            Usuario.aumentarCantidadBusqueda(jData.getInt("cantbusqueda"));
                             hidepDialog(pDialog);
                             if (jData.getBoolean("status")) startActivity(new Intent(BuscarActivity.this, BuscarResultadoListaActivity.class));
                         } catch (JSONException e) {

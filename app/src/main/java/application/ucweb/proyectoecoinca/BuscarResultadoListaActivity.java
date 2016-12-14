@@ -53,6 +53,6 @@ public class BuscarResultadoListaActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //Empresa.eliminarPorTipoEmpresa(Empresa.E_BUSQUEDA);
+        Empresa.eliminarPorTipoEmpresa(Empresa.E_BUSQUEDA);
     }
 }

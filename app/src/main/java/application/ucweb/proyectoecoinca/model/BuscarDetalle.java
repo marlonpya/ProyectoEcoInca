@@ -17,12 +17,14 @@ import io.realm.annotations.PrimaryKey;
 public class BuscarDetalle extends RealmObject {
     //TIPO:q, 2 = SERVICIO, 3 = COMPAÑÍA, 4 = INDUSTRIA, 5 = PAÍS, 6 = CERTIFICACION, 7 = TIPO_PAIS
     public static final String TAG = BuscarDetalle.class.getSimpleName();
-    public static final String BUSDET_ID = "id";
-    public static final String BUSDET_TIPO = "tipo";
-    public static final String BUSDET_SELECCIONADO = "seleccionado";
+    public static final String BUSDET_ID                = "id";
+    public static final String BUSDET_TIPO              = "tipo";
+    public static final String BUSDET_SELECCIONADO      = "seleccionado";
+    public static final String BUSDET_DEPARTAMENTO_FK   = "departamento_fk";
 
     public static final boolean SELECCIONADO        = true;
     public static final int TIPO_PAIS               = 1;
+    public static final int TIPO_DEPARTAMENTO       = 2;
     public static final int TIPO_EMPRESARIAL        = 4;
     public static final int TIPO_CERTIFICACIONES    = 5;
 
@@ -31,6 +33,7 @@ public class BuscarDetalle extends RealmObject {
     private String descripcion;
     private int tipo;
     private boolean seleccionado;
+    private int departamento_fk;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -38,39 +41,22 @@ public class BuscarDetalle extends RealmObject {
         return number == null ? 0 : number.intValue() + 1;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-
-    public boolean isSeleccionado() {
-        return seleccionado;
-    }
-
-    public void setSeleccionado(boolean seleccionado) {
-        this.seleccionado = seleccionado;
-    }
-
     //TIPO_PAIS 1 ; CIUDAD; 2; PRODUCTOS 3; EMPRESARIAL 4; CERTIFICACIONES 5;
+    public static void cargarPais(String pais) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        BuscarDetalle item = realm.createObject(BuscarDetalle.class);
+        item.setId(getUltimoId());
+        item.setDescripcion(pais.toUpperCase());
+        item.setTipo(TIPO_PAIS);
+        item.setSeleccionado(false);
+        realm.copyToRealm(item);
+        realm.commitTransaction();
+        Log.d(TAG, item.toString());
+
+        realm.close();
+    }
+
     public static void cargarPais() {
         Realm realm = Realm.getDefaultInstance();
         String[] array = {"Alemania", "Peru", "Estados Unidos", "Bolivia", "Ecuador", "Mexico", "Colombia", "Venezuela", "Arabia", "Argentina", "Guatemala"};
@@ -79,12 +65,27 @@ public class BuscarDetalle extends RealmObject {
             BuscarDetalle item = realm.createObject(BuscarDetalle.class);
             item.setId(getUltimoId());
             item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(TIPO_PAIS);
+            item.setTipo(1);
             item.setSeleccionado(false);
             realm.copyToRealm(item);
             realm.commitTransaction();
             Log.d(TAG, item.toString());
         }
+        realm.close();
+    }
+
+    public static void cargarDepartamentos(String departamento) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        BuscarDetalle item = realm.createObject(BuscarDetalle.class);
+        item.setId(getUltimoId());
+        item.setDescripcion(departamento.toUpperCase());
+        item.setTipo(TIPO_DEPARTAMENTO);
+        item.setSeleccionado(false);
+        realm.copyToRealm(item);
+        realm.commitTransaction();
+        Log.d(TAG, item.toString());
+
         realm.close();
     }
 
@@ -160,6 +161,37 @@ public class BuscarDetalle extends RealmObject {
         return resultado;
     }
 
+    public static ArrayList<String> getPais() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<BuscarDetalle> marcados = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, BuscarDetalle.TIPO_PAIS).findAll();
+        ArrayList<String> resultado = new ArrayList<>();
+        if (marcados.size() != 0) {
+            for (int i = 0; i < marcados.size(); i++) {
+                resultado.add(marcados.get(i).getDescripcion());
+            }
+        }
+        return resultado;
+    }
+
+    public static ArrayList<String> getDepartamento(int id_fk) {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<BuscarDetalle> marcados = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, TIPO_DEPARTAMENTO)
+                .equalTo(BUSDET_DEPARTAMENTO_FK, id_fk).findAll();
+        ArrayList<String> resultado = new ArrayList<>();
+        if (marcados.size() != 0) {
+            for (int i = 0; i < marcados.size(); i++) {
+                resultado.add(marcados.get(i).getDescripcion());
+            }
+        }
+        return resultado;
+    }
+
+    public static int getIdPaisDefecto() {
+        Realm realm = Realm.getDefaultInstance();
+        Number number = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, TIPO_PAIS).min(BUSDET_ID);
+        return number == null ? 0 : number.intValue();
+    }
+
     public static void desmarcar( int tipo) {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<BuscarDetalle> lista = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, tipo).findAll();
@@ -172,5 +204,45 @@ public class BuscarDetalle extends RealmObject {
         }
         Log.d(TAG, "desmarcar");
         realm.close();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
+    public boolean isSeleccionado() {
+        return seleccionado;
+    }
+
+    public void setSeleccionado(boolean seleccionado) {
+        this.seleccionado = seleccionado;
+    }
+
+    public int getDepartamento_fk() {
+        return departamento_fk;
+    }
+
+    public void setDepartamento_fk(int departamento_fk) {
+        this.departamento_fk = departamento_fk;
     }
 }

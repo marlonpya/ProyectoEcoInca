@@ -237,7 +237,7 @@ public class IniciarSesionActivity extends BaseActivity {
                             } else {
                                 hidepDialog(pDialog);
                                 new AlertDialog.Builder(IniciarSesionActivity.this)
-                                        .setTitle(R.string.titulo_dialogo)
+                                        .setTitle(R.string.app_name)
                                         .setMessage(jUsuario.getString("message"))
                                         .setPositiveButton(R.string.aceptar, null)
                                         .show();

@@ -22,8 +22,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,6 +71,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     private String idempresaseguido = "";
     private String nombreempresa = "";
     private String pdfempresa = "";
+    private String idmatch = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         idtipoempresa = String.valueOf(Usuario.getUsuario().getTipo_empresa());
         idempresaseguido = String.valueOf(empresa.getId_server());
         pdfempresa = empresa.getPdf();
+        idmatch = String.valueOf(empresa.getId_match());
         if (getIntent().hasExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO))  btnVamosHacerNegocio.setEnabled(false);
     }
 
@@ -101,11 +105,15 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
 
     @OnClick(R.id.btnVamosHacerNegocio)
     public void vamosHacerNegocio() {
-        switch (Empresa.identificarEmpresaContacto(empresa.getTipo_empresa())) {
-            case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
-            case Empresa.M_RECHAZADO    : requestVamosHacerNegocio(); break;
-            case Empresa.M_ACEPTADO     : mostrarMensaje(Empresa.M_ACEPTADO); break;
-            case Empresa.M_ESPERA       : mostrarMensaje(Empresa.M_ACEPTADO); break;
+        if (empresa.getTipo_empresa() == Empresa.E_BUSQUEDA) {
+            switch (Empresa.identificarEmpresaContacto(empresa.getTipo_match())) {
+                case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
+                case Empresa.M_RECHAZADO    : requestVamosHacerNegocio(); break;
+                case Empresa.M_ACEPTADO     : mostrarMensaje(Empresa.M_ACEPTADO); break;
+                case Empresa.M_ESPERA       : mostrarMensaje(Empresa.M_ACEPTADO); break;
+            }
+        } else if (empresa.getTipo_empresa() == Empresa.E_CONTACTO && empresa.getTipo_match() == Empresa.M_ESPERA) {
+            requestAceptarNegocio();
         }
     }
 
@@ -129,12 +137,28 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                         public void onResponse(String s) {
                             Log.d(TAG, s);
                             try {
-                                JSONObject jData = new JSONObject(s);
-                                Log.d(TAG, jData.toString());
+                                JSONObject jsonObject = new JSONObject(s);
+                                Log.d(TAG, jsonObject.toString());
+                                JSONArray jData = jsonObject.getJSONArray("data");
+                                if (jData.getJSONObject(0).getBoolean("status")) {
+                                    btnVamosHacerNegocio.setEnabled(true);
+                                    hidepDialog(pDialog);
+                                    new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
+                                            .setTitle(R.string.app_name)
+                                            .setMessage(getString(R.string.m_solicitud_ok))
+                                            .setPositiveButton(R.string.aceptar, null)
+                                            .show();
+                                } else {
+                                    new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
+                                            .setTitle(R.string.app_name)
+                                            .setMessage(getString(R.string.m_solicitud_error))
+                                            .setPositiveButton(R.string.aceptar, null)
+                                            .show();
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                hidepDialog(pDialog);
                             }
-                            hidepDialog(pDialog);
                         }
                     },
                     new Response.ErrorListener() {
@@ -157,6 +181,58 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
         }
+    }
+
+    private void requestAceptarNegocio() {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            showDialog(pDialog);
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    Constantes.URL_ACEPTAR_NEGOCIO,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(s);
+                                if (jsonObject.getBoolean("status")) {
+                                    hidepDialog(pDialog);
+                                    new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
+                                            .setTitle(R.string.app_name)
+                                            .setMessage(getString(R.string.m_aceptar_negocio_ok))
+                                            .setPositiveButton(R.string.aceptar, null)
+                                            .show();
+                                    Empresa.actualizarMatch(empresa.getId(), Empresa.M_ACEPTADO);
+                                    btnVamosHacerNegocio.setEnabled(false);
+                                } else {
+                                    hidepDialog(pDialog);
+                                    new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
+                                            .setTitle(R.string.app_name)
+                                            .setMessage(getString(R.string.m_aceptar_negocio_error))
+                                            .setPositiveButton(R.string.cancelar, null)
+                                            .show();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            VolleyLog.d(volleyError.toString());
+                            hidepDialog(pDialog);
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("idmatch", idmatch);
+                    return params;
+                }
+            };
+            Configuracion.getInstance().addToRequestQueue(request, TAG);
+        } else { ConexionBroadcastReceiver.showSnack(layout, this); }
     }
 
     @OnClick(R.id.btnVerPerfil)

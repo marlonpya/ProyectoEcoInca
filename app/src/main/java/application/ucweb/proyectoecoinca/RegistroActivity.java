@@ -3,13 +3,17 @@ package application.ucweb.proyectoecoinca;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -21,6 +25,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,22 +108,29 @@ public class RegistroActivity extends BaseActivity {
     private static int VALOR = 1;
     private int TIPO_EMPRESA = -1;
     private String imagen_base = "";
+    private int id_fk;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         iniciarLayout();
+        realm = Realm.getDefaultInstance();
         preferencia = new Preferencia(this);
 
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
+
+        id_fk = BuscarDetalle.getIdPaisDefecto();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
         generarMarcados(et_sec_empresarial, BuscarDetalle.TIPO_EMPRESARIAL);
@@ -198,11 +210,13 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.ll_btn__pais)
     public void dialogoPais() {
+
         new AlertDialog.Builder(this)
                 .setSingleChoiceItems(Constantes.getPaises(), -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         et_pais.setText(Constantes.getPaises()[which]);
+                        id_fk = which;
                         dialog.dismiss();
                     }
                 })
@@ -343,7 +357,6 @@ public class RegistroActivity extends BaseActivity {
                 !et_anio_f.getText().toString().trim().equals("") &&
                 !et_sec_empresarial.getText().toString().trim().equals("") &&
                 et_producto.getTagList().size() > 0 &&
-                !et_certificado.getText().toString().trim().equals("") &&
                 !et_nombre_contacto_registro.getText().toString().equals("") &&
                 !et_apellido.getText().toString().trim().equals("") &&
                 !et_cargo_contacto_registro.getText().toString().trim().equals("") &&

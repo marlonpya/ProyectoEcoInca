@@ -117,6 +117,18 @@ public class Usuario extends RealmObject {
         Log.d(TAG, "iniciarSesion()");
     }
 
+    public static void actualizarCantidadBusqueda(int cantidad) {
+        Realm realm = Realm.getDefaultInstance();
+        Usuario usuario = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
+        realm.beginTransaction();
+        usuario.setId(usuario.getId());
+        usuario.setCantidad_busqueda(cantidad);
+        realm.copyFromRealm(usuario);
+        Log.d(TAG, "actualizarCantidadBusqueda"+usuario.getNombre_empresa());
+        realm.commitTransaction();
+        realm.close();
+    }
+
     public static void cerrarSesion() {
         Realm realm = Realm.getDefaultInstance();
         Usuario user = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
@@ -160,12 +172,14 @@ public class Usuario extends RealmObject {
     }
 
     public static void aumentarCantidadBusqueda(int cantidad) {
-        Realm realm = Realm.getDefaultInstance();
-        Usuario usuario = getUsuario();
-        realm.beginTransaction();
-        usuario.setCantidad_busqueda(cantidad);
-        realm.commitTransaction();
-        realm.close();
+        if (cantidad > Usuario.getUsuario().getCantidad_busqueda()) {
+            Realm realm = Realm.getDefaultInstance();
+            Usuario usuario = getUsuario();
+            realm.beginTransaction();
+            usuario.setCantidad_busqueda(cantidad);
+            realm.commitTransaction();
+            realm.close();
+        }
     }
 
     public long getId() {
