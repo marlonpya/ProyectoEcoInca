@@ -5,20 +5,37 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.StringRequest;
 import com.culqi.Card;
+import com.culqi.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
+import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import butterknife.BindView;
 import butterknife.OnClick;
 
 public class PlusActivity extends BaseActivity {
+    public static final String TAG = PlusActivity.class.getSimpleName();
     @BindView(R.id.toolbar_activity_plus) Toolbar toolbar;
     @BindView(R.id.iv_imagen_estrella) ImageView estrella;
     @BindView(R.id.iv_cuadro_plus1) ImageView cuadro_plus1;
@@ -39,9 +56,79 @@ public class PlusActivity extends BaseActivity {
     }
 
     @OnClick(R.id.btnAceptarPlus)
-    public void aceptarPlus() { }
+    public void aceptarPlus() {
+        pruebaCulqi();
+    }
 
-    private void mensajeCompra(int tipo_compra) {
+    private void pruebaCulqi() {
+        final Card card = new Card();
+        card.setApellido("prueba");
+        card.setNombre("prueba");
+        card.setCorreo_electronico("jonqqq@culqi.com");
+        card.setCvv(123);
+        card.setNumero(Long.parseLong("4111111111111111"));
+        card.setA_exp(9);
+        card.setM_exp(2020);
+
+        String token = new Token().getToken(card, "test_GaLSmy33nYBB");
+        if (token.equals("error")) {
+            Log.d(TAG, "Ocurrió un error al crear el token");
+        } else {
+            Log.d(TAG, "Token: " + token);
+        }
+    }
+
+    private void pruebaCulqiHere() {
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                "https://integ-pago.culqi.com/api/v1/tokens",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        Log.d(TAG, s);
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            Log.d(TAG, jsonObject.toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        VolleyLog.e(volleyError.toString());
+                    }
+                }
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap<>();
+                header.put("Accept", "application/json");
+                header.put("Content-type", "application/json");
+                header.put("Authorization", "Bearer test_GaLSmy33nYBB");
+                return header;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> data = new HashMap<>();
+                data.put("correo_electronico", "wmuro@me.com");
+                data.put("nombre", "William");
+                data.put("apellido", "Muro");
+                data.put("numero", String.valueOf("4444333322221111"));
+                data.put("cvv", "123");
+                data.put("m_exp", "9");
+                data.put("a_exp", "2019");
+                data.put("guardar", "true");
+                return data;
+            }
+        };
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }
+
+    private void mensajeCompra() {
         EditText editText = new EditText(this);
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
@@ -67,6 +154,12 @@ public class PlusActivity extends BaseActivity {
         card.setM_exp(4);
         card.setA_exp(2000);
 
+        /*String token = Token.getToken(card, Constantes.CULQUI_KEY);
+        if (token.equals("error")) {
+            Log.d(TAG, "errorrrr");
+        } else {
+            Log.d(TAG, token);
+        }*/
     }
 
     private void iniciarLayout() {

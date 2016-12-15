@@ -14,7 +14,7 @@ public class Constantes {
     public static final String URL_CONTACTOS            = "";
     public static final String URL_MIS_SEGUIDORES       = "http://uc-web.mobi/LIAISON/api-rest/negocios";
     public static final String URL_ACTUALIZAR_TOKEN     = "http://uc-web.mobi/LIAISON/api-rest/updatetoke";
-    public static final String CULQUI_KEY               = "jB/Zf9PuPXXUSEY0wl/0sB8rZlqkrqle5wdskRIz5q0=";
+    public static final String CULQUI_KEY               = "test_GaLSmy33nYBB";
     public static final String URL_PAISES_DEPARTAMENTOS = "";
     public static final String URL_ACEPTAR_NEGOCIO      = "http://uc-web.mobi/LIAISON/api-rest/AceptarNotificacion";
 

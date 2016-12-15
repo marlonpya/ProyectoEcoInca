@@ -4,19 +4,12 @@ package com.culqi;
  * Created by William on 9/19/16.
  */
 public class TokenResponse {
-
     String correo_electronico;
-
     String id;
-
     String objeto;
-
     String tipo;
-
     String codigo;
-
     String mensaje;
-
     String mensaje_usuario;
 
     public String getCorreo_electronico() {
