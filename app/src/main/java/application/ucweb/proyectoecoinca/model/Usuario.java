@@ -182,6 +182,15 @@ public class Usuario extends RealmObject {
         }
     }
 
+    public static void actualizarUsuarioPlus(boolean valor) {
+        Realm realm = Realm.getDefaultInstance();
+        Usuario usuario = getUsuario();
+        realm.beginTransaction();
+        usuario.setPlus(valor);
+        realm.commitTransaction();
+        realm.close();
+    }
+
     public long getId() {
         return id;
     }

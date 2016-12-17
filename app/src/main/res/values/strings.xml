@@ -116,7 +116,12 @@
     <string name="comprador">Comprador</string>
     <string name="ambos">Ambos</string>
     <string name="tipo_usuario">Defina un tipo de usuario</string>
-    
+
+    <string name="numero_tarjeta">Número de tarjeta</string>
+    <string name="vencimiento">Vencimiento</string>
+    <string name="codigo_seguridad">Código de seguridad</string>
+    <string name="comprar">Comprar</string>
+
     <!-- DIALOGOS -->
 
     <!-- MENSAJE DIALOG -->
@@ -132,6 +137,7 @@
     <string name="m_confirmar_actualizacion">¿ Está seguro de actualizar su perfil de empresa ?</string>
 
     <string name="m_ingrese_todos_campos">Ingrese todos los campos</string>
+    <string name="m_ingrese_todos_mas_5">Ingrese campos con mas de 5 caracteres</string>
 
     <string name="m_usuario_no_plus">Opción sólo habilitado para usuarios Plus.\nCompre usuario Plus.</string>
 
@@ -149,7 +155,8 @@
     <string name="m_solicitud_error">Su solicitud de negocio no fue enviada con éxito.</string>
     <string name="m_aceptar_negocio_ok">Negocio aceptado</string>
     <string name="m_aceptar_negocio_error">No se pudo aceptar Negocio</string>
-    
+    <string name="m_generando_token">Generando token..</string>
+
     <string name="m_registro_10">Tipo de imagen no permitida.</string>
     <string name="m_registro_9">Error al ingresar certificados.</string>
     <string name="m_registro_8">Error al ingresar empresa.</string>
@@ -170,6 +177,10 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar">Cancelar</string>
     <string name="empresarial">Empresarial</string>
+    <string name="terminos_y_condiciones">Acepta los términos y condiciones, y las políticas de compra</string>
+    <string name="termino_error">Debes aceptar los términos y condiciones para proceder con la compra</string>
+    <string name="escoge_tipo_plus">Debe escoge un tipo de plan</string>
+    <string name="genera_compra_plus">Procesando compra..</string>
 
     <array name="certificaciones">
         <item>BPM</item>

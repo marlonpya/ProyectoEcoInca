@@ -128,7 +128,8 @@ public class BuscarActivity extends BaseActivity {
                                 empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 empresa.setTipo_match(Empresa.M_DESCONOCIDO);
                                 empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
-                                Empresa.registrarEmpresa(empresa, Empresa.E_BUSQUEDA);
+                                empresa.setTipo_empresa(Empresa.E_BUSQUEDA);
+                                Empresa.registrarEmpresa(empresa);
                             }
                             Log.d(TAG, String.valueOf(jData.getInt("cantbusqueda")));
                             Usuario.aumentarCantidadBusqueda(jData.getInt("cantbusqueda"));

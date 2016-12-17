@@ -4,6 +4,7 @@ package application.ucweb.proyectoecoinca.util;
  * Created by ucweb02 on 12/10/2016.
  */
 public class Constantes {
+    public static final String CODIGO_COMERCIO          = "test_hW7o8bZRWzFp";
 
     public static final String URL_REGISTRAR_USUARIO    = "http://uc-web.mobi/LIAISON/api-rest/registrarUsuario";
     public static final String URL_INICIAR_SESION       = "http://uc-web.mobi/LIAISON/api-rest/iniciarSesion";
@@ -17,17 +18,15 @@ public class Constantes {
     public static final String CULQUI_KEY               = "test_GaLSmy33nYBB";
     public static final String URL_PAISES_DEPARTAMENTOS = "";
     public static final String URL_ACEPTAR_NEGOCIO      = "http://uc-web.mobi/LIAISON/api-rest/AceptarNotificacion";
+    public static final String URL_PAGO_PLUS            = "http://uc-web.mobi/LIAISON/api-rest/pago";
 
     public static final String URL_IGNORAR_EMPRESA      = "http://uc-web.mobi/LIAISON/api-rest/Eliminarmatch";
     public static final String B_DESACTIVAR_HACER_NEGOCIO = "B_DESACTIVAR_HACER_NEGOCIO";
 
     public static final String POSICION_I_DETALLE_BUSCAR = "POSICION_I_DETALLE_BUSCAR";
 
-    public static final String S_SEC_INDUSTRIAL = "S_SEC_INDUSTRIAL";
-    public static final String S_PRODUCTO_REGISTRO = "S_PRODUCTO_REGISTRO";
-    public static final String S_SERVICIO_REGISTRO = "S_SERVICIO_REGISTRO";
-    public static final String S_CERTIFICADO_REGISTRO = "S_CERTIFICADO_REGISTRO";
     public static final String L_ID_EMPRESA = "L_ID_EMPRESA";
+    public static final String I_TIPO_PLUS = "I_TIPO_PLUS";
 
     public static final String ARRAY_DEPARTAMENTOS[] = {
             "Amazonas",

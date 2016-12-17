@@ -86,7 +86,6 @@ public class Token {
 
             HttpPost httpPost = new HttpPost(uri);
             httpPost.setEntity(new StringEntity(json));
-            httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
             httpPost.setHeader("Authorization", "Bearer " + apiKey);
             return new DefaultHttpClient().execute(httpPost);
@@ -118,8 +117,9 @@ public class Token {
             String json = new GsonBuilder().create().toJson(informacion_pago, Map.class);
             final String url = "https://integ-pago.culqi.com/api/v1/tokens";
             HttpResponse response = makeRequest(url, json, merchantCode);
-            //HttpResponse response = (HttpResponse) new TheTask().execute(url,json, merchantCode);
+
             if (response != null) Log.d(TAG, response.toString());
+
             BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent(), "UTF-8"));
             String json_response = reader.readLine();
             TokenResponse tokenResponse = null;
