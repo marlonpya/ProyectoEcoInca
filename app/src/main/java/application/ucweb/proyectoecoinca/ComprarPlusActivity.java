@@ -2,9 +2,8 @@ package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,7 +21,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -237,7 +235,7 @@ public class ComprarPlusActivity extends BaseActivity {
                                 Usuario.actualizarUsuarioPlus(true);
                                 new AlertDialog.Builder(ComprarPlusActivity.this)
                                         .setTitle(R.string.app_name)
-                                        .setMessage("Su compra de usuario plus fue hecha correctamente")
+                                        .setMessage(getString(R.string.m_plus_ok))
                                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -248,7 +246,7 @@ public class ComprarPlusActivity extends BaseActivity {
                             } else if (jsonObject.getInt("codigo") == -2) {
                                 new AlertDialog.Builder(ComprarPlusActivity.this)
                                         .setTitle(R.string.app_name)
-                                        .setMessage("Verifique sus datos")
+                                        .setMessage(getString(R.string.m_plus_error))
                                         .setPositiveButton(R.string.aceptar, null)
                                         .show();
                             }
