@@ -3,7 +3,7 @@
     <!-- LAYOUTS -->
     <string name="texto1">Find new business and partnership opportunities</string>
     <string name="texto2">Simplify the way you do business</string>
-    <string name="texto3">Let's do more for others</string>
+    <string name="texto3">Let´ s do more for others</string>
 
     <!-- INICIAR SESION-->
     <string name="usuario">User</string>
@@ -27,7 +27,7 @@
     <string name="nav_inicio">Home</string>
     <string name="nav_mi_perfil">Mi Profile</string>
     <string name="nav_buscar">Search</string>
-    <string name="nav_vamos_al_negocio">Let's do business</string>
+    <string name="nav_vamos_al_negocio">Let´ s do business</string>
     <string name="nav_liaison_plus">Liaison PLUS</string>
     <string name="nav_configuracion">Configuration</string>
     <string name="nav_notifacion">Notification</string>
@@ -176,6 +176,11 @@
     <string name="termino_error">You must accept the terms and conditions to proceed with the purchase</string>
     <string name="escoge_tipo_plus">You must choose a type of plan</string>
     <string name="genera_compra_plus">Processing purchase..</string>
+
+    <string name="m_plus_ok">Your user plus purchase was done correctly</string>
+    <string name="m_plus_error">Verify your card details</string>
+
+    <string name="terminos_y_condiciones_texto" >Our terms and conditions</string>
 
     <array name="sectores_empresariales">
         <item>Agroindustry</item>

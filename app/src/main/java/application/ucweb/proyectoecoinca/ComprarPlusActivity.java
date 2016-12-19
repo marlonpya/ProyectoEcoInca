@@ -7,9 +7,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Scroller;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -121,6 +126,18 @@ public class ComprarPlusActivity extends BaseActivity {
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
         }
+    }
+
+    @OnClick(R.id.tvTerminosCondiciones)
+    public void dialogoTerminosYCondiciones() {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialogo_terminos_y_condiciones, null);
+        /*TextView textView = (TextView) view.findViewById(R.id.tvDTerminosCondiciones);
+        textView.setText(getString(R.string.politica));*/
+        new AlertDialog.Builder(this)
+                .setView(view)
+                .setTitle(R.string.terminos_y_condiciones_texto)
+                .setPositiveButton(R.string.aceptar, null)
+                .show();
     }
 
     private void iniciarLayout() {

@@ -93,7 +93,7 @@
     <string name="email">Email</string>
 
     <string name="anio_fundacion2">Anno di Fondazione</string>
-    <string name="descripcion_empresa">Descrizione dell'azienda (200 caratteri)</string>
+    <string name="descripcion_empresa">Descrizione dell´azienda (200 caratteri)</string>
     <string name="sector_empresarial">Settore di attività</string>
     <string name="producto2">Prodotto</string>
     <string name="servicio2">Servizio</string>
@@ -136,7 +136,7 @@
 
     <string name="m_usuario_no_plus">Opzione è abilitata solo per gli utenti plus.\nComprare User Plus.</string>
 
-    <string name="m_no_conneccion_request">Siamo spiacenti, non si dispone dell'accesso a Internet.</string>
+    <string name="m_no_conneccion_request">Siamo spiacenti, non si dispone dell´accesso a Internet.</string>
 
     <string name="m_error_pdf">Questa società non dispone di un PDF.</string>
 
@@ -173,9 +173,9 @@
     <string name="cancelar">Annullare</string>
     <string name="empresarial">affari</string>
     <string name="terminos_y_condiciones">Lei accetta i termini e le condizioni e le politiche di acquisto</string>
-    <string name="termino_error">È necessario accettare i termini e le condizioni per procedere con l'acquisto</string>
+    <string name="termino_error">È necessario accettare i termini e le condizioni per procedere con l´acquisto</string>
     <string name="escoge_tipo_plus">È necessario scegliere un tipo di piano</string>
-    <string name="genera_compra_plus">L'elaborazione di acquisto..</string>
+    <string name="genera_compra_plus">L´elaborazione di acquisto..</string>
 
     <array name="sectores_empresariales">
         <item>Agroalimentare</item>
