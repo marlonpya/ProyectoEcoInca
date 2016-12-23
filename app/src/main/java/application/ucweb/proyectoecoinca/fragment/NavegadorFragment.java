@@ -4,6 +4,7 @@ package application.ucweb.proyectoecoinca.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.camera2.params.Face;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import java.util.List;
 import application.ucweb.proyectoecoinca.InicioActivity;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.adapter.NavegadorAdapter;
+import application.ucweb.proyectoecoinca.apis.FacebookA;
 import application.ucweb.proyectoecoinca.apis.LinkedinA;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
@@ -108,10 +110,10 @@ public class NavegadorFragment extends Fragment {
                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                if (AccessToken.getCurrentAccessToken() != null) {
-                                    LoginManager.getInstance().logOut();
+                                if (FacebookA.iniciado()) {
+                                    FacebookA.cerrarSesion();
                                 } else if(LinkedinA.iniciado(getContext())){
-                                    LISessionManager.getInstance(getContext()).clearSession();
+                                    LinkedinA.cerrarSesion(getContext());
                                 }
                                 RealmHelper.limpiarSesion();
                                 Intent intent = new Intent(getActivity(), InicioActivity.class);
@@ -217,7 +219,7 @@ public class NavegadorFragment extends Fragment {
     }
 
     private void sesion() {
-        BaseActivity.usarGlideCircular(getContext(), Usuario.getUsuario().getImagen_empresa(), icono_empresa);
+        if (Usuario.getUsuario().getImagen_empresa() != null) BaseActivity.usarGlideCircular(getContext(), Usuario.getUsuario().getImagen_empresa(), icono_empresa);
         nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
         switch (Usuario.getUsuario().getTipo_empresa()) {
             case Empresa.N_VENDEDOR : tipo_empresa.setText(R.string.vendedor); break;

@@ -181,6 +181,9 @@
     <string name="m_plus_error">Verify your card details</string>
 
     <string name="terminos_y_condiciones_texto" >Our terms and conditions</string>
+    <string name="regla_imagenes">Images smaller than 1025px are recommended (width and height)</string>
+    <string name="correo_invalido">The email entered is not valid</string>
+    <string name="se_requiere_correo">Authorization required email</string>
 
     <array name="sectores_empresariales">
         <item>Agroindustry</item>

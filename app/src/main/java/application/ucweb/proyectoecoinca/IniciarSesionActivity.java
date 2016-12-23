@@ -15,6 +15,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -24,6 +25,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.AccessToken;
 import com.linkedin.platform.DeepLinkHelper;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIApiError;
@@ -39,9 +41,14 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import application.ucweb.proyectoecoinca.apis.FacebookA;
+import application.ucweb.proyectoecoinca.apis.LinkedinA;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Usuario;
@@ -51,6 +58,7 @@ import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
+import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -59,11 +67,10 @@ public class IniciarSesionActivity extends BaseActivity {
     @BindView(R.id.btnLinkedin) Button btnLinkedin;
     @BindView(R.id.iv_fondo_iniciar_sesion) ImageView fondo;
     @BindView(R.id.btnFacebook) LoginButton loginButton;
-    private CallbackManager callbackManager;
     @BindView(R.id.layout_iniciar_sesion) RelativeLayout layout;
-
     @BindView(R.id.tv_usuario_iniciar_sesion) EditText tv_usuario;
     @BindView(R.id.tv_contrasenia_iniciar_sesion) EditText tv_contrasenia;
+    private CallbackManager callbackManager;
     private ProgressDialog pDialog;
     private Preferencia preferencia;
 
@@ -76,8 +83,20 @@ public class IniciarSesionActivity extends BaseActivity {
         preferencia = new Preferencia(this);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (FacebookA.iniciado()) {
+            Log.d(TAG, String.valueOf(com.facebook.AccessToken.getCurrentAccessToken().getDeclinedPermissions()));
+        }
+        /*if (LinkedinA.iniciado(this))
+            startActivity(new Intent(this, PrincipalActivity.class)
+            .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));*/
+    }
+
     @OnClick(R.id.btnFacebook)
     public void iniciarSesionFB() {
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -85,27 +104,30 @@ public class IniciarSesionActivity extends BaseActivity {
                     @Override
                     public void onCompleted(JSONObject object, GraphResponse response) {
                         obtenerDatos(object);
+                        Log.d(TAG, object.toString());
                     }
                 });
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location"); // Parámetros que pedimos a facebook
                 graphRequest.setParameters(parameters);
                 graphRequest.executeAsync();
-                Intent intent = new Intent(IniciarSesionActivity.this, PrincipalActivity.class);
+                Log.d(TAG, parameters.toString());
+                /*Intent intent = new Intent(IniciarSesionActivity.this, PrincipalActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                startActivity(intent);*/
             }
 
             @Override
             public void onCancel() { }
 
             @Override
-            public void onError(FacebookException error) { }
+            public void onError(FacebookException error) { Log.e(TAG, error.toString()); }
         });
     }
 
     @OnClick(R.id.btnLinkedin)
     public void iniciarSesionLINKEDIN() {
+        Configuracion.generateHashkey(this);
         LISessionManager.getInstance(getApplicationContext()).init(this, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {
@@ -119,7 +141,7 @@ public class IniciarSesionActivity extends BaseActivity {
         }, true);
     }
 
-    private void obtenerDatos( JSONObject object) {
+    private void obtenerDatos(JSONObject object) {
         String id_fb = "";
         String foto = "";
         String nombre = "";
@@ -149,9 +171,11 @@ public class IniciarSesionActivity extends BaseActivity {
         Log.d(TAG, apellido);
         Log.d(TAG, email);
 
-        Intent intent = new Intent(this, PrincipalActivity.class);
+        /*Intent intent = new Intent(this, PrincipalActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        startActivity(intent);*/
+        if (!email.isEmpty()) { requestIniciarSesionRedSocial(email, nombre, apellido,Constantes.FACEBOOK); }
+        else { Toast.makeText(this, R.string.se_requiere_correo, Toast.LENGTH_LONG).show(); FacebookA.cerrarSesion();}
     }
 
     @Override
@@ -170,6 +194,105 @@ public class IniciarSesionActivity extends BaseActivity {
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
         }
+    }
+
+    private void requestIniciarSesionRedSocial(final String email, final String nombre_contacto,final String apellido_contacto ,final String red_social) {
+        showDialog(pDialog);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.URL_INICIAR_SESION_2,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        Log.d(TAG, s);
+                        try {
+                            JSONObject jUsuario = new JSONObject(s);
+                            if (jUsuario.getBoolean("status")) {
+                                JSONObject jData = jUsuario.getJSONObject("data");
+
+                                JSONObject jEmpresa = jData.getJSONObject("empresa");
+                                JSONArray jSector_Industrial = jData.getJSONArray("sector_industrial");
+                                JSONArray jProducto = jData.getJSONArray("producto");
+                                JSONArray jCertificado = jData.getJSONArray("certificado");
+                                Log.d(TAG, "jEmpresa_" + jEmpresa.toString());
+                                Log.d(TAG, "jSector_Industrial" + jSector_Industrial.toString());
+                                Log.d(TAG, "jProducto" + jProducto.toString());
+                                Log.d(TAG, "jCertificado" + jCertificado.toString());
+                                Usuario usuario = new Usuario();
+                                usuario.setId_empresa(jEmpresa.getInt("EMP_ID"));
+                                usuario.setTipo_empresa(jEmpresa.getInt("EMP_TIPO"));
+                                usuario.setImagen_empresa(jEmpresa.getString("EMP_IMAGEN"));
+                                usuario.setNombre_empresa(jEmpresa.getString("EMP_NOMBRE"));
+                                usuario.setPais(jEmpresa.getString("EMP_PAIS"));
+                                usuario.setCiudad(jEmpresa.getString("EMP_CIUDAD"));
+                                usuario.setEmail_empresa(jEmpresa.getString("EMP_EMAIL"));
+                                usuario.setAnio_fundacion(jEmpresa.getString("EMP_ANIO_FUNDACION"));
+                                usuario.setDescripcion(jEmpresa.getString("EMP_DESCRIPCION"));
+                                usuario.setNombre_contacto(jEmpresa.getString("CON_NOMBRE"));
+                                usuario.setApellido_contacto(jEmpresa.getString("CON_APELLIDO"));
+                                usuario.setCargo_contacto(jEmpresa.getString("CON_CARGO"));
+                                usuario.setTelefono(jEmpresa.getString("CON_TELEFONO"));
+                                usuario.setCelular(jEmpresa.getString("CON_CELULAR"));
+                                usuario.setEmail_contacto(jEmpresa.getString("CON_EMAIL"));
+                                usuario.setWeb(jEmpresa.getString("CON_WEB_SITE"));
+                                usuario.setLinkedin(jEmpresa.getString("CON_LINKED_IN"));
+                                usuario.setPlus(jEmpresa.getInt("EMP_TIPO_PLUS") == 1);
+                                usuario.setCantidad_busqueda(jEmpresa.getInt("EMP_BUSQUEDA"));
+                                Usuario.iniciarSesion(usuario);
+
+                                UsuarioCertificacion.limpiarCertificacion();
+                                for (int i = 0; i < jCertificado.length();i ++) {
+                                    UsuarioCertificacion.crearCertificacion(jCertificado.getJSONObject(i).getString("CER_NOMBRE"));
+                                }
+
+                                UsuarioProducto.limpiarProductos();
+                                for (int i = 0; i < jProducto.length(); i++) {
+                                    UsuarioProducto.crearProducto(jProducto.getJSONObject(i).getString("PRO_NOMBRE"));
+                                }
+
+                                UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
+                                for (int i = 0; i < jSector_Industrial.length(); i++) {
+                                    UsuarioSectorEmpresarial.crearSectorEmpresarial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
+                                }
+                                hidepDialog(pDialog);
+                                startActivity(new Intent(IniciarSesionActivity.this, PrincipalActivity.class)
+                                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                            } else {
+                                hidepDialog(pDialog);
+                                startActivity(new Intent(IniciarSesionActivity.this, RegistroActivity.class)
+                                .putExtra(Constantes.B_RED_SOCIAL_INICIAR_SESION, true)
+                                .putExtra(Constantes.S_EMAIL_INICIAR_SESION, email)
+                                .putExtra(Constantes.S_NOMBRE_INICIAR_SESION, nombre_contacto)
+                                .putExtra(Constantes.S_APE_INICIAR_SESION, apellido_contacto));
+                            }
+                            Log.d(TAG, jUsuario.toString());
+                        } catch (JSONException e) {
+                            hidepDialog(pDialog);
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        VolleyLog.e(volleyError.toString());
+                        hidepDialog(pDialog);
+                        if (ConexionBroadcastReceiver.isConnected()) requestIniciarSesionRedSocial(email, nombre_contacto, apellido_contacto, red_social);
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("email", email);
+                params.put("dispositivo", "android");
+                params.put("redsocial", red_social);
+                params.put("token", preferencia.getTokenFcm());
+                return params;
+            }
+        };
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
     private void requestIniciarSesion(EditText tv_usuario, EditText tv_contrasenia) {
@@ -270,11 +393,15 @@ public class IniciarSesionActivity extends BaseActivity {
 
     private boolean validarIniciarSesion(EditText tv_usuario, EditText tv_contrasenia) {
         boolean resultado = false;
+        boolean resultado_contra = true;
+        Pattern pattern = Pattern.compile(Util.EMAIL_PATTERN);
+        Matcher matcher = pattern.matcher(tv_usuario.getText().toString().trim());
         String txtUsuario = tv_usuario.getText().toString().trim();
         String txtContrasenia = tv_contrasenia.getText().toString().trim();
         if (!txtUsuario.isEmpty() || !txtContrasenia.isEmpty()) resultado = true;
         else Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show();
-        return resultado;
+        if (!matcher.matches()) { Toast.makeText(this, R.string.correo_invalido, Toast.LENGTH_LONG).show(); resultado_contra = false; }
+        return resultado && resultado_contra;
     }
 
     private void iniciarLayout() {
@@ -292,24 +419,32 @@ public class IniciarSesionActivity extends BaseActivity {
 
     private void getPerfilLinkedin() {
         APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
-        apiHelper.getRequest(this, Constantes.FETCH_BASIC_INFO, new ApiListener() {
+        apiHelper.getRequest(this, Constantes.FETCH_ALL, new ApiListener() {
             @Override
             public void onApiSuccess(ApiResponse s) {
                 try {
                     JSONObject object = s.getResponseDataAsJson();
                     Log.d(TAG, object.toString());
-                    Intent intent = new Intent(IniciarSesionActivity.this, PrincipalActivity.class);
+                    String emailAddress = "";
+                    String firstName = "";
+                    String lastName = "";
+                    if (object.has("emailAddress")) emailAddress = object.getString("emailAddress");
+                    if (object.has("firstName")) firstName = object.getString("firstName");
+                    if (object.has("lastName")) lastName = object.getString("lastName");
+
+                    if (!emailAddress.isEmpty()) { requestIniciarSesionRedSocial(emailAddress, firstName, lastName,Constantes.FACEBOOK); }
+                    else { Toast.makeText(IniciarSesionActivity.this, R.string.se_requiere_correo, Toast.LENGTH_LONG).show(); LinkedinA.cerrarSesion(IniciarSesionActivity.this);}
+
+                    /*Intent intent = new Intent(IniciarSesionActivity.this, PrincipalActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 } catch (Exception e) {
                     Log.d(TAG, e.toString());
                 }
             }
 
             @Override
-            public void onApiError(LIApiError error) {
-                Log.d(TAG, "getPerfilLinkedin"+ error.toString());
-            }
+            public void onApiError(LIApiError error) {Log.d(TAG, "getPerfilLinkedin"+ error.toString(), error); }
         });
     }
 }

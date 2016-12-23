@@ -177,6 +177,13 @@
     <string name="escoge_tipo_plus">Debe escoge un tipo de plan</string>
     <string name="genera_compra_plus">Procesando compra..</string>
 
+    <string name="m_plus_ok">Su compra de usuario plus fue hecha correctamente</string>
+    <string name="m_plus_error">Verifique sus datos de tarjeta</string>
+
+    <string name="terminos_y_condiciones_texto" >Nuestros términos y condiciones</string>
+    <string name="regla_imagenes">Se recomienda imágenes menores de 1025px (ancho y alto)</string>
+    <string name="se_requiere_correo">Se requiere autorizar email</string>
+
     <array name="certificaciones">
         <item>BPM</item>
         <item>BRC</item>

@@ -41,7 +41,7 @@ import butterknife.BindView;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
-public class ComprarPlusActivity extends BaseActivity {
+ public class ComprarPlusActivity extends BaseActivity {
     public static final String TAG = ComprarPlusActivity.class.getSimpleName();
     @BindView(R.id.activity_comprar_plus) LinearLayout layout;
     @BindView(R.id.toolbar_principal) Toolbar toolbar;
@@ -80,14 +80,14 @@ public class ComprarPlusActivity extends BaseActivity {
             case 2 : tv_tipo_plus.setText(PAGO2); break;
             case 3 : tv_tipo_plus.setText(PAGO3); break;
         }
-        direccion = Usuario.getUsuario().getPais();
-        ciudad = Usuario.getUsuario().getCiudad();
-        id_empresa = (int) Usuario.getUsuario().getId_empresa();
-        telefono = Usuario.getUsuario().getCelular();
-        empresa = Usuario.getUsuario().getNombre_empresa();
-        nombre = Usuario.getUsuario().getNombre_contacto();
-        apellido = Usuario.getUsuario().getApellido_contacto();
-        correo = Usuario.getUsuario().getEmail_contacto();
+        direccion   = Usuario.getUsuario().getPais();
+        ciudad      = Usuario.getUsuario().getCiudad();
+        id_empresa  = Usuario.getUsuario().getId_empresa();
+        telefono    = Usuario.getUsuario().getCelular();
+        empresa     = Usuario.getUsuario().getNombre_empresa();
+        nombre      = Usuario.getUsuario().getNombre_contacto();
+        apellido    = Usuario.getUsuario().getApellido_contacto();
+        correo      = Usuario.getUsuario().getEmail_contacto();
         tv_nombre.setText(empresa);
         tv_correo.setText(correo);
         tv_direccion.setText(direccion);

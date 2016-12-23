@@ -177,6 +177,14 @@
     <string name="escoge_tipo_plus">È necessario scegliere un tipo di piano</string>
     <string name="genera_compra_plus">L´elaborazione di acquisto..</string>
 
+    <string name="m_plus_ok">Inoltre l´acquisto utente è stato fatto correttamente</string>
+    <string name="m_plus_error">Controllare i dati della carta</string>
+
+    <string name="terminos_y_condiciones_texto" >I nostri termini e condizioni</string>
+    <string name="regla_imagenes">immagini sotto 1025px (larghezza e altezza) è raccomandato</string>
+    <string name="correo_invalido">L´e-mail inserito non è valido</string>
+    <string name="se_requiere_correo">E ´richiesto di autorizzare l´e-mail</string>
+
     <array name="sectores_empresariales">
         <item>Agroalimentare</item>
         <item>Prodotti alimentari e bevande</item>

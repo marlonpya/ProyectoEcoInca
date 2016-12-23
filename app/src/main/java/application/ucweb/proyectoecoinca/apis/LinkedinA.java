@@ -16,4 +16,8 @@ public class LinkedinA {
         return session.isValid();
     }
 
+    public static void cerrarSesion(Context context) {
+        LISessionManager.getInstance(context).clearSession();
+    }
+
 }

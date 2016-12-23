@@ -61,12 +61,12 @@ public class Configuracion extends Application {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
 
-                Log.w("Hash key", "" + Base64.encodeToString(md.digest(), Base64.NO_WRAP));
+                Log.d("Hash key", "" + Base64.encodeToString(md.digest(), Base64.NO_WRAP));
             }
         } catch (PackageManager.NameNotFoundException e) {
-            Log.d(TAG, e.getMessage(), e);
+            Log.e(TAG, e.getMessage(), e);
         } catch (NoSuchAlgorithmException e) {
-            Log.d(TAG, e.getMessage(), e);
+            Log.e(TAG, e.getMessage(), e);
         }
     }
 

@@ -47,6 +47,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import application.ucweb.proyectoecoinca.apis.FacebookA;
+import application.ucweb.proyectoecoinca.apis.LinkedinA;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
@@ -110,6 +112,7 @@ public class RegistroActivity extends BaseActivity {
     private String imagen_base = "";
     private int id_fk;
     private Realm realm;
+    private boolean red_social;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,19 +121,27 @@ public class RegistroActivity extends BaseActivity {
         iniciarLayout();
         realm = Realm.getDefaultInstance();
         preferencia = new Preferencia(this);
+        red_social = getIntent().getBooleanExtra(Constantes.B_RED_SOCIAL_INICIAR_SESION, false);
 
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
 
         id_fk = BuscarDetalle.getIdPaisDefecto();
+        if (red_social) {
+            String nombre = getIntent().getStringExtra(Constantes.S_NOMBRE_INICIAR_SESION);
+            String email = getIntent().getStringExtra(Constantes.S_EMAIL_INICIAR_SESION);
+            String apellido = getIntent().getStringExtra(Constantes.S_APE_INICIAR_SESION);
+            et_email.setText(email);
+            et_email.setEnabled(false);
+            et_nombre_contacto_registro.setText(nombre);
+            et_apellido.setText(apellido);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
         generarMarcados(et_sec_empresarial, BuscarDetalle.TIPO_EMPRESARIAL);
@@ -188,11 +199,11 @@ public class RegistroActivity extends BaseActivity {
             int alto = fotobitmap.getWidth();
             int ancho = fotobitmap.getHeight();
             Log.d(TAG, "alto ="+String.valueOf(alto) + "ancho= "+String.valueOf(ancho));
-            if (alto > 500 || ancho > 500) {
+            if (alto > 1025 || ancho > 1025) {
                 imagen_base = "";
                 texto_subir_logo.setText(R.string.subir_logo);
                 imagen_subir.setImageResource(0);
-                Toast.makeText(getApplicationContext(), "Se recomienda imágenes menores de 500px (ancho y alto)", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.regla_imagenes), Toast.LENGTH_LONG).show();
             } else {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 fotobitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
@@ -475,6 +486,15 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
+        if (FacebookA.iniciado()) FacebookA.cerrarSesion();
+        if (LinkedinA.iniciado(this)) LinkedinA.cerrarSesion(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (FacebookA.iniciado()) FacebookA.cerrarSesion();
+        if (LinkedinA.iniciado(this)) LinkedinA.cerrarSesion(this);
     }
 }
 

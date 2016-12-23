@@ -42,7 +42,6 @@ import java.util.List;
  */
 public class LISessionManager {
 
-
     private static final String TAG = LISessionManager.class.getSimpleName();
     private static final int LI_SDK_AUTH_REQUEST_CODE = 3672;
     private static final String AUTH_TOKEN = "token";
