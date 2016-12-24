@@ -10,12 +10,15 @@ import android.support.v4.view.ViewPager;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
@@ -30,6 +33,7 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Buscar;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.model.Usuario;
+import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -40,6 +44,7 @@ public class InicioActivity extends BaseActivity {
     @BindView(R.id.vp_inicio) ViewPager viewPager;
     @BindView(R.id.llhtml) LinearLayout linearLayout;
     @BindView(R.id.tv_registrarse_inicio) TextView texto;
+    @BindView(R.id.layout_activity_inicio) RelativeLayout layout;
     private ProgressDialog pDialog;
 
     private LayoutInflater inflater;
@@ -63,13 +68,14 @@ public class InicioActivity extends BaseActivity {
         viewPager.addOnPageChangeListener(listener);
 
         //INICIAR DATOS DE BD REALM !!!!!!!
-        if(BuscarDetalle.getUltimoId() == 0 ) {
+        /*if(BuscarDetalle.getUltimoId() == 0 ) {
             BuscarDetalle.cargarPais();
-        } //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:
+        } //SESION PARA DESARROLLO, NO TE OLVIDES DE BORRARLO D:*/
 
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
         verificarSesion();
+        requestPais(pDialog, this, layout);
     }
 
     private void iniciarPDialog() {
@@ -123,7 +129,7 @@ public class InicioActivity extends BaseActivity {
      */
     private void verificarSesion() {
         boolean sesion = false;
-        if (Usuario.getUsuario() != null) { sesion = Usuario.getUsuario().isSesion(); }
+        if (Usuario.getUsuario() != null) sesion = Usuario.getUsuario().isSesion();
         if (FacebookA.iniciado() || LinkedinA.iniciado(this) || sesion) {
             Intent intent = new Intent(this, PrincipalActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -131,7 +137,7 @@ public class InicioActivity extends BaseActivity {
         }
     }
 
-    private void requestPaisDepartamentos() {
+    /*private void requestPaisDepartamentos() {
         hidepDialog(pDialog);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
@@ -179,5 +185,44 @@ public class InicioActivity extends BaseActivity {
                 }
         );
         Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }*/
+
+    public static void requestPais(final ProgressDialog pDialog, Context context, View layout) {
+        final Realm realm = Realm.getDefaultInstance();
+        if (realm.where(BuscarDetalle.class).equalTo(BuscarDetalle.BUSDET_TIPO, BuscarDetalle.TIPO_PAIS).findAll().isEmpty()) {
+            if (ConexionBroadcastReceiver.isConnected()) {
+                showDialog(pDialog);
+                final StringRequest request = new StringRequest(
+                        Request.Method.POST,
+                        Constantes.URL_PAISES,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String s) {
+                                Log.d(TAG, s);
+                                try {
+                                    JSONObject jsonObject = new JSONObject(s);
+                                    JSONArray jData = jsonObject.getJSONArray("data");
+                                    for (int i = 0; i < jData.length(); i++) {
+                                        BuscarDetalle.cargarPais(jData.getJSONObject(i).getString("name"), jData.getJSONObject(i).getString("code"));
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                hidepDialog(pDialog);
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError volleyError) {
+                                hidepDialog(pDialog);
+                                VolleyLog.e(volleyError.toString());
+                            }
+                        }
+                );
+                Configuracion.getInstance().addToRequestQueue(request, TAG);
+            } else { ConexionBroadcastReceiver.showSnack(layout, context); }
+
+            realm.close();
+        }
     }
 }

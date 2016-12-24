@@ -164,6 +164,7 @@ import butterknife.OnClick;
         Log.d(TAG, String.valueOf(m_exp));
         Log.d(TAG, String.valueOf(a_exp));
         showDialog(pDialog);
+
         Map<String, Object> jCarta = new HashMap<>();
         jCarta.put("correo_electronico", correo_electronico);
         jCarta.put("nombre", nombre);
@@ -173,6 +174,7 @@ import butterknife.OnClick;
         jCarta.put("m_exp", m_exp);
         jCarta.put("a_exp", a_exp);
         jCarta.put("guardar", true);
+
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 "https://integ-pago.culqi.com/api/v1/tokens",

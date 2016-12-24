@@ -12,6 +12,8 @@ public class Constantes {
     public static final String URL_ACTUALIZAR_EMPRESA   = "http://uc-web.mobi/LIAISON/api-rest/actualizarUsuario";
     public static final String URL_BUSQUEDA_SIMPLE      = "http://uc-web.mobi/LIAISON/api-rest/buscar";
     public static final String URL_VAMOS_AL_NEGOCIO     = "http://uc-web.mobi/LIAISON/api-rest/negociosmatch";
+    public static final String URL_PAISES               = "http://uc-web.mobi/LIAISON/api-rest/Paises";
+    public static final String URL_DEPARTAMENTOS        = "http://uc-web.mobi/LIAISON/api-rest/Regions";
 
     public static final String URL_CONTACTOS            = "";
     public static final String URL_MIS_SEGUIDORES       = "http://uc-web.mobi/LIAISON/api-rest/negocios";

@@ -21,6 +21,7 @@ public class BuscarDetalle extends RealmObject {
     public static final String BUSDET_TIPO              = "tipo";
     public static final String BUSDET_SELECCIONADO      = "seleccionado";
     public static final String BUSDET_DEPARTAMENTO_FK   = "departamento_fk";
+    public static final String ID_SERVER                = "id_server";
 
     public static final boolean SELECCIONADO        = true;
     public static final int TIPO_PAIS               = 1;
@@ -31,9 +32,10 @@ public class BuscarDetalle extends RealmObject {
     @PrimaryKey
     private long id;
     private String descripcion;
+    private String id_server;
     private int tipo;
     private boolean seleccionado;
-    private int departamento_fk;
+    private String departamento_fk;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -42,17 +44,34 @@ public class BuscarDetalle extends RealmObject {
     }
 
     //TIPO_PAIS 1 ; CIUDAD; 2; PRODUCTOS 3; EMPRESARIAL 4; CERTIFICACIONES 5;
-    public static void cargarPais(String pais) {
+    public static void cargarPais(String pais, String id_server) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         BuscarDetalle item = realm.createObject(BuscarDetalle.class);
         item.setId(getUltimoId());
+        item.setId_server(id_server);
         item.setDescripcion(pais.toUpperCase());
         item.setTipo(TIPO_PAIS);
         item.setSeleccionado(false);
         realm.copyToRealm(item);
         realm.commitTransaction();
         Log.d(TAG, item.toString());
+
+        realm.close();
+    }
+
+    public static void cargarDepartamento(String nombre, String id_foranea) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        BuscarDetalle departamento = realm.createObject(BuscarDetalle.class);
+        departamento.setId(getUltimoId());
+        departamento.setDescripcion(nombre.toUpperCase());
+        departamento.setTipo(TIPO_DEPARTAMENTO);
+        departamento.setSeleccionado(false);
+        departamento.setDepartamento_fk(id_foranea);
+        realm.copyToRealm(departamento);
+        realm.commitTransaction();
+        Log.d(TAG, departamento.toString());
 
         realm.close();
     }
@@ -238,11 +257,19 @@ public class BuscarDetalle extends RealmObject {
         this.seleccionado = seleccionado;
     }
 
-    public int getDepartamento_fk() {
+    public String getDepartamento_fk() {
         return departamento_fk;
     }
 
-    public void setDepartamento_fk(int departamento_fk) {
+    public void setDepartamento_fk(String departamento_fk) {
         this.departamento_fk = departamento_fk;
+    }
+
+    public String getId_server() {
+        return id_server;
+    }
+
+    public void setId_server(String id_server) {
+        this.id_server = id_server;
     }
 }

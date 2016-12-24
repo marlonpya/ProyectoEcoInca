@@ -184,6 +184,7 @@
     <string name="regla_imagenes">Images smaller than 1025px are recommended (width and height)</string>
     <string name="correo_invalido">The email entered is not valid</string>
     <string name="se_requiere_correo">Authorization required email</string>
+    <string name="permiso_imagen">Permission is required to import image</string>
 
     <array name="sectores_empresariales">
         <item>Agroindustry</item>

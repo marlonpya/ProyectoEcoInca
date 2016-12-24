@@ -183,6 +183,7 @@
     <string name="terminos_y_condiciones_texto" >Nuestros términos y condiciones</string>
     <string name="regla_imagenes">Se recomienda imágenes menores de 1025px (ancho y alto)</string>
     <string name="se_requiere_correo">Se requiere autorizar email</string>
+    <string name="permiso_imagen">Se requiere permiso para importar imagen</string>
 
     <array name="certificaciones">
         <item>BPM</item>

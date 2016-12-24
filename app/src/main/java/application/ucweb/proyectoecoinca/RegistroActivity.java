@@ -1,5 +1,7 @@
 package application.ucweb.proyectoecoinca;
 
+import android.*;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,7 +24,6 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,8 +43,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +54,7 @@ import application.ucweb.proyectoecoinca.apis.FacebookA;
 import application.ucweb.proyectoecoinca.apis.LinkedinA;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
+import application.ucweb.proyectoecoinca.model.Buscar;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
@@ -105,12 +109,14 @@ public class RegistroActivity extends BaseActivity {
     @BindDrawable(R.drawable.icono_ambos_registro_opaco) Drawable drw_ambos_opaco;
     @BindView(R.id.textView2) TextView texto_subir_logo;
     @BindColor(R.color.celeste) int CELESTE;
+    private static final int REQUEST_WRITE_STORAGE = 112;
+    public static final int WRITE_PERMISSION = 0x01;
     private ProgressDialog pDialog;
     private Preferencia preferencia;
     private static int VALOR = 1;
     private int TIPO_EMPRESA = -1;
     private String imagen_base = "";
-    private int id_fk;
+    private String codigo = "";
     private Realm realm;
     private boolean red_social;
 
@@ -127,7 +133,7 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
 
-        id_fk = BuscarDetalle.getIdPaisDefecto();
+        //id_fk = BuscarDetalle.getIdPaisDefecto();
         if (red_social) {
             String nombre = getIntent().getStringExtra(Constantes.S_NOMBRE_INICIAR_SESION);
             String email = getIntent().getStringExtra(Constantes.S_EMAIL_INICIAR_SESION);
@@ -142,6 +148,7 @@ public class RegistroActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        InicioActivity.requestPais(pDialog, this, layout);
         BuscarDetalle.cargarEmpresarial(this);
         BuscarDetalle.cargarCertificaciones(this);
         generarMarcados(et_sec_empresarial, BuscarDetalle.TIPO_EMPRESARIAL);
@@ -155,10 +162,53 @@ public class RegistroActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mEditText.getText().length() > 0) { titulo_producto.setTextColor(CELESTE); }
-                else { titulo_producto.setTextColor(Color.parseColor("#FF808080")); }
+                if (mEditText.getText().length() > 0) titulo_producto.setTextColor(CELESTE);
+                else titulo_producto.setTextColor(Color.parseColor("#FF808080"));
             }
         });
+
+    }
+
+    private void requestDepartamento(final String codigo_pais) {
+        Log.d(TAG, codigo_pais);
+        if (ConexionBroadcastReceiver.isConnected()) {
+            showDialog(pDialog);
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    Constantes.URL_DEPARTAMENTOS,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            Log.d(TAG, s);
+                            try {
+                                JSONObject jsonObject = new JSONObject(s);
+                                JSONArray jData = jsonObject.getJSONArray("data");
+                                for (int i = 0; i < jData.length(); i++) {
+                                    BuscarDetalle.cargarDepartamento(jData.getJSONObject(i).getString("name"), codigo_pais);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            hidepDialog(pDialog);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            VolleyLog.e(volleyError.toString());
+                            hidepDialog(pDialog);
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("idcountries", codigo_pais);
+                    return params;
+                }
+            };
+            Configuracion.getInstance().addToRequestQueue(request, TAG);
+        } else ConexionBroadcastReceiver.showSnack(layout, this);
     }
 
     @OnClick(R.id.btnSiguienteRegistro)
@@ -172,8 +222,21 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.fabRegistroAgregarImagen)
     public void agregarImagen() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, VALOR);
+        /*if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, VALOR);
+            } else {
+                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_WRITE_STORAGE);
+            }
+        }*/
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
+        } else {
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, VALOR);
+        }
     }
 
     @OnClick(R.id.btnSectorEmpresarial)
@@ -189,46 +252,69 @@ public class RegistroActivity extends BaseActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_PERMISSION) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, R.string.permiso_imagen, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == VALOR && resultCode == RESULT_OK && data !=null) {
+        if (requestCode == VALOR && resultCode == RESULT_OK && data != null) {
             Uri imagen_selecionada = data.getData();
             String mi_path = Util.getPath(imagen_selecionada, getApplicationContext());
+            Log.d(TAG, mi_path);
             Bitmap fotobitmap = BitmapFactory.decodeFile(mi_path);
+            if (fotobitmap != null) {
+                int alto = fotobitmap.getWidth();
+                int ancho = fotobitmap.getHeight();
+                Log.d(TAG, "alto =" + String.valueOf(alto) + "ancho= " + String.valueOf(ancho));
+                if (alto > 1025 || ancho > 1025) {
+                    imagen_base = "";
+                    texto_subir_logo.setText(R.string.subir_logo);
+                    imagen_subir.setImageResource(0);
+                    Toast.makeText(getApplicationContext(), getString(R.string.regla_imagenes), Toast.LENGTH_LONG).show();
+                } else {
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    fotobitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    fotobitmap.recycle();
+                    byte[] bytes_local = outputStream.toByteArray();
+                    String imagen_encode = Base64.encodeToString(bytes_local, Base64.DEFAULT);
+                    Log.d(TAG, "imagen_encode\n" + imagen_encode);
+                    imagen_subir.setImageURI(imagen_selecionada);
+                    texto_subir_logo.setText("");
 
-            int alto = fotobitmap.getWidth();
-            int ancho = fotobitmap.getHeight();
-            Log.d(TAG, "alto ="+String.valueOf(alto) + "ancho= "+String.valueOf(ancho));
-            if (alto > 1025 || ancho > 1025) {
-                imagen_base = "";
-                texto_subir_logo.setText(R.string.subir_logo);
-                imagen_subir.setImageResource(0);
-                Toast.makeText(getApplicationContext(), getString(R.string.regla_imagenes), Toast.LENGTH_LONG).show();
-            } else {
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                fotobitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                fotobitmap.recycle();
-                byte[] bytes_local = outputStream.toByteArray();
-                String imagen_encode = Base64.encodeToString(bytes_local, Base64.DEFAULT);
-                Log.d(TAG, "imagen_encode\n" + imagen_encode);
-                imagen_subir.setImageURI(imagen_selecionada);
-                texto_subir_logo.setText("");
-
-                imagen_base = imagen_encode;
+                    imagen_base = imagen_encode;
+                }
             }
         }
     }
 
     @OnClick(R.id.ll_btn__pais)
     public void dialogoPais() {
-
+        realm = Realm.getDefaultInstance();
+        final RealmResults<BuscarDetalle> paises = realm.where(BuscarDetalle.class).equalTo(BuscarDetalle.BUSDET_TIPO, BuscarDetalle.TIPO_PAIS).findAll();
+        final List<String> nombre_paises = new ArrayList<>();
+        for (int i = 0; i < paises.size(); i++) {
+            nombre_paises.add(paises.get(i).getDescripcion());
+        }
         new AlertDialog.Builder(this)
-                .setSingleChoiceItems(Constantes.getPaises(), -1, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(nombre_paises.toArray(new String[nombre_paises.size()]), -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        et_pais.setText(Constantes.getPaises()[which]);
-                        id_fk = which;
+                        et_pais.setText(nombre_paises.get(which));
+                        codigo = paises.get(which).getId_server();
                         dialog.dismiss();
+                        et_ciudad.setText("");
+                        if (realm.where(BuscarDetalle.class)
+                                .equalTo(BuscarDetalle.BUSDET_TIPO, BuscarDetalle.TIPO_DEPARTAMENTO)
+                                .equalTo(BuscarDetalle.BUSDET_DEPARTAMENTO_FK, codigo)
+                                .findFirst() == null)
+                            requestDepartamento(codigo);
                     }
                 })
                 .create()
@@ -237,16 +323,32 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.ll_btn_ciudad)
     public void dialogoCiudad() {
-        new AlertDialog.Builder(this)
-                .setSingleChoiceItems(Constantes.ARRAY_DEPARTAMENTOS, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        et_ciudad.setText(Constantes.ARRAY_DEPARTAMENTOS[which]);
-                        dialog.dismiss();
-                    }
-                })
-                .create()
-                .show();
+        realm = Realm.getDefaultInstance();
+        if (!realm.where(BuscarDetalle.class)
+                .equalTo(BuscarDetalle.BUSDET_TIPO, BuscarDetalle.TIPO_DEPARTAMENTO)
+                .equalTo(BuscarDetalle.BUSDET_DEPARTAMENTO_FK, codigo).findAll().isEmpty()) {
+
+            RealmResults<BuscarDetalle> departamentos = realm.where(BuscarDetalle.class)
+                    .equalTo(BuscarDetalle.BUSDET_TIPO, BuscarDetalle.TIPO_DEPARTAMENTO)
+                    .equalTo(BuscarDetalle.BUSDET_DEPARTAMENTO_FK, codigo).findAll();
+
+            final List<String> nombres_departamentos = new ArrayList<>();
+            for (int i = 0; i < departamentos.size(); i++) {
+                nombres_departamentos.add(departamentos.get(i).getDescripcion());
+            }
+            if (!codigo.isEmpty()) {
+                new AlertDialog.Builder(this)
+                        .setSingleChoiceItems(nombres_departamentos.toArray(new String[nombres_departamentos.size()]), -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                et_ciudad.setText(nombres_departamentos.get(which));
+                                dialog.dismiss();
+                            }
+                        })
+                        .create()
+                        .show();
+            }
+        }
     }
 
     private void iniciarLayout() {
@@ -254,7 +356,7 @@ public class RegistroActivity extends BaseActivity {
 
         pDialog = new ProgressDialog(this);
         pDialog.setCancelable(false);
-        pDialog.setMessage("Enviando..");
+        pDialog.setMessage(getString(R.string.m_actualizando));
         pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
     }
 
@@ -394,9 +496,10 @@ public class RegistroActivity extends BaseActivity {
                                 JSONObject jsonObject = new JSONObject(s);
                                 Log.d(TAG, jsonObject.toString());
                                 if (jsonObject.getBoolean("status")) {
-                                    Toast.makeText(getApplicationContext(), R.string.m_creado_true, Toast.LENGTH_LONG).show();
+                                    /*Toast.makeText(getApplicationContext(), R.string.m_creado_true, Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(RegistroActivity.this, IniciarSesionActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));*/
+                                    IniciarSesionActivity.requestIniciarSesion(et_email, et_contrasenia, pDialog, RegistroActivity.this, preferencia.getTokenFcm());
                                 } else {
                                     int codigo = jsonObject.getInt("codigo");
                                     mostrarMensaje(codigo);
@@ -486,8 +589,8 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
-        if (FacebookA.iniciado()) FacebookA.cerrarSesion();
-        if (LinkedinA.iniciado(this)) LinkedinA.cerrarSesion(this);
+        /*if (FacebookA.iniciado()) FacebookA.cerrarSesion();
+        if (LinkedinA.iniciado(this)) LinkedinA.cerrarSesion(this);*/
     }
 
     @Override

@@ -1,6 +1,7 @@
 package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -190,7 +191,7 @@ public class IniciarSesionActivity extends BaseActivity {
     @OnClick(R.id.btnIngresar)
     public void irAMenuPrincipal() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            if (validarIniciarSesion(tv_usuario, tv_contrasenia)) requestIniciarSesion(tv_usuario, tv_contrasenia);
+            if (validarIniciarSesion(tv_usuario, tv_contrasenia)) requestIniciarSesion(tv_usuario, tv_contrasenia, pDialog, this, preferencia.getTokenFcm());
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
         }
@@ -295,10 +296,11 @@ public class IniciarSesionActivity extends BaseActivity {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    private void requestIniciarSesion(EditText tv_usuario, EditText tv_contrasenia) {
+    public static void requestIniciarSesion(EditText tv_usuario, EditText tv_contrasenia, final ProgressDialog pDialog, final Context context, final String token) {
         final String txtUsuario = tv_usuario.getText().toString().trim();
         final String txtContrasenia = tv_contrasenia.getText().toString().trim();
         showDialog(pDialog);
+
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 Constantes.URL_INICIAR_SESION,
@@ -355,11 +357,11 @@ public class IniciarSesionActivity extends BaseActivity {
                                     UsuarioSectorEmpresarial.crearSectorEmpresarial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
                                 }
                                 hidepDialog(pDialog);
-                                startActivity(new Intent(IniciarSesionActivity.this, PrincipalActivity.class)
+                                context.startActivity(new Intent(context, PrincipalActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                             } else {
                                 hidepDialog(pDialog);
-                                new AlertDialog.Builder(IniciarSesionActivity.this)
+                                new AlertDialog.Builder(context)
                                         .setTitle(R.string.app_name)
                                         .setMessage(jUsuario.getString("message"))
                                         .setPositiveButton(R.string.aceptar, null)
@@ -384,7 +386,7 @@ public class IniciarSesionActivity extends BaseActivity {
                 params.put("email", txtUsuario);
                 params.put("contrasenia", txtContrasenia);
                 params.put("dispositivo", "android");
-                params.put("token", preferencia.getTokenFcm());
+                params.put("token", token);
                 return params;
             }
         };

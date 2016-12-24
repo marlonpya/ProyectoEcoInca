@@ -184,6 +184,7 @@
     <string name="regla_imagenes">immagini sotto 1025px (larghezza e altezza) è raccomandato</string>
     <string name="correo_invalido">L´e-mail inserito non è valido</string>
     <string name="se_requiere_correo">E ´richiesto di autorizzare l´e-mail</string>
+    <string name="permiso_imagen">Il permesso è richiesto per l´importazione di immagini</string>
 
     <array name="sectores_empresariales">
         <item>Agroalimentare</item>
