@@ -46,11 +46,19 @@
 
                     <ImageView
                         android:id="@+id/iv_imagen_empresa_mi_perfil"
+<<<<<<< HEAD
                         android:layout_width="87dp"
                         android:layout_height="87dp"
                         tools:background="@drawable/imagen_row_buscar_servicio"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"/>
+=======
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/icono_inicio" />
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
 
                 </RelativeLayout>
 

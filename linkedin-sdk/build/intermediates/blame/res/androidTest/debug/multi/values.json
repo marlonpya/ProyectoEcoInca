@@ -1,6 +1,10 @@
 [
     {
+<<<<<<< HEAD
         "outputFile": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+=======
+        "outputFile": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
         "map": [
             {
                 "to": {
@@ -11,7 +15,11 @@
                     "endOffset": 112
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
+                    "file": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +38,11 @@
                     "endOffset": 178
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
+                    "file": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +61,11 @@
                     "endOffset": 317
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
+                    "file": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +84,11 @@
                     "endOffset": 391
                 },
                 "from": {
+<<<<<<< HEAD
                     "file": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+=======
+                    "file": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,

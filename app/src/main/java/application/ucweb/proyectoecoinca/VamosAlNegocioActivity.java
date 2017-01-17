@@ -49,6 +49,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
         setContentView(R.layout.activity_vamos_al_negocio);
         iniciarLayout();
 
+<<<<<<< HEAD
         if(ConexionBroadcastReceiver.isConnected()) {
             if (Usuario.getUsuario().getTipo_empresa() != 2) {
                 requestMisSeguidores();
@@ -56,6 +57,9 @@ public class VamosAlNegocioActivity extends BaseActivity {
                 requestMisSeguidorestipo2();
             }
         }
+=======
+        if(ConexionBroadcastReceiver.isConnected()) requestMisSeguidores();
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
 
         tab_layout.addTab(tab_layout.newTab());
         tab_layout.addTab(tab_layout.newTab());
@@ -113,6 +117,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
         }
     }
 
+<<<<<<< HEAD
     private void requestMisSeguidorestipo2() {
         BaseActivity.showDialog(pDialog);
         StringRequest request = new StringRequest(
@@ -193,6 +198,8 @@ public class VamosAlNegocioActivity extends BaseActivity {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     private void setupTabLayout() {
         TextView customTab1 = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.textview_tab_fragment_perfil, null);
         TextView customTab2 = (TextView) LayoutInflater.from(getApplicationContext()).inflate(R.layout.textview_tab_fragment_perfil, null);
@@ -235,6 +242,10 @@ public class VamosAlNegocioActivity extends BaseActivity {
                             JSONArray jData = jsonObject.getJSONArray("data");
                             for (int i = 0; i < jData.length(); i++) {
                                 Empresa empresa = new Empresa();
+<<<<<<< HEAD
+=======
+                                empresa.setId(Empresa.getUltimoId());
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                                 /*int id_empresa = jData.getJSONObject(i).getInt("SEG_ID_SEGUIDOR") != Usuario.getUsuario().getId_empresa() ? jData.getJSONObject(i).getInt("SEG_ID_SEGUIDOR") : jData.getJSONObject(i).getInt("SEG_ID_SEGUIDO");
                                 int tipo_empresa = id_empresa*/
 

@@ -43,7 +43,11 @@ public class MisContactosActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_contactos);
         iniciarLayout();
+<<<<<<< HEAD
         requestContactos();
+=======
+
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
         iniciarRRV();
     }
 
@@ -53,7 +57,11 @@ public class MisContactosActivity extends BaseActivity {
         recyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
             @Override
             public void onRefresh() {
+<<<<<<< HEAD
                 requestContactos();
+=======
+
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
             }
         });
     }
@@ -69,6 +77,7 @@ public class MisContactosActivity extends BaseActivity {
                         Log.d(TAG, s);
                         try {
                             JSONObject jData = new JSONObject(s);
+<<<<<<< HEAD
                             if(jData.getBoolean("status")){
                                 JSONArray jArray = jData.getJSONArray("data");
                                 for (int i = 0; i < jArray.length(); i++) {
@@ -90,11 +99,33 @@ public class MisContactosActivity extends BaseActivity {
                                 adapter.notifyDataSetChanged();
                                 recyclerView.setRefreshing(false);
                             }
+=======
+                            JSONArray jArray = jData.getJSONArray("data");
+                            for (int i = 0; i < jArray.length(); i++) {
+                                Empresa empresa = new Empresa();
+                                empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
+                                empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
+                                empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
+                                empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
+                                empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
+                                empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
+                                empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
+                                empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
+                                empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+                                empresa.setTipo_match(Empresa.M_DESCONOCIDO);
+                                empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
+                                Empresa.registrarEmpresa(empresa);
+                            }
+                            recyclerView.setRefreshing(false);
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                         } catch (JSONException e) {
                             e.printStackTrace();
                             recyclerView.setRefreshing(false);
                         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     }
                 },
                 new Response.ErrorListener() {
@@ -108,8 +139,12 @@ public class MisContactosActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+<<<<<<< HEAD
                 params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
                 params.put("idtipo",String.valueOf(Usuario.getUsuario().getTipo_empresa()));
+=======
+                params.put("id_empresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                 return params;
             }
         };
@@ -124,8 +159,11 @@ public class MisContactosActivity extends BaseActivity {
         adapter = new MisContactosAdapter(this, lista_empresas, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+<<<<<<< HEAD
 
         Log.d(TAG, lista_empresas.toString());
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     }
 
     private void iniciarLayout() {

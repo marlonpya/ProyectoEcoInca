@@ -68,7 +68,11 @@
 
     <!-- ACTIVITY LISTA BUSCAR -->
     <string name="resultados_busqueda">Search results</string>
+<<<<<<< HEAD
     <string name="acerca">about</string>
+=======
+    <string name="acerca">About</string>
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     <string name="encontrados">results for your business</string>
 
     <!-- NAVEGADOR ACTIVITY PRINCIPAL -->
@@ -186,6 +190,7 @@
     <string name="se_requiere_correo">Authorization required email</string>
     <string name="permiso_imagen">Permission is required to import image</string>
 
+<<<<<<< HEAD
     <!-- Mensaje de dialogo Perfil -->
 
     <string name="descripcion_pop">Missing completing Description</string>
@@ -196,6 +201,8 @@
     <!--Terminos y condiciones -->
     <string name="terminos_y_condiciones_uso">terms and Conditions</string>
 
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     <array name="sectores_empresariales">
         <item>Agroindustry</item>
         <item>Food and drinks</item>

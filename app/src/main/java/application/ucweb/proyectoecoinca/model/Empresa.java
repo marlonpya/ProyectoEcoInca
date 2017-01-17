@@ -95,7 +95,11 @@ public class Empresa extends RealmObject{
         realm.beginTransaction();
         if (empresa == null) {
             Empresa emp_new = realm.createObject(Empresa.class);
+<<<<<<< HEAD
             emp_new.setId(Empresa.getUltimoId());
+=======
+            emp_new.setId(emp.getId());
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
             emp_new.setId_server(emp.getId_server());
             emp_new.setNombre(emp.getNombre());
             emp_new.setAnio_f(emp.getAnio_f());
@@ -152,6 +156,7 @@ public class Empresa extends RealmObject{
     public static void actualizarMatch(long id, int match) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
+<<<<<<< HEAD
         Empresa empresa = realm.where(Empresa.class).equalTo(ID_SERVER, id).findFirst();
         empresa.setTipo_match(match);
         realm.commitTransaction();
@@ -162,12 +167,18 @@ public class Empresa extends RealmObject{
 
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
         Empresa empresa = realm.where(Empresa.class).equalTo(ID, id).findFirst();
         empresa.setTipo_match(match);
         realm.commitTransaction();
         realm.close();
+<<<<<<< HEAD
 
     }*/
+=======
+    }
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
 
     public static void limpiarEmpresa() {
         Realm realm = Realm.getDefaultInstance();

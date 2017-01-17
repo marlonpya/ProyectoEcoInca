@@ -1,6 +1,11 @@
 [
     {
+<<<<<<< HEAD
         "merged": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
         "source": "C:\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+=======
+        "merged": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\ucweb02\\Documents\\GitHub\\ProyectoEcoInca\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_launcher.png"
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     }
 ]

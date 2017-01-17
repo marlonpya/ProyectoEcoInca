@@ -185,6 +185,7 @@
     <string name="se_requiere_correo">Se requiere autorizar email</string>
     <string name="permiso_imagen">Se requiere permiso para importar imagen</string>
 
+<<<<<<< HEAD
     <!-- Mensaje de dialogo Perfil -->
 
     <string name="descripcion_pop">Falta completar Descripción</string>
@@ -192,6 +193,8 @@
     <string name="web_pop">Falta completar Web</string>
     <string name="imagen_pop">Falta Imagen</string>
 
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     <array name="certificaciones">
         <item>BPM</item>
         <item>BRC</item>

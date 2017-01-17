@@ -14,9 +14,14 @@ public class Constantes {
     public static final String URL_VAMOS_AL_NEGOCIO     = "http://uc-web.mobi/LIAISON/api-rest/negociosmatch";
     public static final String URL_PAISES               = "http://uc-web.mobi/LIAISON/api-rest/Paises";
     public static final String URL_DEPARTAMENTOS        = "http://uc-web.mobi/LIAISON/api-rest/Regions";
+<<<<<<< HEAD
     public static final String URL_EDITARIMG            = "http://uc-web.mobi/LIAISON/api-rest/editarImg";
 
     public static final String URL_CONTACTOS            = "http://uc-web.mobi/LIAISON/api-rest/ListadoContactos";
+=======
+
+    public static final String URL_CONTACTOS            = "";
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     public static final String URL_MIS_SEGUIDORES       = "http://uc-web.mobi/LIAISON/api-rest/negocios";
     public static final String URL_ACTUALIZAR_TOKEN     = "http://uc-web.mobi/LIAISON/api-rest/updatetoke";
     public static final String URL_PAISES_DEPARTAMENTOS = "";

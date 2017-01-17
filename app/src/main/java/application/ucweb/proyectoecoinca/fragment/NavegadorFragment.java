@@ -92,12 +92,15 @@ public class NavegadorFragment extends Fragment {
         return view;
     }
 
+<<<<<<< HEAD
     @Override
     public void onResume() {
         super.onResume();
         sesion();
     }
 
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     @OnCheckedChanged(R.id.switchNotificacion)
     public void onNotifactionActivadas(boolean zwitch) {
         if (zwitch) preferencia.setNotificacionActivada(true);

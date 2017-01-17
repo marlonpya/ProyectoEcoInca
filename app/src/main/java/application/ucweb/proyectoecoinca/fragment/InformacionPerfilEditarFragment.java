@@ -223,8 +223,11 @@ public class InformacionPerfilEditarFragment extends Fragment {
         }
     }
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     private void requestDepartamento(final String codigo_pais) {
         Log.d(TAG, codigo_pais);
         if (ConexionBroadcastReceiver.isConnected()) {
