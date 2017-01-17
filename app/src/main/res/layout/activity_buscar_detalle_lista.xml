@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blanco"
+    android:orientation="vertical"
+    tools:context=".BuscarDetalleListaActivity">
+
+    <include layout="@layout/toolbar_principal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".12"
+            android:gravity="bottom|center"
+            android:weightSum="1">
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight=".75"
+                android:background="@drawable/redondear_busqueda_textview"
+                android:gravity="center"
+                android:hint="@string/ingrese_caracter"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textColor="@color/celeste"
+                android:textColorHint="@color/celeste" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".02" />
+
+            <FrameLayout
+                android:id="@+id/btnBuscarLista"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight=".2"
+                android:clickable="true">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/redondear_busqueda_textview"
+                    android:src="@drawable/icono_buscar" />
+
+            </FrameLayout>
+
+        </LinearLayout>-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+                android:id="@+id/rrvBusquedaDetalle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/blanco"
+                app:rrvLayoutType="LinearLayout" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

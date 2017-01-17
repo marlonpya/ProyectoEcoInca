@@ -1,0 +1,29 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="dots_height">30dp</dimen>
+    <dimen name="dots_margin_bottom">20dp</dimen>
+    <dimen name="img_width_height">120dp</dimen>
+    <dimen name="slide_title">30dp</dimen>
+    <dimen name="slide_desc">16dp</dimen>
+    <dimen name="desc_padding">40dp</dimen>
+
+    <dimen name="letra_s1">8sp</dimen>
+    <dimen name="letra_s2">10sp</dimen>
+    <dimen name="letra_s3">12sp</dimen>
+    <dimen name="letra_s4">14sp</dimen>
+    <dimen name="letra_s5">16sp</dimen>
+    <dimen name="letra_s6">18sp</dimen>
+    <dimen name="letra_s7">20sp</dimen>
+    <dimen name="letra_s8">22sp</dimen>
+    <dimen name="letra_s9">24sp</dimen>
+    <dimen name="letra_s10">26sp</dimen>
+    <dimen name="letra_s11">28sp</dimen>
+    <dimen name="letra_s12">26sp</dimen>
+    <dimen name="letra_s13">28sp</dimen>
+    <dimen name="letra_s14">30sp</dimen>
+    <dimen name="letra_s15">32sp</dimen>
+</resources>

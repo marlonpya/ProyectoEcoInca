@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#ff4081</color>
+
+    <color name="c_accent">#00b2e2</color>
+
+    <color name="azul">#0079ff</color>
+    <color name="celeste">#00b2e2</color>
+
+    <color name="plomo_suave">#f2f2f2</color>
+    <color name="plomo_claro">#FFDDDDDD</color>
+    <color name="plomo">#FFAAAAAA</color>
+    <color name="plomo_oscuro">#434343</color>
+    <color name="blanco">#FFFFFF</color>
+    
+    <color name="comprador">#03e1f2</color>
+    <color name="vendedor">#142f66</color>
+    <color name="ambos">#2064ed</color>
+</resources>

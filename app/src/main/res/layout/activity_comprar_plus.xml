@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_comprar_plus"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="application.ucweb.proyectoecoinca.ComprarPlusActivity">
+
+    <include layout="@layout/toolbar_principal" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/tv_tipo_pago_plus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="@dimen/letra_s12"
+        android:textStyle="bold"
+        tools:text="1 Mes $1.99" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_empresa_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Nombre empresa" />
+
+        <TextView
+            android:id="@+id/tv_correo_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Correo" />
+
+        <TextView
+            android:id="@+id/tv_direccion_plus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Perú - Lima" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_nombre_plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nombres"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/celeste"
+                android:textSize="@dimen/letra_s5">
+
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_apellido_plus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/apellidos"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/celeste"
+                android:textSize="@dimen/letra_s5">
+
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/et_numero_tarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/numero_tarjeta"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/celeste"
+                android:textSize="@dimen/letra_s5">
+
+            </EditText>
+        </android.support.design.widget.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <EditText
+                    android:id="@+id/et_vencimiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/vencimiento"
+                    android:inputType="text"
+                    android:maxLength="7"
+                    android:textColorHint="@color/celeste"
+                    android:textSize="@dimen/letra_s5">
+
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <EditText
+                    android:id="@+id/et_cvc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="CVC"
+                    android:inputType="number"
+                    android:textColorHint="@color/celeste"
+                    android:textSize="@dimen/letra_s5">
+
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <RadioButton
+            android:id="@+id/rbTerminos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/terminos_y_condiciones" />
+
+        <TextView
+            android:id="@+id/tvTerminosCondiciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/terminos_y_condiciones_texto"
+            android:textColor="@android:color/black" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bntComprar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/redondear_ecoinca"
+        android:text="@string/comprar"
+        android:textColor="@android:color/white" />
+
+</LinearLayout>

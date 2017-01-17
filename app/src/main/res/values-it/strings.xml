@@ -1,0 +1,215 @@
+<resources>
+
+    <!-- LAYOUTS -->
+    <string name="texto1">Trovare nuove opportunità di business e partnership</string>
+    <string name="texto2">Semplificare il modo di fare business</string>
+    <string name="texto3">SimplificarVamos fare di più per gli altri il modo di fare business</string>
+
+    <!-- INICIAR SESION-->
+    <string name="usuario">Utente</string>
+    <string name="contrasenia">Password</string>
+    <string name="olvido_contrasenia">Hai dimenticato la password?</string>
+    <string name="o_iniciar_sesion_con">o accedi con</string>
+
+    <!-- ACTIVITY INICIO -->
+    <string name="registrarse">REGISTRO</string>
+    <string name="registrarse_min">Registro</string>
+    <string name="iniciar_sesion">Accesso</string>
+
+    <!-- ACTIVITY REGISTRO -->
+    <string name="siguiente">Seguente</string>
+
+    <!-- NAVEGADOR FRAGMENT-->
+    <string name="salir">Uscita</string>
+
+    <string name="vendedor">Venditore</string>
+
+    <string name="nav_inicio">Home</string>
+    <string name="nav_mi_perfil">Il mio profilo</string>
+    <string name="nav_buscar">Ricerca</string>
+    <string name="nav_vamos_al_negocio">Facciamo affari</string>
+    <string name="nav_liaison_plus">Liaison PLUS</string>
+    <string name="nav_configuracion">Configurazione</string>
+    <string name="nav_notifacion">Notifica</string>
+
+    <!-- FRAGMENT INICIO -->
+    <string name="bienvenido">Benvenuto</string>
+
+    <!-- FRAGMENT MI PERFIL -->
+    <string name="editar">Modifica</string>
+
+    <!-- FRAGMENT INFORMACION PERFIL -->
+    <string name="informacion">Informazioni </string>
+    <string name="ciudad">Città: </string>
+    <string name="pais">Paese: </string>
+    <string name="anio_fundacion">Anno di fondazione: </string>
+    <string name="descripcion">Descrizione: </string>
+    <string name="nombres">Nomi:</string>
+
+    <!--FRAGMENT INFORMACION PERFIL EDITAR -->
+    <string name="apellidos">Cognomi</string>
+    <string name="pais_editar">Paese</string>
+    <string name="nombres_editar">Nomi</string>
+    <string name="ciudad_editar">Città</string>
+        <string name="nombres_empresa_editar">Nome Azienda</string>
+
+    <!-- ROW EMPRESA -->
+    <string name="ver_pefil">Visualizza il profilo</string>
+    <string name="ignorar">Indifferenza</string>
+    <string name="conectarse_con_usted">Si desidera connettersi con voi</string>
+
+    <!-- ROW BUSCAR -->
+    <string name="producto">PRODOTTI</string>
+    <string name="servicio">SERVIZIO</string>
+    <string name="compania">AZIENDA</string>
+    <string name="industria">INDUSTRIA</string>
+    <string name="b_pais">PAESE</string>
+    <!--<string name="pais_editar">Pais</string>-->
+
+    <!-- ACTIVITY LISTA BUSCAR -->
+    <string name="resultados_busqueda">Risultati della ricerca</string>
+    <string name="acerca">su</string>
+    <string name="encontrados">risultati per la tua azienda</string>
+
+    <!-- NAVEGADOR ACTIVITY PRINCIPAL -->
+    <string name="conectate_toque">Connettiti con un tocco</string>
+
+    <!-- ACTIVITY NEGOCIO -->
+    <string name="como_hacer_negocio">Come ti piacerebbe fare affari?</string>
+    <string name="soy_comprador">Io sono un acquirente</string>
+    <string name="soy_vendedor">Io sono un venditore</string>
+
+    <!-- DIALOGO ITEMS-->
+    <string name="titulo_dialogo">Messaggio</string>
+    <string name="descripcion_dialogo">Si richiede un tipo di utente</string>
+
+    <!-- ACTIVITY BUSCAR-->
+    <string name="ingrese_caracter">Inserire una ricerca di carattere</string>
+
+    <!-- FRAGMENT LIASON PLUS -->
+    <string name="obten_liason_plus">Get Liaison Plus</string>
+
+        <string name="subir_logo">CARICARE\nIMAGE</string>
+    <string name="email">Email</string>
+
+    <string name="anio_fundacion2">Anno di Fondazione</string>
+    <string name="descripcion_empresa">Descrizione dell´azienda (200 caratteri)</string>
+    <string name="sector_empresarial">Settore di attività</string>
+    <string name="producto2">Prodotto</string>
+    <string name="servicio2">Servizio</string>
+    <string name="cargo">Ufficio</string>
+    <string name="telefono_oficina">Ufficio phone</string>
+    <string name="celular">Cellulare</string>
+    <string name="website">Website</string>
+    <string name="linkedin">Linked In</string>
+    <string name="informacion_contacto">Informazioni di contatto</string>
+    <string name="certificaciones">Certificazioni</string>
+
+    <string name="agregar">aggiungere</string>
+    <string name="nav_contactos">Contatti</string>
+    <string name="filtros_busqueda">Search Filtri: </string>
+    <string name="comprador">Acquirente</string>
+    <string name="ambos">Entrambi</string>
+    <string name="tipo_usuario">Impostare un tipo di utente</string>
+
+    <string name="numero_tarjeta">Numero di carta</string>
+    <string name="vencimiento">Maturità</string>
+    <string name="codigo_seguridad">Codice</string>
+    <string name="comprar">Acquistare</string>
+
+    <!-- DIALOGOS -->
+
+    <!-- MENSAJE DIALOG -->
+        <string name="m_procesando">Processa..</string>
+
+    <string name="m_cargando_sesion">Registrazione..</string>
+
+    <string name="m_busqueda">Cerca..</string>
+    <string name="m_ignorado_ok">Società eliminato</string>
+
+    <string name="m_actualizando">Aggiornamento..</string>
+
+    <string name="m_confirmar_actualizacion">Sei sicuro di voler aggiornare il vostro profilo aziendale?</string>
+
+    <string name="m_ingrese_todos_campos">Inserire tutti i campi</string>
+    <string name="m_ingrese_todos_mas_5">Inserire i campi con più di 5 caratteri</string>
+
+    <string name="m_usuario_no_plus">Opzione è abilitata solo per gli utenti plus.\nComprare User Plus.</string>
+
+    <string name="m_no_conneccion_request">Siamo spiacenti, non si dispone dell´accesso a Internet.</string>
+
+    <string name="m_error_pdf">Questa società non dispone di un PDF.</string>
+
+    <string name="m_contacto_aceptado">Questa azienda è già il suo contatto.</string>
+    <string name="m_contacto_espera">Questa società sarà già inviato un messaggio di affari sopra.</string>
+
+    <string name="m_error_ver_pdf">Questa applicazione ha nessuna applicazione in PDF</string>
+
+    <string name="m_creado_true">Il tuo account è stato creato con successo</string>
+    <string name="m_solicitud_ok">La vostra richiesta per le imprese è stato inviato con successo.</string>
+    <string name="m_solicitud_error">La vostra azienda richiesta non è stata inviata correttamente.</string>
+    <string name="m_aceptar_negocio_ok">Accettato Affari</string>
+    <string name="m_aceptar_negocio_error">Gli affari non poteva essere accettato</string>
+    <string name="m_generando_token">Generazione token..</string>
+
+    <string name="m_registro_10">Tipo di immagine non sono ammessi.</string>
+    <string name="m_registro_9">Errore quando si entra certificati.</string>
+    <string name="m_registro_8">Errore riuscito a entrare business.</string>
+    <string name="m_registro_7">Ci vogliono meno di 10 prodotti.</string>
+    <string name="m_registro_6">Prodotto è necessaria per la registrazione.</string>
+    <string name="m_registro_5">Ci vogliono meno di 10 settori di attività.</string>
+    <string name="m_registro_4">Richiede settori di attività per la registrazione.</string>
+    <string name="m_registro_3">Mail indicato già registrato.</string>
+    <string name="m_registro_2">I parametri necessari sono stati ricevuti.</string>
+
+    <string name="m_existen_campos_vacíos">Non ci sono campi vuoti permesso di modificare.</string>
+
+    <string name="n_empresa_notificacion">richieste commerciali</string>
+
+    <!-- CERRAR SESION-->
+    <string name="m_cerrar_sesion">Sei certo di disconnettersi?</string>
+
+    <string name="aceptar">Accettare</string>
+    <string name="cancelar">Annullare</string>
+    <string name="empresarial">affari</string>
+    <string name="terminos_y_condiciones">Lei accetta i termini e le condizioni e le politiche di acquisto</string>
+    <string name="termino_error">È necessario accettare i termini e le condizioni per procedere con l´acquisto</string>
+    <string name="escoge_tipo_plus">È necessario scegliere un tipo di piano</string>
+    <string name="genera_compra_plus">L´elaborazione di acquisto..</string>
+
+    <string name="m_plus_ok">Inoltre l´acquisto utente è stato fatto correttamente</string>
+    <string name="m_plus_error">Controllare i dati della carta</string>
+
+    <string name="terminos_y_condiciones_texto" >I nostri termini e condizioni</string>
+    <string name="regla_imagenes">immagini sotto 1025px (larghezza e altezza) è raccomandato</string>
+    <string name="correo_invalido">L´e-mail inserito non è valido</string>
+    <string name="se_requiere_correo">E ´richiesto di autorizzare l´e-mail</string>
+    <string name="permiso_imagen">Il permesso è richiesto per l´importazione di immagini</string>
+
+    <!-- Mensaje de dialogo Perfil -->
+
+    <string name="descripcion_pop">Mancanza descrizione completa</string>
+    <string name="linkedin_pop">Completa mancanza Linkedin</string>
+    <string name="web_pop">La mancanza completa Web</string>
+    <string name="imagen_pop">immagine mancante</string>
+
+    <!--Terminos y condiciones -->
+    <string name="terminos_y_condiciones_uso">Termini e condizioni</string>
+
+    <array name="sectores_empresariales">
+        <item>Agroalimentare</item>
+        <item>Prodotti alimentari e bevande</item>
+        <item>Ospitalità</item>
+        <item>Servizi</item>
+        <item>Tessile e abbigliamento</item>
+        <item>Indumenti ed accessori</item>
+        <item>Calzature</item>
+        <item>Legno</item>
+        <item>Estrazione</item>
+        <item>Costruzione</item>
+        <item>Attrezzature e mobili in genere</item>
+        <item>Lavorazione dei metalli</item>
+        <item>Altrui</item>
+    </array>
+
+</resources>

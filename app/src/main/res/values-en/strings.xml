@@ -1,0 +1,215 @@
+<resources>
+
+    <!-- LAYOUTS -->
+    <string name="texto1">Find new business and partnership opportunities</string>
+    <string name="texto2">Simplify the way you do business</string>
+    <string name="texto3">Let´ s do more for others</string>
+
+    <!-- INICIAR SESION-->
+    <string name="usuario">User</string>
+    <string name="contrasenia">Password</string>
+    <string name="olvido_contrasenia">Did you forget your password?</string>
+    <string name="o_iniciar_sesion_con">or connect with</string>
+
+    <!-- ACTIVITY INICIO -->
+    <string name="registrarse">CHECK IN</string>
+    <string name="registrarse_min">Check in</string>
+    <string name="iniciar_sesion">Log in</string>
+
+    <!-- ACTIVITY REGISTRO -->
+    <string name="siguiente">Next</string>
+
+    <!-- NAVEGADOR FRAGMENT-->
+    <string name="salir">Get out</string>
+
+    <string name="vendedor">Seller</string>
+
+    <string name="nav_inicio">Home</string>
+    <string name="nav_mi_perfil">Mi Profile</string>
+    <string name="nav_buscar">Search</string>
+    <string name="nav_vamos_al_negocio">Let´ s do business</string>
+    <string name="nav_liaison_plus">Liaison PLUS</string>
+    <string name="nav_configuracion">Configuration</string>
+    <string name="nav_notifacion">Notification</string>
+
+    <!-- FRAGMENT INICIO -->
+    <string name="bienvenido">Welcome</string>
+
+    <!-- FRAGMENT MI PERFIL -->
+    <string name="editar">Edit</string>
+
+    <!-- FRAGMENT INFORMACION PERFIL -->
+    <string name="informacion">Information </string>
+    <string name="ciudad">City: </string>
+    <string name="pais">Country: </string>
+    <string name="anio_fundacion">Foundation year: </string>
+    <string name="descripcion">Description: </string>
+    <string name="nombres">Names:</string>
+
+    <!--FRAGMENT INFORMACION PERFIL EDITAR -->
+    <string name="apellidos">Last Names</string>
+    <string name="pais_editar">Country</string>
+    <string name="nombres_editar">Names</string>
+    <string name="ciudad_editar">City</string>
+    <string name="nombres_empresa_editar">Name Business</string>
+
+    <!-- ROW EMPRESA -->
+    <string name="ver_pefil">View Profile</string>
+    <string name="ignorar">Ignore</string>
+    <string name="conectarse_con_usted">Want to connect with you</string>
+
+    <!-- ROW BUSCAR -->
+    <string name="producto">PRODUCT</string>
+    <string name="servicio">SERVICE</string>
+    <string name="compania">COMPANY</string>
+    <string name="industria">INDUSTRY</string>
+    <string name="b_pais">COUNTRY</string>
+    <!--<string name="pais_editar">Pais</string>-->
+
+    <!-- ACTIVITY LISTA BUSCAR -->
+    <string name="resultados_busqueda">Search results</string>
+    <string name="acerca">about</string>
+    <string name="encontrados">results for your business</string>
+
+    <!-- NAVEGADOR ACTIVITY PRINCIPAL -->
+    <string name="conectate_toque">Connect with a touch</string>
+
+    <!-- ACTIVITY NEGOCIO -->
+    <string name="como_hacer_negocio">How would you like to do business?</string>
+    <string name="soy_comprador">I am a buyer</string>
+    <string name="soy_vendedor">I am a seller</string>
+
+    <!-- DIALOGO ITEMS-->
+    <string name="titulo_dialogo">Message</string>
+    <string name="descripcion_dialogo">A type of user is required</string>
+
+    <!-- ACTIVITY BUSCAR-->
+    <string name="ingrese_caracter">Enter a search character</string>
+
+    <!-- FRAGMENT LIASON PLUS -->
+    <string name="obten_liason_plus">Get Liaison Plus</string>
+
+    <string name="subir_logo">GO UP\nIMAGE</string>
+    <string name="email">Email</string>
+
+    <string name="anio_fundacion2">Foundation year</string>
+    <string name="descripcion_empresa">Company Description (200 characters)</string>
+    <string name="sector_empresarial">Business sector</string>
+    <string name="producto2">Product</string>
+    <string name="servicio2">Service</string>
+    <string name="cargo">Position</string>
+    <string name="telefono_oficina">Office phone</string>
+    <string name="celular">Cell phone</string>
+    <string name="website">Website</string>
+    <string name="linkedin">Linked In</string>
+    <string name="informacion_contacto">Contact information</string>
+    <string name="certificaciones">Certifications</string>
+
+    <string name="agregar">add</string>
+    <string name="nav_contactos">My contacts</string>
+    <string name="filtros_busqueda">Search Filters :</string>
+    <string name="comprador">Buyer</string>
+    <string name="ambos">Both</string>
+    <string name="tipo_usuario">Define a user type</string>
+
+    <string name="numero_tarjeta">Card number</string>
+    <string name="vencimiento">Expiration</string>
+    <string name="codigo_seguridad">Security code</string>
+    <string name="comprar">To buy</string>
+
+    <!-- DIALOGOS -->
+
+    <!-- MENSAJE DIALOG -->
+    <string name="m_procesando">Processing..</string>
+
+    <string name="m_cargando_sesion">Logging in..</string>
+
+    <string name="m_busqueda">Searching..</string>
+    <string name="m_ignorado_ok">Company deleted</string>
+
+    <string name="m_actualizando">Updating ..</string>
+
+    <string name="m_confirmar_actualizacion">Are you sure to update your company profile?</string>
+
+    <string name="m_ingrese_todos_campos">Enter all fields</string>
+    <string name="m_ingrese_todos_mas_5">Enter fields longer than 5 characters</string>
+
+    <string name="m_usuario_no_plus">Option only enabled for Plus users.\nBuy user Plus.</string>
+
+    <string name="m_no_conneccion_request">Sorry, you do not have internet connection.</string>
+
+    <string name="m_error_pdf">This company does not have a PDF.</string>
+
+    <string name="m_contacto_aceptado">This company is already in contact with you.</string>
+    <string name="m_contacto_espera">This company was previously sent a business message.</string>
+
+    <string name="m_error_ver_pdf">This app has no PDF application.</string>
+
+    <string name="m_creado_true">Your account was successfully created</string>
+    <string name="m_solicitud_ok">Your business request was successfully submitted.</string>
+    <string name="m_solicitud_error">Your business request was not successfully submitted.</string>
+    <string name="m_aceptar_negocio_ok">Business Accepted</string>
+    <string name="m_aceptar_negocio_error">Business could not be accepted</string>
+    <string name="m_generando_token">Generating token..</string>
+
+    <string name="m_registro_10">Image type is not allowed.</string>
+    <string name="m_registro_9">Failed to enter certificates.</string>
+    <string name="m_registro_8">Error entering company.</string>
+    <string name="m_registro_7">Less than 10 products are required.</string>
+    <string name="m_registro_6">Products required for registration.</string>
+    <string name="m_registro_5">Less than 10 business sectors are required.</string>
+    <string name="m_registro_4">Business sectors are required for registration.</string>
+    <string name="m_registro_3">The Email entered is already registered.</string>
+    <string name="m_registro_2">The required parameters were not received.</string>
+
+    <string name="m_existen_campos_vacíos">No empty fields are allowed to edit.</string>
+
+    <string name="n_empresa_notificacion">asks to do business</string>
+
+    <!-- CERRAR SESION-->
+    <string name="m_cerrar_sesion">Are you sure to log out?</string>
+
+    <string name="aceptar">Acept</string>
+    <string name="cancelar">Cancel</string>
+    <string name="empresarial">Business</string>
+    <string name="terminos_y_condiciones">Accept terms and conditions, and purchase policies</string>
+    <string name="termino_error">You must accept the terms and conditions to proceed with the purchase</string>
+    <string name="escoge_tipo_plus">You must choose a type of plan</string>
+    <string name="genera_compra_plus">Processing purchase..</string>
+
+    <string name="m_plus_ok">Your user plus purchase was done correctly</string>
+    <string name="m_plus_error">Verify your card details</string>
+
+    <string name="terminos_y_condiciones_texto" >Our terms and conditions</string>
+    <string name="regla_imagenes">Images smaller than 1025px are recommended (width and height)</string>
+    <string name="correo_invalido">The email entered is not valid</string>
+    <string name="se_requiere_correo">Authorization required email</string>
+    <string name="permiso_imagen">Permission is required to import image</string>
+
+    <!-- Mensaje de dialogo Perfil -->
+
+    <string name="descripcion_pop">Missing completing Description</string>
+    <string name="linkedin_pop">Linkin is missing</string>
+    <string name="web_pop">Web missing</string>
+    <string name="imagen_pop">Missing image</string>
+
+    <!--Terminos y condiciones -->
+    <string name="terminos_y_condiciones_uso">terms and Conditions</string>
+
+    <array name="sectores_empresariales">
+        <item>Agroindustry</item>
+        <item>Food and drinks</item>
+        <item>Hospitality</item>
+        <item>Services</item>
+        <item>Textile industry and clothing</item>
+        <item>Industrial clothing and accessories</item>
+        <item>Footwear</item>
+        <item>Wood</item>
+        <item>Mining</item>
+        <item>Construction</item>
+        <item>General equipment and furniture</item>
+        <item>Metalworking</item>
+        <item>Others</item>
+    </array>
+
+</resources>

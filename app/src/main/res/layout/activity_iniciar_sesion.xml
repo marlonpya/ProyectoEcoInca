@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:facebook="http://schemas.android.com/apk/res-auto"
+    xmlns:fb="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_iniciar_sesion"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".IniciarSesionActivity">
+
+    <ImageView
+        android:id="@+id/iv_fondo_iniciar_sesion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:background="@drawable/fondo_iniciar_sesion" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".3"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/imagen_liaison_principal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".35"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/tv_usuario_iniciar_sesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/usuario"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/celeste"
+                    android:textSize="@dimen/letra_s5">
+
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp">
+
+                <EditText
+                    android:id="@+id/tv_contrasenia_iniciar_sesion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/contrasenia"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/celeste"
+                    android:textSize="@dimen/letra_s5">
+
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:paddingTop="10dp"
+                android:text="@string/olvido_contrasenia" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".35"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnIngresar"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/redondear_ecoinca"
+                android:text="@string/iniciar_sesion"
+                android:textColor="@android:color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight=".3"
+                    android:background="@color/plomo" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".4"
+                    android:gravity="center"
+                    android:text="@string/o_iniciar_sesion_con" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight=".3"
+                    android:background="@color/plomo" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".45">
+
+                    <com.facebook.login.widget.LoginButton
+                        android:id="@+id/btnFacebook"
+                        style="@style/FacebookLoginButton"
+                        android:layout_width="145dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        fb:com_facebook_login_text="|  Facebook"
+                        fb:com_facebook_logout_text="" />
+                </FrameLayout>
+
+                <!--<Button
+                    android:id="@+id/btnFacebook"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/redondear_fb"
+                    android:drawableLeft="@drawable/icono_fb"
+                    android:paddingLeft="25dp"
+                    android:paddingRight="25dp"
+                    android:text="|  Facebook"
+                    android:textColor="@color/blanco"
+                    android:textSize="@dimen/letra_s2" />-->
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".05" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".45">
+
+                    <Button
+                        android:id="@+id/btnLinkedin"
+                        android:layout_width="145dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/redondear_linkedin"
+                        android:drawableLeft="@drawable/icono_linkedin"
+                        android:paddingLeft="25dp"
+                        android:paddingRight="25dp"
+                        android:text="|  Linkedin"
+                        android:textColor="@color/blanco"
+                        android:textSize="@dimen/letra_s2" />
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
