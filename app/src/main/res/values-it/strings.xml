@@ -68,11 +68,9 @@
 
     <!-- ACTIVITY LISTA BUSCAR -->
     <string name="resultados_busqueda">Risultati della ricerca</string>
-<<<<<<< HEAD
-    <string name="acerca">su</string>
-=======
+
     <string name="acerca">Su</string>
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
     <string name="encontrados">risultati per la tua azienda</string>
 
     <!-- NAVEGADOR ACTIVITY PRINCIPAL -->
@@ -190,7 +188,6 @@
     <string name="se_requiere_correo">E ´richiesto di autorizzare l´e-mail</string>
     <string name="permiso_imagen">Il permesso è richiesto per l´importazione di immagini</string>
 
-<<<<<<< HEAD
     <!-- Mensaje de dialogo Perfil -->
 
     <string name="descripcion_pop">Mancanza descrizione completa</string>
@@ -201,8 +198,6 @@
     <!--Terminos y condiciones -->
     <string name="terminos_y_condiciones_uso">Termini e condizioni</string>
 
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     <array name="sectores_empresariales">
         <item>Agroalimentare</item>
         <item>Prodotti alimentari e bevande</item>

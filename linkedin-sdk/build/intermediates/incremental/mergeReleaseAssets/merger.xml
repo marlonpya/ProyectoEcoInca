@@ -1,6 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <merger version="3"><dataSet config="main"><source path="C:\ProyectoEcoInca\linkedin-sdk\src\main\assets"/><source path="C:\ProyectoEcoInca\linkedin-sdk\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="C:\ProyectoEcoInca\linkedin-sdk\src\release\assets"/></dataSet></merger>
-=======
-<merger version="3"><dataSet config="main"><source path="C:\Users\ucweb02\Documents\GitHub\ProyectoEcoInca\linkedin-sdk\src\main\assets"/><source path="C:\Users\ucweb02\Documents\GitHub\ProyectoEcoInca\linkedin-sdk\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="C:\Users\ucweb02\Documents\GitHub\ProyectoEcoInca\linkedin-sdk\src\release\assets"/></dataSet></merger>
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8

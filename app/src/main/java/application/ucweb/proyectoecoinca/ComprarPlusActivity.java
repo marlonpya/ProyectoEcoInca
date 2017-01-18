@@ -10,10 +10,9 @@ import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
-<<<<<<< HEAD
+
 import android.view.MenuItem;
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -23,10 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-<<<<<<< HEAD
+
 import com.android.volley.DefaultRetryPolicy;
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -72,14 +70,14 @@ import butterknife.OnClick;
     private int id_empresa;
     private String telefono;
     private String empresa;
-<<<<<<< HEAD
+
     private String correo;
     private int estado;
-=======
-    private String nombre;
+
+  /*  private String nombre;
     private String apellido;
-    private String correo;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+    private String correo;*/
+
     private static boolean aceptar_termino = false;
 
     @Override
@@ -93,25 +91,23 @@ import butterknife.OnClick;
             case 2 : tv_tipo_plus.setText(PAGO2); break;
             case 3 : tv_tipo_plus.setText(PAGO3); break;
         }
-<<<<<<< HEAD
+
         direccion   = "default";
-=======
-        direccion   = Usuario.getUsuario().getPais();
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
         ciudad      = Usuario.getUsuario().getCiudad();
         id_empresa  = Usuario.getUsuario().getId_empresa();
         telefono    = Usuario.getUsuario().getCelular();
         empresa     = Usuario.getUsuario().getNombre_empresa();
-<<<<<<< HEAD
+
         /*nombre      = Usuario.getUsuario().getNombre_contacto();*/
       /*  apellido    = Usuario.getUsuario().getApellido_contacto();*/
         correo      = Usuario.getUsuario().getEmail_contacto();
         estado      = Usuario.getUsuario().isPlus() ? 1 : 0;
-=======
-        nombre      = Usuario.getUsuario().getNombre_contacto();
+
+       /* nombre      = Usuario.getUsuario().getNombre_contacto();
         apellido    = Usuario.getUsuario().getApellido_contacto();
-        correo      = Usuario.getUsuario().getEmail_contacto();
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+        correo      = Usuario.getUsuario().getEmail_contacto();*/
+
         tv_nombre.setText(empresa);
         tv_correo.setText(correo);
         tv_direccion.setText(direccion);
@@ -131,11 +127,10 @@ import butterknife.OnClick;
 
     @OnClick(R.id.bntComprar)
     public void comprarPlus() {
-<<<<<<< HEAD
+
         String nombre = et_nombre.getText().toString().trim();
         String apellido = et_apellido.getText().toString().trim();
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
         if (ConexionBroadcastReceiver.isConnected()) {
             if (aceptar_termino) {
                 if (validar()) {
@@ -147,12 +142,11 @@ import butterknife.OnClick;
                             Long.parseLong(et_numero.getText().toString().trim()),
                             Integer.parseInt(et_cvc.getText().toString()),
                             m_exp,
-<<<<<<< HEAD
                             Integer.parseInt(a_exp),
                             estado);
-=======
-                            Integer.parseInt(a_exp));
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
+                           /* Integer.parseInt(a_exp));*/
+
                 }
             } else {
                 Toast.makeText(this, R.string.termino_error, Toast.LENGTH_SHORT).show();
@@ -189,12 +183,11 @@ import butterknife.OnClick;
             long numero,
             int cvv,
             String m_exp,
-<<<<<<< HEAD
             int a_exp,
             final int estado) {
-=======
-            int a_exp) {
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
+         /*   int a_exp) {*/
+
         Log.d(TAG, correo_electronico);
         Log.d(TAG, nombre);
         Log.d(TAG, apellido);
@@ -229,18 +222,17 @@ import butterknife.OnClick;
                                     ciudad,
                                     String.valueOf(id_empresa),
                                     telefono,
-<<<<<<< HEAD
                                     et_nombre.getText().toString().trim(),
                                     et_apellido.getText().toString().trim(),
                                     correo,
                                     token,
                                     estado);
-=======
-                                    nombre,
+
+                                   /* nombre,
                                     apellido,
                                     correo,
-                                    token);
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+                                    token);*/
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hidepDialog(pDialog);
@@ -253,10 +245,6 @@ import butterknife.OnClick;
                     public void onErrorResponse(VolleyError volleyError) {
                         Log.e(TAG, volleyError.toString());
                         hidepDialog(pDialog);
-<<<<<<< HEAD
-
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     }
                 }
         ) {
@@ -268,10 +256,9 @@ import butterknife.OnClick;
                 return header;
             }
         };
-<<<<<<< HEAD
+
         request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
@@ -285,12 +272,11 @@ import butterknife.OnClick;
             final String nombre,
             final String apellido,
             final String correo,
-<<<<<<< HEAD
             final String token,
             final int estado) {
-=======
-            final String token) {
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
+         /*   final String token) {*/
+
         Log.d(TAG, "idTipopaquete_"+idTipopaquete);
         Log.d(TAG, "descripcion_"+descripcion);
         Log.d(TAG, "direccion_"+direccion);
@@ -301,10 +287,7 @@ import butterknife.OnClick;
         Log.d(TAG, "apellido_"+apellido);
         Log.d(TAG, "correo_"+correo);
         Log.d(TAG, "token_"+token);
-<<<<<<< HEAD
         Log.d(TAG, "usuarioPlus_"+estado);
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
         StringRequest request = new StringRequest(
                 Request.Method.POST,
                 Constantes.URL_PAGO_PLUS,
@@ -346,10 +329,6 @@ import butterknife.OnClick;
                     public void onErrorResponse(VolleyError volleyError) {
                         VolleyLog.e(volleyError.toString());
                         hidepDialog(pDialog);
-<<<<<<< HEAD
-
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
                     }
                 }
         ) {
@@ -366,17 +345,17 @@ import butterknife.OnClick;
                 params.put("Apellido", apellido);
                 params.put("correo", "marlon.arteaga.m@hotmail.com");
                 params.put("token", token);
-<<<<<<< HEAD
+
                 params.put("tipousuarioplus",String.valueOf(estado));
                 return params;
             }
         };
         request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-=======
-                return params;
+
+     /*           return params;
             }
-        };
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+        };*/
+
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
@@ -407,7 +386,6 @@ import butterknife.OnClick;
         if (estado) aceptar_termino = true;
         else aceptar_termino = false;
     }
-<<<<<<< HEAD
 
      @Override
      public boolean onOptionsItemSelected(MenuItem item) {
@@ -415,6 +393,6 @@ import butterknife.OnClick;
          return super.onOptionsItemSelected(item);
      }
  }
-=======
-}
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
+
+

@@ -32,10 +32,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-<<<<<<< HEAD
+
 import com.android.volley.DefaultRetryPolicy;
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -226,31 +225,13 @@ public class RegistroActivity extends BaseActivity {
 
     @OnClick(R.id.fabRegistroAgregarImagen)
     public void agregarImagen() {
-<<<<<<< HEAD
+
         if (Build.VERSION.SDK_INT >= 23) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, VALOR);
-            }
-=======
-        /*if (Build.VERSION.SDK_INT >= 23) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, VALOR);
-            } else {
-                ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_WRITE_STORAGE);
-            }
-        }*/
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
-        } else {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, VALOR);
-        }
+            else
+                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
+        } else startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
     }
 
     @OnClick(R.id.btnSectorEmpresarial)
@@ -475,11 +456,8 @@ public class RegistroActivity extends BaseActivity {
         //agregar todos los diccionarios
         boolean resultado = false;
         boolean resultado_imagen = true;
-<<<<<<< HEAD
+
         //if (imagen_subir.getDrawable() == null || imagen_base.isEmpty() ) { Toast.makeText(getApplicationContext(), "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= false; }
-=======
-        if (imagen_subir.getDrawable() == null || imagen_base.isEmpty() ) { Toast.makeText(getApplicationContext(), "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= false; }
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
         if (!et_nombre_empresa.getText().toString().trim().equals("") &&
                 !et_pais.getText().toString().trim().equals("") &&
                 !et_ciudad.getText().toString().trim().equals("") &&
@@ -493,15 +471,11 @@ public class RegistroActivity extends BaseActivity {
                 !et_cargo_contacto_registro.getText().toString().trim().equals("") &&
                 !et_telefono_oficina.getText().toString().trim().equals("") &&
                 !et_celular.getText().toString().trim().equals("") &&
-<<<<<<< HEAD
+
                 !et_email_contacto.getText().toString().trim().equals("")) /*&&
                 !et_website.getText().toString().trim().equals("") &&
                 !et_linkedin.getText().toString().trim().equals(""))*/ { resultado = true; }
-=======
-                !et_email_contacto.getText().toString().trim().equals("") &&
-                !et_website.getText().toString().trim().equals("") &&
-                !et_linkedin.getText().toString().trim().equals("")) { resultado = true; }
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
         else { Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show(); }
         return (resultado && resultado_imagen);
     }
@@ -573,10 +547,8 @@ public class RegistroActivity extends BaseActivity {
                     return params;
                 }
             };
-<<<<<<< HEAD
+
             request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
             Configuracion.getInstance().addToRequestQueue(request, TAG);
         } else { ConexionBroadcastReceiver.showSnack(layout, this); }
     }

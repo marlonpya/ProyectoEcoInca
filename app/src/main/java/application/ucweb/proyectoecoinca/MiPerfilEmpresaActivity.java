@@ -201,22 +201,16 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                             .setMessage(getString(R.string.m_aceptar_negocio_ok))
                                             .setPositiveButton(R.string.aceptar, null)
                                             .show();
-<<<<<<< HEAD
                                     Empresa.actualizarMatch(empresa.getId_server(), Empresa.M_ACEPTADO);
-=======
-                                    Empresa.actualizarMatch(empresa.getId(), Empresa.M_ACEPTADO);
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
                                     btnVamosHacerNegocio.setEnabled(false);
                                 } else {
                                     hidepDialog(pDialog);
                                     new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
                                             .setTitle(R.string.app_name)
                                             .setMessage(getString(R.string.m_aceptar_negocio_error))
-<<<<<<< HEAD
                                             .setPositiveButton(R.string.aceptar, null)
-=======
-                                            .setPositiveButton(R.string.cancelar, null)
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
                                             .show();
                                 }
                             } catch (JSONException e) {

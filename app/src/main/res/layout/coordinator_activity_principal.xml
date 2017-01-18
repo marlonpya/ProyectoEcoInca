@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-<<<<<<< HEAD
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -175,12 +174,12 @@
             android:background="@android:color/white">
         </LinearLayout>
     </LinearLayout>
-=======
-    <include
+
+    <!--<include
         layout="@layout/navegador_activity_principal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+        android:layout_height="match_parent" />-->
+
 
     <fragment
         android:id="@+id/fragment_navigation_drawer"

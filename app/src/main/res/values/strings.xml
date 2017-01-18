@@ -73,11 +73,9 @@
 
     <!-- ACTIVITY LISTA BUSCAR -->
     <string name="resultados_busqueda">Resultados de búsqueda</string>
-<<<<<<< HEAD
-    <string name="acerca">acerca</string>
-=======
+
     <string name="acerca">Acerca</string>
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
     <string name="encontrados">resultados para su negocio</string>
 
     <!-- NAVEGADOR ACTIVITY PRINCIPAL -->
@@ -194,8 +192,7 @@
     <string name="correo_invalido">El email ingresado no es válido</string>
     <string name="se_requiere_correo">Se requiere autorizar email</string>
     <string name="permiso_imagen">Se requiere permiso para importar imagen</string>
-<<<<<<< HEAD
-    
+
     <!-- Mensaje de dialogo Perfil -->
     
     <string name="descripcion_pop">Falta completar Descripción</string>
@@ -205,8 +202,6 @@
 
     <!--Terminos y condiciones -->
     <string name="terminos_y_condiciones_uso">Términos  y condiciones</string>
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
 
     <array name="certificaciones">
         <item>BPM</item>

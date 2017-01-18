@@ -117,10 +117,9 @@ public class BuscarActivity extends BaseActivity {
                             JSONArray jArray = jData.getJSONArray("data");
                             for (int i = 0; i < jArray.length(); i++) {
                                 Empresa empresa = new Empresa();
-<<<<<<< HEAD
+
                                 empresa.setId(Empresa.getUltimoId());
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
                                 empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
                                 empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
                                 empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));

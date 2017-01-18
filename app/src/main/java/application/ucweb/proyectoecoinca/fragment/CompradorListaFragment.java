@@ -67,21 +67,16 @@ public class CompradorListaFragment extends Fragment {
     private void cargarRRV() {
         realm = Realm.getDefaultInstance();
         lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
-<<<<<<< HEAD
+
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_VENDEDOR).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA)
                 .or()
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();
-=======
-                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_VENDEDOR)
-                .or()
-                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).findAll();
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
         adapter = new EmpresaAdapter(getActivity(), lista_empresas, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 
-<<<<<<< HEAD
     @Override
     public void onResume() {
         super.onResume();
@@ -89,8 +84,6 @@ public class CompradorListaFragment extends Fragment {
         Log.d(TAG, lista_empresas.toString());
     }
 
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     private void iniciarPDialog() {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setTitle(R.string.app_name);

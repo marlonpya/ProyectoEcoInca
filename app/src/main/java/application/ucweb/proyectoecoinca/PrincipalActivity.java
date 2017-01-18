@@ -4,27 +4,22 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< HEAD
-=======
+
 import android.support.design.widget.AppBarLayout;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.widget.DrawerLayout;
-<<<<<<< HEAD
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-=======
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.Menu;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import android.view.View;
 import android.widget.ImageView;
 
@@ -41,10 +36,7 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
     public static final String TAG = PrincipalActivity.class.getSimpleName();
     @BindView(R.id.myDrawerLayout) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) Toolbar toolbar;
-<<<<<<< HEAD
-=======
-    @BindView(R.id.appbarLayout) AppBarLayout appBarLayout;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
     @BindView(R.id.iv_contorno_mundo_principal) ImageView contorno_mundo_principal;
     @BindView(R.id.iv_mundo_principal) ImageView imagen_mundo;
 
@@ -57,10 +49,9 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         setContentView(R.layout.coordinator_activity_principal);
         iniciarLayout();
         configuracionNavegador();
-<<<<<<< HEAD
-=======
+
         cambiarFragment(0);
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 
         FirebaseMessaging.getInstance().subscribeToTopic("liaison");
 
@@ -75,11 +66,11 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
 
     private void cambiarFragment(int posicion) {
         switch (posicion) {
-<<<<<<< HEAD
+
             //case 0 : iniciarPrimerFragment(); break;
-=======
-            case 0 : iniciarPrimerFragment(); break;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
+            /*case 0 : iniciarPrimerFragment(); break;*/
+
             case 1 : startActivity(new Intent(this, MiPerfilActivity.class));       break;
             case 2 : startActivity(new Intent(this, BuscarActivity.class));         break;
             case 3 : startActivity(new Intent(this, VamosAlNegocioActivity.class)); break;
@@ -126,7 +117,7 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         animator.start();
     }
 
-<<<<<<< HEAD
+
     @OnClick(R.id.btnIrABuscar)
     public void irABuscar() { startActivity(new Intent(getApplicationContext(), BuscarActivity.class)); }
 
@@ -136,15 +127,14 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
     @OnClick(R.id. btnIrAMiPerfil)
     public void irAMiPerfil() {startActivity(new Intent(getApplicationContext(), MisContactosActivity.class)); }
 
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-<<<<<<< HEAD
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.terminos_condiciones){
@@ -158,8 +148,6 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         return false;
     }
 
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     private void detenerContorno() {
         animator.end();
         animator.cancel();

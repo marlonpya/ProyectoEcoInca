@@ -8,10 +8,8 @@
     android:padding="15dp"
     tools:context=".fragment.InicioFragment">
 
-<<<<<<< HEAD
-
    <!-- <View
-=======
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,22 +32,17 @@
     </LinearLayout>
 
     <View
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
         android:layout_width="match_parent"
         android:layout_height="15dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-<<<<<<< HEAD
-        android:background="@color/plomo" />-->
 
-    <!--<LinearLayout
-=======
         android:background="@color/plomo" />
 
     <LinearLayout
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -124,9 +117,7 @@
                 android:textColor="@color/celeste"
                 android:textSize="@dimen/letra_s4" />
         </FrameLayout>
-<<<<<<< HEAD
+
     </LinearLayout>-->
-=======
-    </LinearLayout>
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 </LinearLayout>

@@ -1,6 +1,5 @@
 package application.ucweb.proyectoecoinca;
 
-<<<<<<< HEAD
 import android.*;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -15,20 +14,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-=======
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.design.widget.TabLayout;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-<<<<<<< HEAD
+
 import android.util.Base64;
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -49,10 +42,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-<<<<<<< HEAD
 import java.io.ByteArrayOutputStream;
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -70,15 +61,12 @@ import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import application.ucweb.proyectoecoinca.util.Preferencia;
-<<<<<<< HEAD
+
 import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
-=======
-import butterknife.BindView;
-import butterknife.OnClick;
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 import me.originqiu.library.EditTag;
 
 public class MiPerfilActivity extends BaseActivity {
@@ -92,24 +80,19 @@ public class MiPerfilActivity extends BaseActivity {
     @BindView(R.id.tv_nombre_mi_perfil) TextView nombre_empresa;
     private TabMiPerfilAdapter adapter;
     private ProgressDialog pDialog;
-<<<<<<< HEAD
+
     public static final int WRITE_PERMISSION = 0x01;
     private static int VALOR = 1;
     private String imagen_base = "";
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_perfil);
         iniciarLayout();
-<<<<<<< HEAD
+
         mostrarmensaje();
-
-
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
 
         usarGlideCircular(this, Usuario.getUsuario().getImagen_empresa(), imagen_empresa);
         nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
@@ -135,7 +118,6 @@ public class MiPerfilActivity extends BaseActivity {
         });
     }
 
-<<<<<<< HEAD
     private void mostrarmensaje() {
 
         String Descripcion = "";
@@ -299,13 +281,6 @@ public class MiPerfilActivity extends BaseActivity {
         return param;
 
     }
-
-
-
-
-
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
     @OnClick(R.id.btnEditarPerfil)
     public void editarPerfil()  {
         new AlertDialog.Builder(this)
@@ -508,20 +483,4 @@ public class MiPerfilActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-<<<<<<< HEAD
-    /*@Override
-=======
-    @Override
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
-    protected void onDestroy() {
-        super.onDestroy();
-        new Preferencia(this).setActualizar_certificacion(false);
-        new Preferencia(this).setActualizar_sector_empresarial(false);
-        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
-        BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
-<<<<<<< HEAD
-    }*/
-=======
-    }
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
 }
