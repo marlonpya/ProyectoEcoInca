@@ -136,7 +136,6 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
 
-        //id_fk = BuscarDetalle.getIdPaisDefecto();
         if (red_social) {
             String nombre = getIntent().getStringExtra(Constantes.S_NOMBRE_INICIAR_SESION);
             String email = getIntent().getStringExtra(Constantes.S_EMAIL_INICIAR_SESION);
@@ -169,7 +168,6 @@ public class RegistroActivity extends BaseActivity {
                 else titulo_producto.setTextColor(Color.parseColor("#FF808080"));
             }
         });
-
     }
 
     private void requestDepartamento(final String codigo_pais) {
@@ -218,14 +216,12 @@ public class RegistroActivity extends BaseActivity {
     public void siguienteRegistro() {
         if (ConexionBroadcastReceiver.isConnected()) {
             if (validarRegistroEmpresa()) requestRegistrarEmpresa();
-        } else {
+        } else
             ConexionBroadcastReceiver.showSnack(layout, this);
-        }
     }
 
     @OnClick(R.id.fabRegistroAgregarImagen)
     public void agregarImagen() {
-
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
@@ -250,9 +246,8 @@ public class RegistroActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == WRITE_PERMISSION) {
-            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED)
                 Toast.makeText(this, R.string.permiso_imagen, Toast.LENGTH_SHORT).show();
-            }
         }
     }
 
@@ -455,9 +450,6 @@ public class RegistroActivity extends BaseActivity {
     private boolean validarRegistroEmpresa() {
         //agregar todos los diccionarios
         boolean resultado = false;
-        boolean resultado_imagen = true;
-
-        //if (imagen_subir.getDrawable() == null || imagen_base.isEmpty() ) { Toast.makeText(getApplicationContext(), "ingrese una imagen", Toast.LENGTH_SHORT).show(); resultado_imagen= false; }
         if (!et_nombre_empresa.getText().toString().trim().equals("") &&
                 !et_pais.getText().toString().trim().equals("") &&
                 !et_ciudad.getText().toString().trim().equals("") &&
@@ -471,13 +463,10 @@ public class RegistroActivity extends BaseActivity {
                 !et_cargo_contacto_registro.getText().toString().trim().equals("") &&
                 !et_telefono_oficina.getText().toString().trim().equals("") &&
                 !et_celular.getText().toString().trim().equals("") &&
+                !et_email_contacto.getText().toString().trim().equals("")) resultado = true;
 
-                !et_email_contacto.getText().toString().trim().equals("")) /*&&
-                !et_website.getText().toString().trim().equals("") &&
-                !et_linkedin.getText().toString().trim().equals(""))*/ { resultado = true; }
-
-        else { Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show(); }
-        return (resultado && resultado_imagen);
+        else Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show();
+        return resultado;
     }
 
     private void requestRegistrarEmpresa() {
@@ -493,12 +482,9 @@ public class RegistroActivity extends BaseActivity {
                             try {
                                 JSONObject jsonObject = new JSONObject(s);
                                 Log.d(TAG, jsonObject.toString());
-                                if (jsonObject.getBoolean("status")) {
-                                    /*Toast.makeText(getApplicationContext(), R.string.m_creado_true, Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(RegistroActivity.this, IniciarSesionActivity.class)
-                                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));*/
+                                if (jsonObject.getBoolean("status"))
                                     IniciarSesionActivity.requestIniciarSesion(et_email, et_contrasenia, pDialog, RegistroActivity.this, preferencia.getTokenFcm());
-                                } else {
+                                else {
                                     int codigo = jsonObject.getInt("codigo");
                                     mostrarMensaje(codigo);
                                 }
@@ -589,8 +575,6 @@ public class RegistroActivity extends BaseActivity {
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_CERTIFICACIONES);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
-        /*if (FacebookA.iniciado()) FacebookA.cerrarSesion();
-        if (LinkedinA.iniciado(this)) LinkedinA.cerrarSesion(this);*/
     }
 
     @Override
@@ -600,4 +584,3 @@ public class RegistroActivity extends BaseActivity {
         if (LinkedinA.iniciado(this)) LinkedinA.cerrarSesion(this);
     }
 }
-

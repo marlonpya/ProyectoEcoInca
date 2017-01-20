@@ -62,9 +62,7 @@ public class InformacionPerfilEditarFragment extends Fragment {
     @BindView(R.id.ll_btn__pais) LinearLayout flecha_pais;
     @BindView(R.id.ll_btn_ciudad) LinearLayout flecha_ciudad;
     @BindView(R.id.btnSectorEmpresarial) LinearLayout flecha_sec_industria;
-    //@BindView(R.id.btnServicio) LinearLayout flecha_servicio;
     @BindView(R.id.btnCertificado) LinearLayout flecha_certificado;
-
     @BindView(R.id.et_nombre_editar) EditText et_nombre_editar;
     @BindView(R.id.et_pais_editar) EditText et_pais;
     @BindView(R.id.et_ciudad_editar) EditText et_ciudad;
@@ -263,5 +261,11 @@ public class InformacionPerfilEditarFragment extends Fragment {
             };
             Configuracion.getInstance().addToRequestQueue(request, TAG);
         } else ConexionBroadcastReceiver.showSnack(layout, getContext());
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null) realm.close();
     }
 }

@@ -34,7 +34,7 @@ public class BuscarResultadoListaActivity extends BaseActivity {
     private void cargarRRV() {
         realm = Realm.getDefaultInstance();
         lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_BUSQUEDA).findAll();
-        adapter = new EmpresaResultadoAdapter(this, lista_empresas, true, true);
+        adapter = new EmpresaResultadoAdapter(this, lista_empresas);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         cantidad_encontrados.setText(String.valueOf(lista_empresas.size()));

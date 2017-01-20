@@ -185,13 +185,18 @@
     <string name="se_requiere_correo">Se requiere autorizar email</string>
     <string name="permiso_imagen">Se requiere permiso para importar imagen</string>
 
-
     <!-- Mensaje de dialogo Perfil -->
 
     <string name="descripcion_pop">Falta completar Descripción</string>
     <string name="linkedin_pop">Falta completar Linkedin</string>
     <string name="web_pop">Falta completar Web</string>
     <string name="imagen_pop">Falta Imagen</string>
+
+    <!--Terminos y condiciones -->
+    <string name="terminos_y_condiciones_uso">Términos  y condiciones</string>
+    <string name="actualizacion_ok">Su actualización fue hecha satisfactoriamente</string>
+    <string name="actualizacion_error">Ocurrió un error, intente en unos minutos</string>
+    <string name="m_usuario_mas_7">Debe comprar cuenta plus para seguir haciendo negocio</string>
 
     <array name="certificaciones">
         <item>BPM</item>

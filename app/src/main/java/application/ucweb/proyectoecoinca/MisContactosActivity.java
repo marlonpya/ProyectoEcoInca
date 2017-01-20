@@ -43,7 +43,9 @@ public class MisContactosActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mis_contactos);
         iniciarLayout();
+
         requestContactos();
+        realm = Realm.getDefaultInstance();
         iniciarRRV();
     }
 
@@ -70,7 +72,7 @@ public class MisContactosActivity extends BaseActivity {
                         try {
                             JSONObject jData = new JSONObject(s);
 
-                            if(jData.getBoolean("status")){
+                            if(jData.getBoolean("status")) {
                                 JSONArray jArray = jData.getJSONArray("data");
                                 for (int i = 0; i < jArray.length(); i++) {
                                     Empresa empresa = new Empresa();
@@ -86,68 +88,42 @@ public class MisContactosActivity extends BaseActivity {
                                     empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                     empresa.setTipo_match(Empresa.M_ACEPTADO);
                                     empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
+                                    empresa.setTipo_empresa(Empresa.E_CONTACTO);
+                                    empresa.setPosicion(Empresa.getPos(jArray.getJSONObject(i).getInt("EMP_TIPO")));
                                     Empresa.registrarEmpresa(empresa);
                                 }
-                                adapter.notifyDataSetChanged();
-                                recyclerView.setRefreshing(false);
                             }
-
-                            JSONArray jArray = jData.getJSONArray("data");
-                            for (int i = 0; i < jArray.length(); i++) {
-                                Empresa empresa = new Empresa();
-                                empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
-                                empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
-                                empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
-                                empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
-                                empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
-                                empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
-                                empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
-                                empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
-                                empresa.setTipo_match(Empresa.M_DESCONOCIDO);
-                                empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
-                                Empresa.registrarEmpresa(empresa);
-                            }
-                            recyclerView.setRefreshing(false);
                         } catch (JSONException e) {
-                            e.printStackTrace();
-                            recyclerView.setRefreshing(false);
+                            Log.e(TAG, e.toString(), e);
                         }
+                        adapter.notifyDataSetChanged();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
-                        VolleyLog.d(volleyError.getMessage());
-                        recyclerView.setRefreshing(false);
+                        VolleyLog.d(volleyError.toString(), volleyError);
                     }
                 }
         ) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
-
                 params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
                 params.put("idtipo",String.valueOf(Usuario.getUsuario().getTipo_empresa()));
-
-                /*params.put("id_empresa", String.valueOf(Usuario.getUsuario().getId_empresa()));*/
-
                 return params;
             }
         };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
+        recyclerView.setRefreshing(false);
     }
 
     private void iniciarRRV() {
-        realm = Realm.getDefaultInstance();
-        lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
-                .or()
-                .equalTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
-        adapter = new MisContactosAdapter(this, lista_empresas, true, true);
+        lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
+        adapter = new MisContactosAdapter(this, lista_empresas);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         Log.d(TAG, lista_empresas.toString());
-
     }
 
     private void iniciarLayout() {
@@ -158,5 +134,11 @@ public class MisContactosActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realm != null) realm.close();
     }
 }

@@ -19,6 +19,11 @@ public class UsuarioCertificacion extends RealmObject {
     public static final String TAG = UsuarioSectorEmpresarial.class.getSimpleName();
     public static final String ID = "id";
 
+    @PrimaryKey
+    private long id;
+    @Required
+    private String descripcion;
+
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
         Number number = realm.where(UsuarioCertificacion.class).max(ID);
@@ -68,11 +73,6 @@ public class UsuarioCertificacion extends RealmObject {
         realm.commitTransaction();
         realm.close();
     }
-
-    @PrimaryKey
-    private long id;
-    @Required
-    private String descripcion;
 
     public long getId() {
         return id;

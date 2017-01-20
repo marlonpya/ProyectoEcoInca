@@ -31,7 +31,6 @@ public class Usuario extends RealmObject {
     private String anio_fundacion;
     @Required
     private String descripcion;
-
     private int tipo_empresa;
     @Required
     private String imagen_empresa;
@@ -51,13 +50,9 @@ public class Usuario extends RealmObject {
     private String web;
     @Required
     private String linkedin;
-
     private boolean plus;
-
     private boolean sesion;
-
     private int cantidad_busqueda;
-
 
     public static void iniciarSesion(Usuario usuario) {
         Realm realm = Realm.getDefaultInstance();
@@ -162,13 +157,7 @@ public class Usuario extends RealmObject {
 
     public static Usuario getUsuario() {
         Realm realm = Realm.getDefaultInstance();
-        Usuario usuario = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
-        if (usuario != null) {
-            return usuario;
-        } else {
-            Log.e(TAG, "getUsuario: USUARIO NULLO");
-            return null;
-        }
+        return realm.where(Usuario.class).equalTo(ID, 1).findFirst();
     }
 
     public static void aumentarCantidadBusqueda(int cantidad) {

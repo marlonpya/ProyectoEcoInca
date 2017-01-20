@@ -26,10 +26,8 @@ import io.realm.RealmViewHolder;
 public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, MisContactosAdapter.ViewHolder> {
     public MisContactosAdapter(
             Context context,
-            RealmResults<Empresa> realmResults,
-            boolean automaticUpdate,
-            boolean animateResults) {
-        super(context, realmResults, automaticUpdate, animateResults);
+            RealmResults<Empresa> realmResults) {
+        super(context, realmResults, true, true);
     }
 
     @Override

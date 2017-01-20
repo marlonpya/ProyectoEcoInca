@@ -13,11 +13,12 @@ import io.realm.annotations.Required;
  */
 public class Empresa extends RealmObject{
     public static final String TAG = Empresa.class.getSimpleName();
-    public static final String ID = "id";
+    public static final String ID           = "id";
     public static final String ID_SERVER = "id_server";
     public static final String TIPO_NEGOCIO = "tipo_negocio";
     public static final String TIPO_EMPRESA = "tipo_empresa";
     public static final String TIPO_MATCH   = "tipo_match";
+    public static final String POSICION     = "posicion";
 
     //tipo_negocio
     public static final int N_COMPRADOR         = 0;
@@ -36,6 +37,10 @@ public class Empresa extends RealmObject{
 
     public static final int ID_MACTH_DEFAULT    = -1;
 
+    //posicion
+    public static final int IZQUIERDA           = 0; //VENDEDORES
+    public static final int DERECHA             = 1; //COMPRADORES
+
     @PrimaryKey
     private long id;
     private int id_server;
@@ -51,6 +56,7 @@ public class Empresa extends RealmObject{
     private String pdf;
     private int tipo_match;
     private int id_match;
+    private int posicion;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -67,26 +73,20 @@ public class Empresa extends RealmObject{
         realm.close();
     }
 
-    public static void registrarEmpresa(Empresa emp, int tipo_empresa) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-        Empresa empresa = realm.createObject(Empresa.class);
-        empresa.setId(getUltimoId());
-        empresa.setId_server(emp.getId_server());
-        empresa.setNombre(emp.getNombre());
-        empresa.setTipo_negocio(emp.getTipo_negocio());
-        empresa.setImagen(emp.getImagen());
-        empresa.setTipo_empresa(tipo_empresa);
-        empresa.setCiudad(emp.getCiudad());
-        empresa.setPais(emp.getPais());
-        empresa.setAnio_f(emp.getAnio_f());
-        empresa.setDescripcion(emp.getDescripcion());
-        empresa.setPdf(emp.getPdf());
-        empresa.setTipo_match(emp.getTipo_match());
-        realm.copyToRealm(empresa);
-        realm.commitTransaction();
-        realm.close();
-        Log.d(TAG, "registrarEmpresa"+emp.getNombre());
+    public static int getPos(int posicion) {
+        int resultado;
+        Usuario usuario = Usuario.getUsuario();
+        if (usuario.getTipo_empresa() == Empresa.N_COMPRADOR) {
+            if (posicion == Empresa.N_VENDEDOR || posicion == Empresa.N_AMBOS) resultado = IZQUIERDA;
+            else resultado = DERECHA;
+        } else if (usuario.getTipo_empresa() == Empresa.N_VENDEDOR) {
+            if (posicion == Empresa.N_COMPRADOR || posicion == Empresa.N_AMBOS) resultado = DERECHA;
+            else resultado = IZQUIERDA;
+        } else {
+            //Empresa.N_AMBOS
+            resultado = posicion;
+        }
+        return resultado;
     }
 
     public static void registrarEmpresa(Empresa emp) {
@@ -108,6 +108,7 @@ public class Empresa extends RealmObject{
             emp_new.setTipo_match(emp.getTipo_match());
             emp_new.setTipo_negocio(emp.getTipo_negocio());
             emp_new.setId_match(emp_new.getId_match());
+            emp_new.setPosicion(emp_new.getPosicion());
             realm.copyToRealmOrUpdate(emp_new);
             Log.d(TAG, emp_new.toString());
         } else {
@@ -124,6 +125,7 @@ public class Empresa extends RealmObject{
             empresa.setTipo_match(emp.getTipo_match());
             empresa.setTipo_negocio(emp.getTipo_negocio());
             empresa.setId_match(emp.getId_match());
+            empresa.setPosicion(emp.getPosicion());
             Log.d(TAG, empresa.toString());
         }
         realm.commitTransaction();
@@ -286,5 +288,13 @@ public class Empresa extends RealmObject{
 
     public void setId_match(int id_match) {
         this.id_match = id_match;
+    }
+
+    public int getPosicion() {
+        return posicion;
+    }
+
+    public void setPosicion(int posicion) {
+        this.posicion = posicion;
     }
 }

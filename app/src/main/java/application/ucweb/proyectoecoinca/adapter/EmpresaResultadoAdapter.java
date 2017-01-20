@@ -27,10 +27,8 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
 
     public EmpresaResultadoAdapter(
             Context context,
-            RealmResults<Empresa> realmResults,
-            boolean automaticUpdate,
-            boolean animateResults) {
-        super(context, realmResults, automaticUpdate, animateResults);
+            RealmResults<Empresa> realmResults) {
+        super(context, realmResults, true, true);
     }
 
     @Override

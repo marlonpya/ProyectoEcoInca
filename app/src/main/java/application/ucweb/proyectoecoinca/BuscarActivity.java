@@ -59,12 +59,6 @@ public class BuscarActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buscar);
         iniciarLayout();
-
-        View view = getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_EMPRESARIAL);
         BuscarDetalle.desmarcar(BuscarDetalle.TIPO_PAIS);
     }
@@ -79,26 +73,24 @@ public class BuscarActivity extends BaseActivity {
     @OnClick(R.id.btnBuscar)
     public void buscar() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            if (Usuario.getUsuario().isPlus() || Usuario.getUsuario().getCantidad_busqueda() <= 7) {
-                if (validarBusqueda()) {
+            if (validarBusqueda()) {
+                if (Usuario.getUsuario().isPlus() || Usuario.getUsuario().getCantidad_busqueda() <= 7)
                     requestBusquedaSimple();
-                }
-            } else {
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.app_name)
-                        .setMessage(R.string.m_usuario_no_plus)
-                        .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(BuscarActivity.this, PlusActivity.class));
-                            }
-                        })
-                        .setNegativeButton(R.string.cancelar, null)
-                        .show();
+                 else
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.app_name)
+                            .setMessage(R.string.m_usuario_mas_7)
+                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(BuscarActivity.this, PlusActivity.class));
+                                }
+                            })
+                            .setNegativeButton(R.string.cancelar, null)
+                            .show();
             }
-        } else {
+        } else
             ConexionBroadcastReceiver.showSnack(layout, this);
-        }
     }
 
     private void requestBusquedaSimple() {
@@ -132,10 +124,11 @@ public class BuscarActivity extends BaseActivity {
                                 empresa.setTipo_match(Empresa.M_DESCONOCIDO);
                                 empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
                                 empresa.setTipo_empresa(Empresa.E_BUSQUEDA);
+                                empresa.setPosicion(Empresa.getPos(jArray.getJSONObject(i).getInt("EMP_TIPO")));
                                 Empresa.registrarEmpresa(empresa);
                             }
                             Log.d(TAG, String.valueOf(jData.getInt("cantbusqueda")));
-                            Usuario.aumentarCantidadBusqueda(jData.getInt("cantbusqueda"));
+                            Usuario.aumentarCantidadBusqueda(jData.getInt("cantbusqueda") + 1);
                             hidepDialog(pDialog);
                             if (jData.getBoolean("status")) startActivity(new Intent(BuscarActivity.this, BuscarResultadoListaActivity.class));
                         } catch (JSONException e) {

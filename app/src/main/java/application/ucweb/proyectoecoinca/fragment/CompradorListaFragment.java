@@ -46,7 +46,7 @@ public class CompradorListaFragment extends Fragment {
     @BindView(R.id.layout_fragment_comprador_lista) LinearLayout layout;
     private Realm realm;
     private EmpresaAdapter adapter;
-    private RealmResults<Empresa> lista_empresas;
+    private RealmResults<Empresa> lista;
     private ProgressDialog pDialog;
 
     public CompradorListaFragment() { }
@@ -56,23 +56,21 @@ public class CompradorListaFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comprador_lista, container, false);
         ButterKnife.bind(this, view);
-        //iniciarPDialog();
 
-        //if (ConexionBroadcastReceiver.isConnected()) requestMisSeguidores();
-
+        realm = Realm.getDefaultInstance();
         cargarRRV();
         return view;
     }
 
     private void cargarRRV() {
-        realm = Realm.getDefaultInstance();
-        lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
+        /*lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
 
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_VENDEDOR).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA)
                 .or()
-                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();
+                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();*/
 
-        adapter = new EmpresaAdapter(getActivity(), lista_empresas, true, true);
+        lista = realm.where(Empresa.class).equalTo(Empresa.POSICION, Empresa.IZQUIERDA).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
+        adapter = new EmpresaAdapter(getActivity(), lista, true, true);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -81,13 +79,12 @@ public class CompradorListaFragment extends Fragment {
     public void onResume() {
         super.onResume();
         adapter.notifyDataSetChanged();
-        Log.d(TAG, lista_empresas.toString());
+        Log.d(TAG, lista.toString());
     }
 
-    private void iniciarPDialog() {
-        pDialog = new ProgressDialog(getActivity());
-        pDialog.setTitle(R.string.app_name);
-        pDialog.setMessage(getString(R.string.m_busqueda));
-        pDialog.setCancelable(false);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null) realm.close();
     }
 }

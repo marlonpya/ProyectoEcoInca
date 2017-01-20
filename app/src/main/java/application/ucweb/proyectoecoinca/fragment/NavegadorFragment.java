@@ -24,10 +24,13 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.linkedin.platform.LISessionManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +43,8 @@ import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.ItemNavegador;
 import application.ucweb.proyectoecoinca.model.Usuario;
+import application.ucweb.proyectoecoinca.util.CirculoView;
+import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Preferencia;
 import application.ucweb.proyectoecoinca.util.RealmHelper;
 import butterknife.BindView;
@@ -88,7 +93,6 @@ public class NavegadorFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) { }
         }));
-        sesion();
         return view;
     }
 
@@ -225,7 +229,12 @@ public class NavegadorFragment extends Fragment {
     }
 
     private void sesion() {
-        if (Usuario.getUsuario().getImagen_empresa() != null) BaseActivity.usarGlideCircular(getContext(), Usuario.getUsuario().getImagen_empresa(), icono_empresa);
+        if (Usuario.getUsuario().getImagen_empresa() != null) {
+            if (ConexionBroadcastReceiver.isConnected())
+                Glide.with(this).load(Usuario.getUsuario().getImagen_empresa()).transform(new CirculoView(getActivity())).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(icono_empresa);
+            else
+                BaseActivity.usarGlideCircular(getActivity(), Usuario.getUsuario().getImagen_empresa(), icono_empresa);
+        }
         nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
         switch (Usuario.getUsuario().getTipo_empresa()) {
             case Empresa.N_VENDEDOR : tipo_empresa.setText(R.string.vendedor); break;

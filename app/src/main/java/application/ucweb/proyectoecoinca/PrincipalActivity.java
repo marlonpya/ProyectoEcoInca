@@ -4,29 +4,21 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.design.widget.AppBarLayout;
-
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.widget.DrawerLayout;
-
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import android.view.View;
 import android.widget.ImageView;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
-import application.ucweb.proyectoecoinca.fragment.InicioFragment;
 import application.ucweb.proyectoecoinca.fragment.NavegadorFragment;
 import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
@@ -36,10 +28,8 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
     public static final String TAG = PrincipalActivity.class.getSimpleName();
     @BindView(R.id.myDrawerLayout) DrawerLayout drawerLayout;
     @BindView(R.id.appbar) Toolbar toolbar;
-
     @BindView(R.id.iv_contorno_mundo_principal) ImageView contorno_mundo_principal;
     @BindView(R.id.iv_mundo_principal) ImageView imagen_mundo;
-
     private NavegadorFragment navegadorFragment;
     private ObjectAnimator animator;
 
@@ -49,10 +39,6 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         setContentView(R.layout.coordinator_activity_principal);
         iniciarLayout();
         configuracionNavegador();
-
-        cambiarFragment(0);
-
-
         FirebaseMessaging.getInstance().subscribeToTopic("liaison");
 
         Log.d(TAG, new Preferencia(this).getTokenFcm());
@@ -66,24 +52,12 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
 
     private void cambiarFragment(int posicion) {
         switch (posicion) {
-
-            //case 0 : iniciarPrimerFragment(); break;
-
-            /*case 0 : iniciarPrimerFragment(); break;*/
-
             case 1 : startActivity(new Intent(this, MiPerfilActivity.class));       break;
             case 2 : startActivity(new Intent(this, BuscarActivity.class));         break;
             case 3 : startActivity(new Intent(this, VamosAlNegocioActivity.class)); break;
             case 4 : startActivity(new Intent(this, PlusActivity.class));           break;
             case 5 : startActivity(new Intent(this, MisContactosActivity.class));   break;
         }
-    }
-
-    private void iniciarPrimerFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.contenedor, new InicioFragment());
-        transaction.commit();
     }
 
     private void configuracionNavegador() {
@@ -112,11 +86,9 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         animator = ObjectAnimator.ofFloat(contorno_mundo_principal, "rotation", 360);
         animator.setRepeatCount(ValueAnimator.INFINITE);
         animator.setDuration(10000);
-        //animator.setStartDelay(1000);
         animator.setInterpolator(new FastOutLinearInInterpolator());
         animator.start();
     }
-
 
     @OnClick(R.id.btnIrABuscar)
     public void irABuscar() { startActivity(new Intent(getApplicationContext(), BuscarActivity.class)); }
@@ -134,7 +106,6 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.terminos_condiciones){
@@ -142,7 +113,7 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
             new AlertDialog.Builder(this)
                     .setTitle("LIAISON TERMS OF USE AGREEMENT")
                     .setView(view)
-                    .setPositiveButton("aceptar",null)
+                    .setPositiveButton(R.string.aceptar, null)
                     .show();
         }
         return false;

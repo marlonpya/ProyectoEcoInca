@@ -274,9 +274,6 @@ import butterknife.OnClick;
             final String correo,
             final String token,
             final int estado) {
-
-         /*   final String token) {*/
-
         Log.d(TAG, "idTipopaquete_"+idTipopaquete);
         Log.d(TAG, "descripcion_"+descripcion);
         Log.d(TAG, "direccion_"+direccion);

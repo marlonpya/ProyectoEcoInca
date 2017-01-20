@@ -1,27 +1,22 @@
 package application.ucweb.proyectoecoinca;
 
-import android.*;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.audiofx.AudioEffect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-
 import android.util.Base64;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -32,18 +27,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -58,19 +56,17 @@ import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.model.UsuarioCertificacion;
 import application.ucweb.proyectoecoinca.model.UsuarioProducto;
 import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
+import application.ucweb.proyectoecoinca.util.CirculoView;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
-import application.ucweb.proyectoecoinca.util.Preferencia;
-
 import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
-
 import me.originqiu.library.EditTag;
 
 public class MiPerfilActivity extends BaseActivity {
-    public static final String TAG = MiPerfilActivity.class.getSimpleName();
+    private static final String TAG = MiPerfilActivity.class.getSimpleName();
     @BindView(R.id.layout_activity_mi_perfil) RelativeLayout layout;
     @BindView(R.id.tab_layout) TabLayout tab_layout;
     @BindView(R.id.pager) ViewPager pager;
@@ -80,21 +76,21 @@ public class MiPerfilActivity extends BaseActivity {
     @BindView(R.id.tv_nombre_mi_perfil) TextView nombre_empresa;
     private TabMiPerfilAdapter adapter;
     private ProgressDialog pDialog;
-
     public static final int WRITE_PERMISSION = 0x01;
     private static int VALOR = 1;
     private String imagen_base = "";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mi_perfil);
+
         iniciarLayout();
-
         mostrarmensaje();
-
-        usarGlideCircular(this, Usuario.getUsuario().getImagen_empresa(), imagen_empresa);
+        if (ConexionBroadcastReceiver.isConnected())
+            Glide.with(this).load(Usuario.getUsuario().getImagen_empresa()).transform(new CirculoView(this)).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imagen_empresa);
+        else
+            BaseActivity.usarGlideCircular(this, Usuario.getUsuario().getImagen_empresa(), imagen_empresa);
         nombre_empresa.setText(Usuario.getUsuario().getNombre_empresa());
 
         tab_layout.addTab(tab_layout.newTab());
@@ -119,73 +115,50 @@ public class MiPerfilActivity extends BaseActivity {
     }
 
     private void mostrarmensaje() {
-
-        String Descripcion = "";
-        String Linkedin = "";
-        String Web = "";
-        String Imagen = "";
-
-        if(Usuario.getUsuario() != null){
-
-          /*  Log.d(TAG, Usuario.getUsuario().getImagen_empresa());*/
-
+        String descripcion = "";
+        String linkedin = "";
+        String web = "";
+        String imagen = "";
+        if(Usuario.getUsuario() != null) {
             if(Usuario.getUsuario().getDescripcion().isEmpty() || Usuario.getUsuario().getLinkedin().isEmpty() ||
-                    Usuario.getUsuario().getWeb().isEmpty() || Usuario.getUsuario().getImagen_empresa().isEmpty()){
-
+                    Usuario.getUsuario().getWeb().isEmpty() || Usuario.getUsuario().getImagen_empresa().isEmpty()) {
 
                 if(Usuario.getUsuario().getDescripcion().isEmpty()){
-                    Descripcion = getString(R.string.descripcion_pop) + "\n";
+                    descripcion = getString(R.string.descripcion_pop) + "\n";
                 }
                 if(Usuario.getUsuario().getLinkedin().isEmpty()){
-                    Linkedin = getString(R.string.linkedin_pop) + "\n";
+                    linkedin = getString(R.string.linkedin_pop) + "\n";
                 }
                 if( Usuario.getUsuario().getWeb().isEmpty()){
-                    Web = getString(R.string.web_pop)+ "\n";
+                    web = getString(R.string.web_pop)+ "\n";
                 }
-
                 if(validarimagen()){
-                    Imagen = getString(R.string.imagen_pop);
+                    imagen = getString(R.string.imagen_pop);
                 }
                 new AlertDialog.Builder(this)
                         .setTitle(R.string.app_name)
-                        .setMessage(Descripcion + Linkedin + Web + Imagen)
+                        .setMessage(descripcion + linkedin + web + imagen)
                         .setPositiveButton(R.string.aceptar,null)
                         .show();
-
             }
         }
     }
 
     private boolean validarimagen() {
-
         String Imagen = Usuario.getUsuario().getImagen_empresa();
         String ultcaracter = Imagen.substring(Imagen.length() - 1);
-
-        if(!ultcaracter.equals("g")){
-            return true;
-        }else{
-            return false;
-        }
-
+        return !ultcaracter.equals("g");
     }
 
     @OnClick(R.id.iv_imagen_empresa_mi_perfil)
-    public void editarImagenValidar(){
-
-        if(Build.VERSION.SDK_INT >= 23){
-
-            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+    public void editarImagenValidar() {
+        if(Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
                 ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
-            } else {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, VALOR);
-            }
-
-        }else{
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(intent, VALOR);
-        }
-
+             else
+                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
+        }else
+            startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
     }
 
     @Override
@@ -211,7 +184,8 @@ public class MiPerfilActivity extends BaseActivity {
                     byte[] bytes_local = outputStream.toByteArray();
                     String imagen_encode = Base64.encodeToString(bytes_local, Base64.DEFAULT);
                     Log.d(TAG, "imagen_encode\n" + imagen_encode);
-                    imagen_empresa.setImageURI(imagen_selecionada);
+                    //imagen_empresa.setImageURI(imagen_selecionada);
+                    Glide.with(this).load(new File(mi_path)).transform(new CirculoView(this)).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).into(imagen_empresa);
                     imagen_base = imagen_encode;
                     if (!imagen_base.isEmpty()) editarImagen(String.valueOf(Usuario.getUsuario().getId_empresa()));
                 }
@@ -229,29 +203,38 @@ public class MiPerfilActivity extends BaseActivity {
                         @Override
                         public void onResponse(String s) {
                             String path = "";
-                            hidepDialog(pDialog);
                             try {
                                 JSONObject jsonObject = new JSONObject(s);
                                 path  = jsonObject.getString("data");
-
+                                hidepDialog(pDialog);
                                 if (!path.isEmpty()) {
                                     Realm realm = Realm.getDefaultInstance();
                                     Usuario usuario = realm.where(Usuario.class).equalTo("id", 1).findFirst();
                                     realm.beginTransaction();
+                                    usuario.setImagen_empresa("");
                                     usuario.setImagen_empresa(path);
                                     realm.commitTransaction();
-                                }
-
+                                    realm.close();
+                                    Log.d(TAG, usuario.toString());
+                                } else new AlertDialog.Builder(MiPerfilActivity.this)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(getString(R.string.actualizacion_error))
+                                        .show();
                             } catch (JSONException e) {
-                                e.printStackTrace();
+                                Log.e(TAG, e.toString(), e);
+                                hidepDialog(pDialog);
                             }
-
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
+                            VolleyLog.e(volleyError.toString(), volleyError);
                             hidepDialog(pDialog);
+                            new AlertDialog.Builder(MiPerfilActivity.this)
+                                    .setTitle(R.string.app_name)
+                                    .setMessage(getString(R.string.actualizacion_error))
+                                    .show();
                         }
                     }
             ) {
@@ -267,20 +250,6 @@ public class MiPerfilActivity extends BaseActivity {
         }else { ConexionBroadcastReceiver.showSnack(layout, this); }
     }
 
-    private Map<String, String> crearHashMap(
-            final String imagen)
-            throws JSONException {
-        final String jsonArrayNombre = "registrarEmpresa";
-        Map<String, String> param = new HashMap<>();
-        JSONArray jsonArray = new JSONArray();
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("imagen", imagen);
-
-        param.put(jsonArrayNombre, jsonArray.toString());
-        Log.d(TAG, "parámetros_"+param.toString());
-        return param;
-
-    }
     @OnClick(R.id.btnEditarPerfil)
     public void editarPerfil()  {
         new AlertDialog.Builder(this)
@@ -291,9 +260,8 @@ public class MiPerfilActivity extends BaseActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         if (ConexionBroadcastReceiver.isConnected()) {
                             if (validarEditar()) requestEditarPerfil();
-                        } else {
+                        } else
                             ConexionBroadcastReceiver.showSnack(layout, MiPerfilActivity.this);
-                        }
                     }
                 })
                 .setNegativeButton(R.string.cancelar, null)
@@ -318,17 +286,14 @@ public class MiPerfilActivity extends BaseActivity {
             String telefono         = ((EditText)fragment.getView().findViewById(R.id.et_telefono_contacto_editar)).getText().toString();
             String celular          = ((EditText)fragment.getView().findViewById(R.id.et_movil_contacto_editar)).getText().toString();
             String email_contacto   = ((EditText)fragment.getView().findViewById(R.id.et_email_contacto_editar)).getText().toString();
-            String web              = ((EditText)fragment.getView().findViewById(R.id.et_website_contacto_editar)).getText().toString();
-            String linkedin         = ((EditText)fragment.getView().findViewById(R.id.et_linkedin_contacto_editar)).getText().toString();
 
             resultado = !productos.getTagList().isEmpty() && !sector_empresarial.getText().toString().isEmpty() &&
                         !nombre_empresa.isEmpty() && !pais.isEmpty() && !ciudad.isEmpty() && !email.isEmpty() &&
                         !anio_f.isEmpty() && !descripcion_emp.isEmpty() && !nombre_contaco.isEmpty() && !apellido.isEmpty() &&
                         !cargo.isEmpty() && !telefono.isEmpty() && !telefono.isEmpty() && !telefono.isEmpty() &&
-                        !celular.isEmpty() && !email_contacto.isEmpty() && !email_contacto.isEmpty() && !web.isEmpty() && !linkedin.isEmpty();
+                        !celular.isEmpty() && !email_contacto.isEmpty() && !email_contacto.isEmpty();
         }
         if (!resultado) Toast.makeText(this, R.string.m_existen_campos_vacíos, Toast.LENGTH_SHORT).show();
-        Log.d(TAG, String.valueOf(resultado));
         return resultado;
     }
 
@@ -374,6 +339,8 @@ public class MiPerfilActivity extends BaseActivity {
             JSONArray jSectorEmpresarial = new JSONArray();
             ArrayList<String> array_sector = UsuarioSectorEmpresarial.getSectoresEmpresariales();
             if (BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL).size() != 0) array_sector = BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL);
+            UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
+            UsuarioSectorEmpresarial.crearSectorEmpresarial(array_sector);
             for (String sector_emp : array_sector) {
                 JSONObject json_sector_emp = new JSONObject();
                 json_sector_emp.put("sector_empresarial", sector_emp);
@@ -381,6 +348,8 @@ public class MiPerfilActivity extends BaseActivity {
             }
             jsonArray.put(jSectorEmpresarial);
 
+            UsuarioProducto.limpiarProductos();
+            UsuarioProducto.crearProducto(productos);
             JSONArray jProducto = new JSONArray();
             for (String producto : productos) {
                 JSONObject json_producto = new JSONObject();
@@ -392,6 +361,8 @@ public class MiPerfilActivity extends BaseActivity {
             JSONArray jCertificacion = new JSONArray();
             ArrayList<String> array_certificacion = UsuarioCertificacion.getSectoresIndustriales();
             if (BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES).size() !=0) array_certificacion = BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES);
+            UsuarioCertificacion.limpiarCertificacion();
+            UsuarioCertificacion.crearCertificacion(array_certificacion);
             for(String certificacion : array_certificacion) {
                 JSONObject json_certificacion = new JSONObject();
                 json_certificacion.put("certificado", certificacion);
@@ -400,6 +371,30 @@ public class MiPerfilActivity extends BaseActivity {
             jsonArray.put(jCertificacion);
             hashmap.put("actualizarEmpresa", jsonArray.toString());
             Log.d(TAG, hashmap.toString());
+            Usuario usuario_viejo = Usuario.getUsuario();
+            Usuario usuario = new Usuario();
+            usuario.setId(usuario_viejo.getId());
+            usuario.setId_empresa(usuario_viejo.getId_empresa());
+            usuario.setTipo_empresa(usuario_viejo.getTipo_empresa());
+            usuario.setImagen_empresa(usuario_viejo.getImagen_empresa());
+            usuario.setNombre_empresa(nombre_empresa);
+            usuario.setPais(pais);
+            usuario.setCiudad(ciudad);
+            usuario.setEmail_empresa(email);
+            usuario.setAnio_fundacion(anio_f);
+            usuario.setDescripcion(descripcion_emp);
+            usuario.setNombre_contacto(nombre_contaco);
+            usuario.setApellido_contacto(apellido);
+            usuario.setCargo_contacto(cargo);
+            usuario.setTelefono(telefono);
+            usuario.setCelular(celular);
+            usuario.setEmail_contacto(email_contacto);
+            usuario.setWeb(web);
+            usuario.setLinkedin(linkedin);
+            usuario.setPlus(usuario_viejo.isPlus());
+            usuario.setSesion(true);
+            usuario.setCantidad_busqueda(usuario_viejo.getCantidad_busqueda());
+            Usuario.iniciarSesion(usuario);
             return hashmap;
         }
         return null;
@@ -416,22 +411,18 @@ public class MiPerfilActivity extends BaseActivity {
                         Log.d(TAG, s);
                         try {
                             JSONObject jData = new JSONObject(s);
-                            if (jData.getBoolean("status")) {
-                                UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
-                                UsuarioSectorEmpresarial.crearSectorEmpresarial(BuscarDetalle.getMarcados(BuscarDetalle.TIPO_EMPRESARIAL));
-
-                                Fragment fragment = getSupportFragmentManager().findFragmentById(InformacionPerfilEditarFragment.ID);
-                                List<String> productos = ((EditTag)fragment.getView().findViewById(R.id.et_sector_producto_editar)).getTagList();
-
-                                UsuarioProducto.limpiarProductos();
-                                UsuarioProducto.crearProducto(productos);
-
-                                UsuarioCertificacion.limpiarCertificacion();
-                                UsuarioCertificacion.crearCertificacion(BuscarDetalle.getMarcados(BuscarDetalle.TIPO_CERTIFICACIONES));
-                            }
-                            Log.d(TAG, jData.toString());
-                            //if la data es ok eliminar y crear; sector_empresarial, productos y certificaciones.
                             hidepDialog(pDialog);
+                            if (jData.getBoolean("status")) {
+                                new AlertDialog.Builder(MiPerfilActivity.this)
+                                        .setTitle(R.string.app_name)
+                                        .setMessage(getString(R.string.actualizacion_ok))
+                                        .show();
+                            } else new AlertDialog.Builder(MiPerfilActivity.this)
+                                    .setTitle(R.string.app_name)
+                                    .setMessage(getString(R.string.actualizacion_error))
+                                    .show();
+
+                            Log.d(TAG, jData.toString());
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hidepDialog(pDialog);
@@ -443,6 +434,10 @@ public class MiPerfilActivity extends BaseActivity {
                     public void onErrorResponse(VolleyError volleyError) {
                         hidepDialog(pDialog);
                         VolleyLog.d(volleyError.toString());
+                        new AlertDialog.Builder(MiPerfilActivity.this)
+                                .setTitle(R.string.app_name)
+                                .setMessage(getString(R.string.actualizacion_error))
+                                .show();
                     }
                 }
         ){
@@ -457,6 +452,7 @@ public class MiPerfilActivity extends BaseActivity {
                 return param;
             }
         };
+        request.setRetryPolicy(new DefaultRetryPolicy(30000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 

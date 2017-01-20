@@ -39,20 +39,19 @@ public class VendedorListaFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_vendedor_lista, container, false);
         ButterKnife.bind(this, view);
 
+        realm = Realm.getDefaultInstance();
         iniciarRRV();
         return view;
     }
 
     private void iniciarRRV() {
-        realm = Realm.getDefaultInstance();
-        lista = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
-
+        /*lista = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_COMPRADOR).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA)
                 .or()
-                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();
+                .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();*/
+        lista = realm.where(Empresa.class).equalTo(Empresa.POSICION, Empresa.DERECHA).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
 
-
-        adapter = new EmpresaResultadoAdapter(getActivity(), lista, true, true);
+        adapter = new EmpresaResultadoAdapter(getActivity(), lista);
         realmRecyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -64,4 +63,9 @@ public class VendedorListaFragment extends Fragment {
         Log.d(TAG, lista.toString());
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null) realm.close();
+    }
 }

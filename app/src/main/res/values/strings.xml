@@ -202,6 +202,9 @@
 
     <!--Terminos y condiciones -->
     <string name="terminos_y_condiciones_uso">Términos  y condiciones</string>
+    <string name="actualizacion_ok">Su actualización fue hecha satisfactoriamente</string>
+    <string name="actualizacion_error">Ocurrió un error, intente en unos minutos</string>
+    <string name="m_usuario_mas_7">Debe comprar cuenta plus para seguir haciendo negocio</string>
 
     <array name="certificaciones">
         <item>BPM</item>

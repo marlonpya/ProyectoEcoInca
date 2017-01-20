@@ -49,18 +49,13 @@ public class VamosAlNegocioActivity extends BaseActivity {
         setContentView(R.layout.activity_vamos_al_negocio);
         iniciarLayout();
 
-
-        if(ConexionBroadcastReceiver.isConnected()) {
-            if (Usuario.getUsuario().getTipo_empresa() != 2) {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            if (Usuario.getUsuario().getTipo_empresa() != Empresa.N_AMBOS) {
                 requestMisSeguidores();
-            }else{
+            } else {
                 requestMisSeguidorestipo2();
             }
         }
-
-        /*if(ConexionBroadcastReceiver.isConnected()) requestMisSeguidores();*/
-
-
         tab_layout.addTab(tab_layout.newTab());
         tab_layout.addTab(tab_layout.newTab());
         setupTabLayout();
@@ -147,6 +142,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                 empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
+                                empresa.setPosicion(Empresa.IZQUIERDA);
                                 Empresa.registrarEmpresa(empresa);
                                 Log.d(TAG, empresa.toString());
                             }
@@ -169,6 +165,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                 empresa.setId_match(jData2.getJSONObject(i).getInt("SEG_ID"));
+                                empresa.setPosicion(Empresa.DERECHA);
                                 Empresa.registrarEmpresa(empresa);
                                 Log.d(TAG, empresa.toString());
                             }
@@ -212,7 +209,6 @@ public class VamosAlNegocioActivity extends BaseActivity {
 
     private void iniciarLayout() {
         setToolbarSon(toolbar, this, getString(R.string.nav_vamos_al_negocio));
-
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
         pDialog.setMessage(getString(R.string.m_busqueda));
@@ -239,12 +235,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                             JSONArray jData = jsonObject.getJSONArray("data");
                             for (int i = 0; i < jData.length(); i++) {
                                 Empresa empresa = new Empresa();
-
                                 empresa.setId(Empresa.getUltimoId());
-
-                                /*int id_empresa = jData.getJSONObject(i).getInt("SEG_ID_SEGUIDOR") != Usuario.getUsuario().getId_empresa() ? jData.getJSONObject(i).getInt("SEG_ID_SEGUIDOR") : jData.getJSONObject(i).getInt("SEG_ID_SEGUIDO");
-                                int tipo_empresa = id_empresa*/
-
                                 empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
                                 empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
                                 empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
@@ -257,6 +248,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                 empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
+                                empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
                                 Empresa.registrarEmpresa(empresa);
                                 Log.d(TAG, empresa.toString());
                             }

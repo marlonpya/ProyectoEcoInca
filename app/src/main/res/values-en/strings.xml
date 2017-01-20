@@ -197,6 +197,9 @@
 
     <!--Terminos y condiciones -->
     <string name="terminos_y_condiciones_uso">terms and Conditions</string>
+    <string name="actualizacion_ok">Your upgrade was successful</string>
+    <string name="actualizacion_error">An error occurred, try in a few minutes</string>
+    <string name="m_usuario_mas_7">You must buy account plus to continue doing business</string>
 
     <array name="sectores_empresariales">
         <item>Agroindustry</item>
