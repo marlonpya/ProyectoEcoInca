@@ -138,13 +138,11 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
                                 empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setPdf(jData.getJSONObject(i).getString("EMP_PDF"));
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                 empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
                                 empresa.setPosicion(Empresa.IZQUIERDA);
                                 Empresa.registrarEmpresa(empresa);
-                                Log.d(TAG, empresa.toString());
                             }
 
                             JSONArray jData2 = jsonObject.getJSONArray("dataseguidor");
@@ -161,7 +159,6 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setPais(jData2.getJSONObject(i).getString("EMP_PAIS"));
                                 empresa.setAnio_f(jData2.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 empresa.setDescripcion(jData2.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setPdf(jData2.getJSONObject(i).getString("EMP_PDF"));
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                 empresa.setId_match(jData2.getJSONObject(i).getInt("SEG_ID"));
@@ -244,7 +241,6 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
                                 empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                 empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setPdf(jData.getJSONObject(i).getString("EMP_PDF"));
                                 empresa.setTipo_match(Empresa.M_ESPERA);
                                 empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                 empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));

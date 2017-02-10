@@ -17,6 +17,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
+import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.util.CirculoView;
 import butterknife.ButterKnife;
 
@@ -53,6 +54,7 @@ public class BaseActivity extends AppCompatActivity {
                 .load(rutaIcono)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
+                .placeholder(R.drawable.not_found)
                 .centerCrop()
                 .into(imageView);
     }
@@ -63,17 +65,20 @@ public class BaseActivity extends AppCompatActivity {
                 .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .crossFade()
+                .placeholder(R.drawable.not_found)
                 .into(imageView);
     }
 
     public static void usarGlideCircular(Context context, int ruta_imagen,ImageView imageView) {
         Glide.with(context.getApplicationContext()).load(ruta_imagen)
+                .placeholder(R.drawable.not_found)
                 .transform(new CirculoView(context.getApplicationContext()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(imageView);
     }
 
     public static void usarGlideCircular(Context context, String ruta_imagen,ImageView imageView) {
         Glide.with(context.getApplicationContext()).load(ruta_imagen)
+                .placeholder(R.drawable.not_found)
                 .transform(new CirculoView(context.getApplicationContext()))
                 .diskCacheStrategy(DiskCacheStrategy.ALL).crossFade().into(imageView);
     }

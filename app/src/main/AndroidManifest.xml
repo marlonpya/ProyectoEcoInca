@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistroOpcionActivity" />
         <activity android:name=".IniciarSesionActivity" />
         <activity android:name=".PrincipalActivity" />
         <activity android:name=".MiPerfilActivity" />
@@ -54,7 +53,8 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".ComprarPlusActivity"></activity>
+        <activity android:name=".ComprarPlusActivity" />
+        <activity android:name=".MiPerfilActivity2"></activity>
     </application>
 
 </manifest>

@@ -1,12 +1,10 @@
 package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Environment;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,9 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -24,54 +20,53 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.EmpresaSerializable;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
-import application.ucweb.proyectoecoinca.util.Util;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
+
 public class MiPerfilEmpresaActivity extends BaseActivity {
     public static final String TAG = MiPerfilEmpresaActivity.class.getSimpleName();
-    @BindView(R.id.toolbar_principal) Toolbar toolbar;
-    @BindView(R.id.iv_fondo_mi_perfil_empresa) ImageView fondo;
-    @BindView(R.id.iv_perfil_empresa) ImageView imagen_empresa;
-    @BindView(R.id.tv_nombre_empresa) TextView nombre_empresa;
-    @BindView(R.id.layout_activity_mi_perfil_empresa) RelativeLayout layout;
-    @BindView(R.id.tv_ciudad_empresa) TextView tvCiudad;
-    @BindView(R.id.tv_pais_empresa) TextView tvPais;
-    @BindView(R.id.tv_anio_f_empresa) TextView tvAnioF;
-    @BindView(R.id.tv_descripcion_empresa) TextView tvDescripcion;
-    @BindView(R.id.btnVamosHacerNegocio) Button btnVamosHacerNegocio;
+    @BindView(R.id.con_toolbar) Toolbar toolbar;
+    @BindView(R.id.layout_activity_mi_perfil_empresa) CoordinatorLayout layout;
+    @BindView(R.id.iv_perfil_empresa) ImageView iv_perfil_empresa;
+    @BindView(R.id.tv_descripcion_empresa) TextView tv_descripcion;
+    @BindView(R.id.tv_nombre_empresa) TextView tv_nombre;
+    @BindView(R.id.tv_ciudad_empresa) TextView tv_ciudad;
+    @BindView(R.id.tv_pais_empresa) TextView tv_pais;
+    @BindView(R.id.tv_sector_empresarial_empresa) TextView tv_sector_emp;
+    @BindView(R.id.tv_productos) TextView tv_productos;
+    @BindView(R.id.tv_certificados) TextView tv_certificados;
+    @BindView(R.id.tv_anio_fundacion) TextView tv_anio_fundacion;
+    @BindView(R.id.tv_web) TextView tv_web;
+    @BindView(R.id.tv_telefono) TextView tv_telefono;
+    @BindView(R.id.tv_correo) TextView tv_correo;
+    @BindView(R.id.btnVamosHacerNegocio) FloatingActionButton btnVamosHacerNegocio;
     private ProgressDialog pDialog;
-    private long id_intent;
-    private Realm realm;
+    private int id_intent;
+    private EmpresaSerializable empresaSerializable;
     private Empresa empresa;
-    private String idempresa = "";
-    private String idtipoempresa = "";
-    private String idempresaseguido = "";
-    private String nombreempresa = "";
-    private String pdfempresa = "";
-    private String idmatch = "";
+    private String idmatch = "-1";
+    private String idtipoempresa = "-1";
+    private String idempresaseguido = "-1";
+    private Realm realm;
+    private boolean isRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,42 +74,172 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         setContentView(R.layout.activity_mi_perfil_empresa);
         iniciarLayout();
 
+        isRealm = getIntent().getBooleanExtra(Constantes.EXTRA_IS_REAL, false);
+        realm = Realm.getDefaultInstance();
         recibirId();
-        nombreempresa = empresa.getNombre();
-        idempresa = String.valueOf(Usuario.getUsuario().getId_empresa());
-        idtipoempresa = String.valueOf(Usuario.getUsuario().getTipo_empresa());
-        idempresaseguido = String.valueOf(empresa.getId_server());
-        pdfempresa = empresa.getPdf();
-        idmatch = String.valueOf(empresa.getId_match());
-        if (getIntent().hasExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO))  btnVamosHacerNegocio.setEnabled(false);
+        if (getIntent().hasExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO)) btnVamosHacerNegocio.setVisibility(View.GONE);
     }
 
     private void recibirId() {
-        if (getIntent().hasExtra(Constantes.L_ID_EMPRESA)) {
-            id_intent = getIntent().getLongExtra(Constantes.L_ID_EMPRESA, -1);
-            realm = Realm.getDefaultInstance();
-            empresa = realm.where(Empresa.class).equalTo(Empresa.ID, id_intent).findFirst();
-            usarGlideCircular(this, empresa.getImagen(), imagen_empresa);
-            nombre_empresa.setText(empresa.getNombre());
-            tvCiudad.setText(empresa.getCiudad());
-            tvPais.setText(empresa.getPais());
-            tvAnioF.setText(empresa.getAnio_f());
-            tvDescripcion.setText(empresa.getDescripcion());
+        id_intent = getIntent().getIntExtra(Constantes.L_ID_EMPRESA, -1);
+
+        if (getIntent().hasExtra(Constantes.L_ID_EMPRESA) && !isRealm) {
+            Log.d(TAG, String.valueOf("ID_INTENT_ " + id_intent));
+            requestGetEmpresaId();
+        } if (isRealm) {
+            Log.d(TAG, String.valueOf(isRealm));
+            empresa = realm.where(Empresa.class).equalTo(Empresa.ID_SERVER, id_intent).findFirst();
+            if (empresa != null) {
+                Log.d(TAG, empresa.toString());
+                idmatch = String.valueOf(empresa.getId_match());
+                usarGlide(MiPerfilEmpresaActivity.this, empresa.getImagen(), iv_perfil_empresa);
+                tv_descripcion.setText(empresa.getDescripcion().isEmpty() || empresa.getDescripcion() == null ? "-" : empresa.getDescripcion());
+                tv_nombre.setText(empresa.getNombre().isEmpty() || empresa.getNombre() == null ? "-" : empresa.getDescripcion());
+                tv_ciudad.setText(empresa.getCiudad().isEmpty() || empresa.getCiudad() == null ? "-" : empresa.getCiudad());
+                tv_pais.setText(empresa.getPais().isEmpty() || empresa.getPais() == null ? "-" : empresa.getPais());
+                //tv_sector_emp
+                //tv_productos
+                //tv_certificados
+                tv_anio_fundacion.setText(empresa.getAnio_f().isEmpty() || empresa.getAnio_f() == null ? "-" : empresa.getAnio_f());
+                /*tv_web.setText();
+                tv_telefono.setText(empresa.getT);
+                        tv_correo*/
+            }
         }
     }
 
     @OnClick(R.id.btnVamosHacerNegocio)
     public void vamosHacerNegocio() {
-        if (empresa.getTipo_empresa() == Empresa.E_BUSQUEDA) {
-            switch (Empresa.identificarEmpresaContacto(empresa.getTipo_match())) {
+        /*if (empresaSerializable.getTipo_empresa() == Empresa.E_BUSQUEDA) {
+            switch (Empresa.identificarEmpresaContacto(empresaSerializable.getTipo_match())) {
                 case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
                 case Empresa.M_RECHAZADO    : requestVamosHacerNegocio(); break;
                 case Empresa.M_ACEPTADO     : mostrarMensaje(Empresa.M_ACEPTADO); break;
                 case Empresa.M_ESPERA       : mostrarMensaje(Empresa.M_ACEPTADO); break;
             }
-        } else if (empresa.getTipo_empresa() == Empresa.E_CONTACTO && empresa.getTipo_match() == Empresa.M_ESPERA) {
+        } else if (empresaSerializable.getTipo_empresa() == Empresa.E_CONTACTO && empresaSerializable.getTipo_match() == Empresa.M_ESPERA) {
             requestAceptarNegocio();
-        }
+        }*/
+        if (isRealm) requestAceptarNegocio();
+        else requestVamosHacerNegocio();
+    }
+
+    private void requestGetEmpresaId() {
+        if (ConexionBroadcastReceiver.isConnected()) {
+            showDialog(pDialog);
+            StringRequest request = new StringRequest(
+                    Request.Method.POST,
+                    Constantes.URL_EMPRESA_X_ID,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String s) {
+                            Log.d(TAG, s);
+                            try {
+                                JSONObject jsonObject = new JSONObject(s);
+                                JSONObject jData = jsonObject.getJSONObject("data");
+
+                                if (jsonObject.getBoolean("status")) {
+                                    JSONObject jEmpresa = jData.getJSONArray("empresa").getJSONObject(0);
+
+                                    //int id_server, String nombre, String imagen, String ciudad, String pais, String anio_f, String descripcion, String web, String telefono1, String telefono2, String correo1, String correo2) {
+                                    empresaSerializable = new EmpresaSerializable(
+                                            jEmpresa.getInt("EMP_ID"),
+                                            jEmpresa.getString("EMP_NOMBRE"),
+                                            jEmpresa.getString("EMP_IMAGEN"),
+                                            jEmpresa.getString("EMP_CIUDAD"),
+                                            jEmpresa.getString("EMP_PAIS"),
+                                            jEmpresa.getString("EMP_ANIO_FUNDACION"),
+                                            jEmpresa.getString("EMP_DESCRIPCION"),
+                                            jEmpresa.getString("CON_WEB_SITE"),
+                                            jEmpresa.getString("CON_TELEFONO"),
+                                            jEmpresa.getString("CON_CELULAR"),
+                                            jEmpresa.getString("EMP_EMAIL"),
+                                            jEmpresa.getString("CON_EMAIL"),
+                                            jEmpresa.getInt("EMP_TIPO")
+                                    );
+                                    usarGlide(MiPerfilEmpresaActivity.this, empresaSerializable.getImagen(), iv_perfil_empresa);
+                                    //Glide.with(MiPerfilEmpresaActivity.this).load(empresaSerializable.getImagen()).fitCenter().override(400, 200).into(iv_perfil_empresa);
+                                    tv_descripcion.setText(empresaSerializable.getDescripcion().isEmpty() || empresaSerializable.getDescripcion() == null ? "-" : empresaSerializable.getDescripcion());
+                                    tv_nombre.setText(empresaSerializable.getNombre().isEmpty() || empresaSerializable.getNombre() == null ? "-" : empresaSerializable.getNombre());
+                                    tv_ciudad.setText(empresaSerializable.getCiudad().isEmpty() || empresaSerializable.getCiudad() == null ? "-" : empresaSerializable.getCiudad());
+                                    tv_pais.setText(empresaSerializable.getPais().isEmpty() || empresaSerializable.getPais().isEmpty() ? "-" : empresaSerializable.getPais());
+
+                                    String sector_empresarial = "";
+                                    JSONArray jSectorEmpresarial = jData.getJSONArray("sector_empresarial");
+                                    if (jSectorEmpresarial != null && jSectorEmpresarial.length() > 0) {
+                                        for (int i = 0; i < jSectorEmpresarial.length(); i++) {
+                                            sector_empresarial += jSectorEmpresarial.getJSONObject(0).getString("SECIND_NOMBRE");
+                                            if (i + 1 != jSectorEmpresarial.length()) sector_empresarial += "\n";
+                                        }
+                                    } else
+                                        sector_empresarial = "-";
+                                    tv_sector_emp.setText(sector_empresarial);
+
+                                    String productos = "";
+                                    JSONArray jProductos = jData.getJSONArray("productos");
+                                    if (jProductos != null && jProductos.length() > 0) {
+                                        for (int i = 0; i < jProductos.length(); i++) {
+                                            productos += " "+jProductos.getJSONObject(i).getString("PRO_NOMBRE");
+                                            if (i + 1 != jProductos.length()) productos += ",";
+                                            else productos += ".";
+                                        }
+                                    } else
+                                        productos = "-";
+                                    tv_productos.setText(productos);
+
+                                    String certificados = "";
+                                    JSONArray jCertificados = jData.getJSONArray("certificados");
+                                    if (jCertificados != null && jCertificados.length() > 0) {
+                                        for (int i = 0; i < jCertificados.length(); i++) {
+                                            certificados += jCertificados.getJSONObject(i).getString("CER_NOMBRE");
+                                            if (i + 1 != jCertificados.length()) certificados += "\n";
+                                        }
+                                    } else
+                                        certificados = "-";
+                                    tv_certificados.setText(certificados);
+                                    tv_anio_fundacion.setText(empresaSerializable.getAnio_f().isEmpty() || empresaSerializable.getAnio_f() == null ? "-" : empresaSerializable.getAnio_f());
+                                    tv_web.setText(empresaSerializable.getWeb().isEmpty() || empresaSerializable.getWeb() == null ? "-" : empresaSerializable.getWeb());
+                                    tv_telefono.setText(empresaSerializable.getTelefono1() + "\n" + empresaSerializable.getTelefono2());
+                                    tv_correo.setText(empresaSerializable.getCorreo1() + "\n" + empresaSerializable.getCorreo2());
+
+                                    idtipoempresa = String.valueOf(empresaSerializable.getTipo_empresa());
+                                    idempresaseguido = String.valueOf(empresaSerializable.getId_server());
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.e(TAG, e.toString(), e);
+                            }
+                            hidepDialog(pDialog);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
+                            VolleyLog.e(volleyError.toString(), volleyError);
+                            hidepDialog(pDialog);
+                        }
+                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("id_empresa", String.valueOf(id_intent));
+                    return params;
+                }
+            };
+            Configuracion.getInstance().addToRequestQueue(request, TAG);
+        } else
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.app_name)
+                    .setCancelable(false)
+                    .setMessage(R.string.m_no_conneccion_request)
+                    .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBackPressed();
+                        }
+                    })
+                    .show();
     }
 
     private void mostrarMensaje(int tipo) {
@@ -139,8 +264,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                             try {
                                 JSONObject jsonObject = new JSONObject(s);
                                 Log.d(TAG, jsonObject.toString());
-                                JSONArray jData = jsonObject.getJSONArray("data");
-                                if (jData.getJSONObject(0).getBoolean("status")) {
+                                if (jsonObject.getBoolean("status")) {
                                     btnVamosHacerNegocio.setEnabled(true);
                                     hidepDialog(pDialog);
                                     new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
@@ -148,6 +272,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                             .setMessage(getString(R.string.m_solicitud_ok))
                                             .setPositiveButton(R.string.aceptar, null)
                                             .show();
+                                    btnVamosHacerNegocio.setVisibility(View.GONE);
                                 } else {
                                     new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
                                             .setTitle(R.string.app_name)
@@ -157,6 +282,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Log.e(TAG, e.toString(), e);
                                 hidepDialog(pDialog);
                             }
                         }
@@ -164,6 +290,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
+                            VolleyLog.e(volleyError.toString(), volleyError);
                             hidepDialog(pDialog);
                         }
                     }
@@ -171,16 +298,15 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("idempresa", idempresa);
+                    params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
                     params.put("idtipoempresa", idtipoempresa);
                     params.put("idempresaseguido", idempresaseguido);
                     return params;
                 }
             };
             Configuracion.getInstance().addToRequestQueue(request, TAG);
-        } else {
+        } else
             ConexionBroadcastReceiver.showSnack(layout, this);
-        }
     }
 
     private void requestAceptarNegocio() {
@@ -201,20 +327,21 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                             .setMessage(getString(R.string.m_aceptar_negocio_ok))
                                             .setPositiveButton(R.string.aceptar, null)
                                             .show();
-                                    Empresa.actualizarMatch(empresa.getId_server(), Empresa.M_ACEPTADO);
+                                    Empresa.actualizarMatch(empresaSerializable.getId_server(), Empresa.M_ACEPTADO);
 
-                                    btnVamosHacerNegocio.setEnabled(false);
+                                    btnVamosHacerNegocio.setVisibility(View.GONE);
                                 } else {
                                     hidepDialog(pDialog);
                                     new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
                                             .setTitle(R.string.app_name)
                                             .setMessage(getString(R.string.m_aceptar_negocio_error))
                                             .setPositiveButton(R.string.aceptar, null)
-
                                             .show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                Log.e(TAG, e.toString(), e);
+                                hidepDialog(pDialog);
                             }
                         }
                     },
@@ -234,16 +361,17 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 }
             };
             Configuracion.getInstance().addToRequestQueue(request, TAG);
-        } else { ConexionBroadcastReceiver.showSnack(layout, this); }
+        } else
+            ConexionBroadcastReceiver.showSnack(layout, this);
     }
 
-    @OnClick(R.id.btnVerPerfil)
+    /*@OnClick(R.id.btnVerPerfil)
     public void descargarPDFEmpresa() {
-        if (empresa.getPdf().isEmpty()) Toast.makeText(this, R.string.m_error_pdf, Toast.LENGTH_SHORT).show();
+        if (empresaSerializable.getPdf().isEmpty()) Toast.makeText(this, R.string.m_error_pdf, Toast.LENGTH_SHORT).show();
         else new DownloadFile().execute(pdfempresa, Util.getRutaPDF(pdfempresa));
-    }
+    }*/
 
-    public void downloadFile(String fileUrl, File directory) {
+    /*public void downloadFile(String fileUrl, File directory) {
         if (ConexionBroadcastReceiver.isConnected()) {
             try {
                 URL url = new URL(fileUrl);
@@ -272,9 +400,9 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
         }
-    }
+    }*/
 
-    private class DownloadFile extends AsyncTask<String, Void, Void>{
+    /*private class DownloadFile extends AsyncTask<String, Void, Void>{
 
         @Override
         protected void onPreExecute() {
@@ -320,11 +448,11 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
             }
             hidepDialog(pDialog);
         }
-    }
+    }*/
 
     private void iniciarLayout() {
         setToolbarSon(toolbar, this, getString(R.string.nav_mi_perfil));
-        usarGlide(this, R.drawable.fondo_iniciar_sesion, fondo);
+        toolbar.setTitle("");
 
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
@@ -336,5 +464,11 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) onBackPressed();
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (realm != null) realm.close();
     }
 }

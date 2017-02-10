@@ -344,17 +344,17 @@ public class IniciarSesionActivity extends BaseActivity {
 
                                 UsuarioCertificacion.limpiarCertificacion();
                                 for (int i = 0; i < jCertificado.length();i ++) {
-                                    UsuarioCertificacion.crearCertificacion(jCertificado.getJSONObject(i).getString("CER_NOMBRE"));
+                                    if (jCertificado.getJSONObject(i).has("CER_NOMBRE")) UsuarioCertificacion.crearCertificacion(jCertificado.getJSONObject(i).getString("CER_NOMBRE"));
                                 }
 
                                 UsuarioProducto.limpiarProductos();
                                 for (int i = 0; i < jProducto.length(); i++) {
-                                    UsuarioProducto.crearProducto(jProducto.getJSONObject(i).getString("PRO_NOMBRE"));
+                                    if (jProducto.getJSONObject(i).has("PRO_NOMBRE")) UsuarioProducto.crearProducto(jProducto.getJSONObject(i).getString("PRO_NOMBRE"));
                                 }
 
                                 UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
                                 for (int i = 0; i < jSector_Industrial.length(); i++) {
-                                    UsuarioSectorEmpresarial.crearSectorEmpresarial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
+                                    if (jSector_Industrial.getJSONObject(i).has("SECIND_NOMBRE")) UsuarioSectorEmpresarial.crearSectorEmpresarial(jSector_Industrial.getJSONObject(i).getString("SECIND_NOMBRE"));
                                 }
                                 hidepDialog(pDialog);
                                 context.startActivity(new Intent(context, PrincipalActivity.class)

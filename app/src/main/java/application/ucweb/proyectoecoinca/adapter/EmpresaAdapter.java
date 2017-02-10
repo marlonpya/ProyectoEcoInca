@@ -67,7 +67,8 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
             @Override
             public void onClick(View v) {
                 getContext().startActivity(new Intent(getContext(), MiPerfilEmpresaActivity.class)
-                .putExtra(Constantes.L_ID_EMPRESA, item.getId()));
+                .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId_server())
+                .putExtra(Constantes.EXTRA_IS_REAL, true));
             }
         });
         viewHolder.boton_eliminar.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +76,7 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
             public void onClick(View v) {
                 new AlertDialog.Builder(getContext())
                         .setTitle(R.string.app_name)
-                        .setMessage("Desea eliminar joben :U")
+                        .setMessage(getContext().getString(R.string.eliminar))
                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

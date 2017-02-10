@@ -45,12 +45,11 @@
 
         </LinearLayout>
 
-        <co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/rrvListaBuscar"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".92"
-            app:rrvLayoutType="LinearLayout" />
+            android:layout_weight=".92" />
     </LinearLayout>
 
 </LinearLayout>

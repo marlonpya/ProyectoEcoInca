@@ -81,7 +81,6 @@ public class MisContactosActivity extends BaseActivity {
                                     empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
                                     empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
                                     empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
-                                    empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
                                     empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
                                     empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
                                     empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));

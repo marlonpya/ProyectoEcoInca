@@ -187,14 +187,14 @@
     <string name="m_plus_ok">Su compra de usuario plus fue hecha correctamente</string>
     <string name="m_plus_error">Verifique sus datos de tarjeta</string>
 
-    <string name="terminos_y_condiciones_texto" >Nuestros términos y condiciones</string>
+    <string name="terminos_y_condiciones_texto">Nuestros términos y condiciones</string>
     <string name="regla_imagenes">Se recomienda imágenes menores de 1025px (ancho y alto)</string>
     <string name="correo_invalido">El email ingresado no es válido</string>
     <string name="se_requiere_correo">Se requiere autorizar email</string>
     <string name="permiso_imagen">Se requiere permiso para importar imagen</string>
 
     <!-- Mensaje de dialogo Perfil -->
-    
+
     <string name="descripcion_pop">Falta completar Descripción</string>
     <string name="linkedin_pop">Falta completar Linkedin</string>
     <string name="web_pop">Falta completar Web</string>
@@ -204,7 +204,7 @@
     <string name="terminos_y_condiciones_uso">Términos  y condiciones</string>
     <string name="actualizacion_ok">Su actualización fue hecha satisfactoriamente</string>
     <string name="actualizacion_error">Ocurrió un error, intente en unos minutos</string>
-    <string name="m_usuario_mas_7">Debe comprar cuenta plus para seguir haciendo negocio</string>
+    <string name="m_usuario_mas_7">Ha superado el máximo de 7 búsquedas, debe comprar cuenta plus para seguir haciendo negocio</string>
 
     <array name="certificaciones">
         <item>BPM</item>
@@ -235,5 +235,20 @@
         <item>Metalmecánica</item>
         <item>Otros</item>
     </array>
+
+    <string name="leyes"></string>
+    <string name="nombre">NOMBRE</string>
+    <string name="ubicacion">UBICACIÓN</string>
+    <string name="m_pais">PAÍS</string>
+    <string name="m_sector_empresarial">SECTOR EMPRESARIAL</string>
+    <string name="m_certificaciones">CERTIFICACIONES</string>
+    <string name="productos">PRODUCTOS</string>
+    <string name="m_ciudad">CIUDAD</string>
+    <string name="m_anio_fundacion">AÑO DE FUNDACIÓN</string>
+    <string name="m_web">WEB</string>
+    <string name="m_telefono">TELÉFONO</string>
+    <string name="m_correo">CORREO</string>
+    <string name="eliminar">No gracias</string>
+    <string name="m_descripcion">DESCRIPCIÓN</string>
 
 </resources>

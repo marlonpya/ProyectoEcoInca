@@ -1,0 +1,377 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_activity_mi_perfil2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    tools:context=".MiPerfilActivity2">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/empresa_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/plomo_claro"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <ImageView
+                android:id="@+id/iv_perfil_empresa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                tools:background="@drawable/icono_inicio" />
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/con_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btnVamosHacerNegocio"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/c_accent"
+                    android:drawableStart="@drawable/imagen_liaison_manos_blanco"
+                    android:paddingLeft="120dp"
+                    android:paddingRight="120dp"
+                    android:text="@string/nav_vamos_al_negocio"
+                    android:textColor="@color/blanco"
+                    android:textSize="@dimen/letra_s3" />
+
+            </LinearLayout>-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_descripcion_empresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="Descripción.." />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/nombre"
+                    android:textColor="@color/celeste" />
+
+                <EditText
+                    android:id="@+id/tv_nombre_empresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="Empresa nombre" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_ciudad"
+                    android:textColor="@color/celeste" />
+
+                <EditText
+                    android:id="@+id/tv_ciudad_empresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="Lima - Lima" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_pais"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_pais_empresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="PERÚ" />
+
+                <View
+                    android:layout_width="300dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/plomo_claro" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_sector_empresarial"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_sector_empresarial_empresa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="Industria textil" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/productos"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_productos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="Papa, Cancha, Mote, Chía" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_certificaciones"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_certificados"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="Certificado 1 \nCertificado 2" />
+
+                <View
+                    android:layout_width="300dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="15dp"
+                    android:background="@color/plomo_claro" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_anio_fundacion"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_anio_fundacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="1999" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_web"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_web"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="www.google.com.pe" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_telefono"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_telefono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="9944 12345" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:text="@string/m_correo"
+                    android:textColor="@color/celeste" />
+
+                <TextView
+                    android:id="@+id/tv_correo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp"
+                    android:textColor="@color/plomo_oscuro"
+                    tools:text="example@mail.com" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp" />
+
+                <!--<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".08"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/ciudad"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/letra_s5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_ciudad_empresa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/letra_s5"
+                        tools:text="Lima" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".08"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pais"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/letra_s5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_pais_empresa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/letra_s5"
+                        tools:text="Perú (PE)" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".08"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anio_fundacion"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/letra_s5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_anio_f_empresa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/letra_s5"
+                        tools:text="2006" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".02" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight=".74"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/descripcion"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/letra_s5"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_descripcion_empresa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente.\n“Somos un equipo de profesionales en el área de “X” de muy alta calidad enfocados en resolver sus necesidades de una forma eficiente””" />
+
+                </LinearLayout>-->
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnVamosHacerNegocio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:src="@drawable/imagen_liaison_manos_blanco"
+        app:layout_anchor="@+id/nestedScrollView"
+        app:layout_anchorGravity="bottom|right" />
+
+</android.support.design.widget.CoordinatorLayout>

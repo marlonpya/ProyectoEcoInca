@@ -38,6 +38,7 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Buscar;
 import application.ucweb.proyectoecoinca.model.BuscarDetalle;
 import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.EmpresaSerializable;
 import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
@@ -73,22 +74,8 @@ public class BuscarActivity extends BaseActivity {
     @OnClick(R.id.btnBuscar)
     public void buscar() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            if (validarBusqueda()) {
-                if (Usuario.getUsuario().isPlus() || Usuario.getUsuario().getCantidad_busqueda() <= 7)
+            if (validarBusqueda())
                     requestBusquedaSimple();
-                 else
-                    new AlertDialog.Builder(this)
-                            .setTitle(R.string.app_name)
-                            .setMessage(R.string.m_usuario_mas_7)
-                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(BuscarActivity.this, PlusActivity.class));
-                                }
-                            })
-                            .setNegativeButton(R.string.cancelar, null)
-                            .show();
-            }
         } else
             ConexionBroadcastReceiver.showSnack(layout, this);
     }
@@ -105,32 +92,54 @@ public class BuscarActivity extends BaseActivity {
                         Empresa.eliminarPorTipoEmpresa(Empresa.E_BUSQUEDA);
                         try {
                             JSONObject jData = new JSONObject(s);
-                            Log.d(TAG, jData.toString());
-                            JSONArray jArray = jData.getJSONArray("data");
-                            for (int i = 0; i < jArray.length(); i++) {
-                                Empresa empresa = new Empresa();
-
-                                empresa.setId(Empresa.getUltimoId());
-
-                                empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
-                                empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
-                                empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
-                                empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
-                                empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
-                                empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
-                                empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
-                                empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
-                                empresa.setTipo_match(Empresa.M_DESCONOCIDO);
-                                empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
-                                empresa.setTipo_empresa(Empresa.E_BUSQUEDA);
-                                empresa.setPosicion(Empresa.getPos(jArray.getJSONObject(i).getInt("EMP_TIPO")));
-                                Empresa.registrarEmpresa(empresa);
-                            }
-                            Log.d(TAG, String.valueOf(jData.getInt("cantbusqueda")));
                             Usuario.aumentarCantidadBusqueda(jData.getInt("cantbusqueda") + 1);
                             hidepDialog(pDialog);
-                            if (jData.getBoolean("status")) startActivity(new Intent(BuscarActivity.this, BuscarResultadoListaActivity.class));
+                            JSONArray jArray = jData.getJSONArray("data");
+                                    ArrayList<EmpresaSerializable> lista = new ArrayList<>();
+                                    for (int i = 0; i < jArray.length(); i++) {
+                                        EmpresaSerializable empresa = new EmpresaSerializable(jArray.getJSONObject(i).getInt("EMP_ID"),
+                                                jArray.getJSONObject(i).getString("EMP_NOMBRE"),
+                                                jArray.getJSONObject(i).getInt("EMP_TIPO"),
+                                                jArray.getJSONObject(i).getString("EMP_IMAGEN"));
+                                        //empresa.setId(Empresa.getUltimoId());
+                                        /*empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
+                                        empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
+                                        empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
+                                        empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
+                                        empresa.setPdf(jArray.getJSONObject(i).getString("EMP_PDF"));
+                                        empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
+                                        empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
+                                        empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
+                                        empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+                                        empresa.setTipo_match(Empresa.M_DESCONOCIDO);
+                                        empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
+                                        empresa.setTipo_empresa(Empresa.E_BUSQUEDA);
+                                        empresa.setPosicion(Empresa.getPos(jArray.getJSONObject(i).getInt("EMP_TIPO")));*/
+                                        lista.add(empresa);
+                                    }
+
+                            if (jData.getBoolean("status")) {
+                                if (jData.getInt("usuario_plus") == 1 || Usuario.getUsuario().getCantidad_busqueda() < 8) {
+                                    startActivity(new Intent(BuscarActivity.this, BuscarResultadoListaActivity.class)
+                                            .putExtra(Constantes.EXTRA_SERIALIZABLE_BUSQUEDA, lista));
+                                }
+                                else
+                                    new AlertDialog.Builder(BuscarActivity.this)
+                                            .setTitle(R.string.app_name)
+                                            .setMessage(R.string.m_usuario_mas_7)
+                                            .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    startActivity(new Intent(BuscarActivity.this, PlusActivity.class));
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.cancelar, null)
+                                            .show();
+                            } else new AlertDialog.Builder(BuscarActivity.this)
+                                    .setTitle(R.string.app_name)
+                                    .setMessage(R.string.actualizacion_error)
+                                    .setPositiveButton(R.string.aceptar, null)
+                                    .show();
                         } catch (JSONException e) {
                             e.printStackTrace();
                             hidepDialog(pDialog);

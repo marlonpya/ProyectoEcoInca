@@ -53,10 +53,14 @@ public class Empresa extends RealmObject{
     private String pais;
     private String anio_f;
     private String descripcion;
-    private String pdf;
     private int tipo_match;
     private int id_match;
     private int posicion;
+    private String web;
+    private String telefono1;
+    private String telefono2;
+    private String correo1;
+    private String correo2;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -103,12 +107,12 @@ public class Empresa extends RealmObject{
             emp_new.setDescripcion(emp.getDescripcion());
             emp_new.setImagen(emp.getImagen());
             emp_new.setPais(emp.getPais());
-            emp_new.setPdf(emp.getPdf());
             emp_new.setTipo_empresa(emp.getTipo_empresa());
             emp_new.setTipo_match(emp.getTipo_match());
             emp_new.setTipo_negocio(emp.getTipo_negocio());
-            emp_new.setId_match(emp_new.getId_match());
-            emp_new.setPosicion(emp_new.getPosicion());
+            emp_new.setId_match(emp.getId_match());
+            emp_new.setPosicion(emp.getPosicion());
+            emp_new.setWeb(emp.getWeb());
             realm.copyToRealmOrUpdate(emp_new);
             Log.d(TAG, emp_new.toString());
         } else {
@@ -120,12 +124,12 @@ public class Empresa extends RealmObject{
             empresa.setDescripcion(emp.getDescripcion());
             empresa.setImagen(emp.getImagen());
             empresa.setPais(emp.getPais());
-            empresa.setPdf(emp.getPdf());
             empresa.setTipo_empresa(emp.getTipo_empresa());
             empresa.setTipo_match(emp.getTipo_match());
             empresa.setTipo_negocio(emp.getTipo_negocio());
             empresa.setId_match(emp.getId_match());
             empresa.setPosicion(emp.getPosicion());
+            empresa.setWeb(emp.getWeb());
             Log.d(TAG, empresa.toString());
         }
         realm.commitTransaction();
@@ -266,14 +270,6 @@ public class Empresa extends RealmObject{
         this.descripcion = descripcion;
     }
 
-    public String getPdf() {
-        return pdf;
-    }
-
-    public void setPdf(String pdf) {
-        this.pdf = pdf;
-    }
-
     public int getTipo_match() {
         return tipo_match;
     }
@@ -296,5 +292,13 @@ public class Empresa extends RealmObject{
 
     public void setPosicion(int posicion) {
         this.posicion = posicion;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
     }
 }

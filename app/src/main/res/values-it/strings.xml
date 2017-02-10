@@ -199,7 +199,7 @@
     <string name="terminos_y_condiciones_uso">Termini e condizioni</string>
     <string name="actualizacion_ok">La sua ristrutturazione è stato fatto con successo</string>
     <string name="actualizacion_error">C´è stato un errore, provare in pochi minuti</string>
-    <string name="m_usuario_mas_7">In più account deve acquistare per continuare a fare affari</string>
+    <string name="m_usuario_mas_7">È stato superato il numero massimo di 7 ricerche, si dovrebbe comprare conto più per continuare a fare affari</string>
 
     <array name="sectores_empresariales">
         <item>Agroalimentare</item>

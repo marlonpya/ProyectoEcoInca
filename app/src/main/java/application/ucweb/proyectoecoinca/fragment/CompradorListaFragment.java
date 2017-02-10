@@ -10,27 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.adapter.EmpresaAdapter;
-import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
-import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Empresa;
-import application.ucweb.proyectoecoinca.model.Usuario;
-import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
-import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
@@ -47,7 +29,6 @@ public class CompradorListaFragment extends Fragment {
     private Realm realm;
     private EmpresaAdapter adapter;
     private RealmResults<Empresa> lista;
-    private ProgressDialog pDialog;
 
     public CompradorListaFragment() { }
 
