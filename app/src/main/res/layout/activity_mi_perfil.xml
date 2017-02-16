@@ -7,12 +7,6 @@
     android:orientation="vertical"
     tools:context=".MiPerfilActivity">
 
-    <ImageView
-        android:id="@+id/iv_fondo_mi_perfil"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/fondo_iniciar_sesion" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

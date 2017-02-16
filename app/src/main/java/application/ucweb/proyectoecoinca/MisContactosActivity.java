@@ -55,7 +55,11 @@ public class MisContactosActivity extends BaseActivity {
         recyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestContactos();
+                if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) {
+
+                } else {
+                    requestContactos();
+                }
             }
         });
     }
@@ -70,25 +74,30 @@ public class MisContactosActivity extends BaseActivity {
                     public void onResponse(String s) {
                         Log.d(TAG, s);
                         try {
-                            JSONObject jData = new JSONObject(s);
+                            JSONObject jObject = new JSONObject(s);
 
-                            if(jData.getBoolean("status")) {
-                                JSONArray jArray = jData.getJSONArray("data");
-                                for (int i = 0; i < jArray.length(); i++) {
+                            if(jObject.getBoolean("status")) {
+                                JSONArray jData = jObject.getJSONArray("data");
+                                for (int i = 0; i < jData.length(); i++) {
                                     Empresa empresa = new Empresa();
                                     empresa.setId(Empresa.getUltimoId());
-                                    empresa.setId_server(jArray.getJSONObject(i).getInt("EMP_ID"));
-                                    empresa.setNombre(jArray.getJSONObject(i).getString("EMP_NOMBRE"));
-                                    empresa.setTipo_negocio(jArray.getJSONObject(i).getInt("EMP_TIPO"));
-                                    empresa.setImagen(jArray.getJSONObject(i).getString("EMP_IMAGEN"));
-                                    empresa.setDescripcion(jArray.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                    empresa.setCiudad(jArray.getJSONObject(i).getString("EMP_CIUDAD"));
-                                    empresa.setPais(jArray.getJSONObject(i).getString("EMP_PAIS"));
-                                    empresa.setAnio_f(jArray.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+                                    empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
+                                    empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
+                                    empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
+                                    empresa.setImagen(jData.getJSONObject(i).getString("EMP_IMAGEN"));
+                                    empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
+                                    empresa.setCiudad(jData.getJSONObject(i).getString("EMP_CIUDAD"));
+                                    empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
+                                    empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
                                     empresa.setTipo_match(Empresa.M_ACEPTADO);
                                     empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
                                     empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                                    empresa.setPosicion(Empresa.getPos(jArray.getJSONObject(i).getInt("EMP_TIPO")));
+                                    empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
+                                    empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
+                                    empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
+                                    empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
+                                    empresa.setCorreo1(jData.getJSONObject(i).getString("CON_EMAIL"));
+                                    empresa.setCorreo2(jData.getJSONObject(i).getString("CON_WEB_SITE"));
                                     Empresa.registrarEmpresa(empresa);
                                 }
                             }
@@ -115,6 +124,10 @@ public class MisContactosActivity extends BaseActivity {
         };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
         recyclerView.setRefreshing(false);
+    }
+
+    private void requestContactosAmbos() {
+
     }
 
     private void iniciarRRV() {

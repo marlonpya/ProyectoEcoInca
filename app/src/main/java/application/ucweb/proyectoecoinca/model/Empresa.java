@@ -2,7 +2,11 @@ package application.ucweb.proyectoecoinca.model;
 
 import android.util.Log;
 
+import application.ucweb.proyectoecoinca.model.detalle.Certificado;
+import application.ucweb.proyectoecoinca.model.detalle.Producto;
+import application.ucweb.proyectoecoinca.model.detalle.SectorIndustrial;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
@@ -61,6 +65,9 @@ public class Empresa extends RealmObject{
     private String telefono2;
     private String correo1;
     private String correo2;
+    private RealmList<Certificado> certificados;
+    private RealmList<Producto> productos;
+    private RealmList<SectorIndustrial> sectorIndustriales;
 
     public static int getUltimoId() {
         Realm realm = Realm.getDefaultInstance();
@@ -113,6 +120,10 @@ public class Empresa extends RealmObject{
             emp_new.setId_match(emp.getId_match());
             emp_new.setPosicion(emp.getPosicion());
             emp_new.setWeb(emp.getWeb());
+            emp_new.setTelefono1(emp.getTelefono1());
+            emp_new.setTelefono2(emp.getTelefono2());
+            emp_new.setCorreo1(emp.getCorreo1());
+            emp_new.setCorreo2(emp.getCorreo2());
             realm.copyToRealmOrUpdate(emp_new);
             Log.d(TAG, emp_new.toString());
         } else {
@@ -130,6 +141,10 @@ public class Empresa extends RealmObject{
             empresa.setId_match(emp.getId_match());
             empresa.setPosicion(emp.getPosicion());
             empresa.setWeb(emp.getWeb());
+            empresa.setTelefono1(emp.getTelefono1());
+            empresa.setTelefono2(emp.getTelefono2());
+            empresa.setCorreo1(emp.getCorreo1());
+            empresa.setCorreo2(emp.getCorreo2());
             Log.d(TAG, empresa.toString());
         }
         realm.commitTransaction();
@@ -300,5 +315,61 @@ public class Empresa extends RealmObject{
 
     public void setWeb(String web) {
         this.web = web;
+    }
+
+    public String getTelefono1() {
+        return telefono1;
+    }
+
+    public void setTelefono1(String telefono1) {
+        this.telefono1 = telefono1;
+    }
+
+    public String getTelefono2() {
+        return telefono2;
+    }
+
+    public void setTelefono2(String telefono2) {
+        this.telefono2 = telefono2;
+    }
+
+    public String getCorreo1() {
+        return correo1;
+    }
+
+    public void setCorreo1(String correo1) {
+        this.correo1 = correo1;
+    }
+
+    public String getCorreo2() {
+        return correo2;
+    }
+
+    public void setCorreo2(String correo2) {
+        this.correo2 = correo2;
+    }
+
+    public RealmList<Certificado> getCertificados() {
+        return certificados;
+    }
+
+    public void setCertificados(RealmList<Certificado> certificados) {
+        this.certificados = certificados;
+    }
+
+    public RealmList<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(RealmList<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public RealmList<SectorIndustrial> getSectorIndustriales() {
+        return sectorIndustriales;
+    }
+
+    public void setSectorIndustriales(RealmList<SectorIndustrial> sectorIndustriales) {
+        this.sectorIndustriales = sectorIndustriales;
     }
 }

@@ -45,7 +45,8 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
             @Override
             public void onClick(View v) {
                 getContext().startActivity(new Intent(getContext(), MiPerfilEmpresaActivity.class)
-                .putExtra(Constantes.L_ID_EMPRESA, item.getId()));
+                .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
+                .putExtra(Constantes.EXTRA_IS_REAL, true));
             }
         });
         switch (item.getTipo_negocio()) {

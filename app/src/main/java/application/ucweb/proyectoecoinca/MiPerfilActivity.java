@@ -71,7 +71,6 @@ public class MiPerfilActivity extends BaseActivity {
     @BindView(R.id.tab_layout) TabLayout tab_layout;
     @BindView(R.id.pager) ViewPager pager;
     @BindView(R.id.toolbar_principal) Toolbar toolbar;
-    @BindView(R.id.iv_fondo_mi_perfil) ImageView fondo;
     @BindView(R.id.iv_imagen_empresa_mi_perfil) ImageView imagen_empresa;
     @BindView(R.id.tv_nombre_mi_perfil) TextView nombre_empresa;
     private TabMiPerfilAdapter adapter;
@@ -467,7 +466,7 @@ public class MiPerfilActivity extends BaseActivity {
 
     private void iniciarLayout() {
         setToolbarSon(toolbar, this, getString(R.string.nav_mi_perfil));
-        usarGlide(this, R.drawable.fondo_iniciar_sesion, fondo);
+        //usarGlide(this, R.drawable.fondo_iniciar_sesion, fondo);
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
         pDialog.setMessage(getString(R.string.m_actualizando));

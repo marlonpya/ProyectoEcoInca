@@ -1,7 +1,6 @@
 package application.ucweb.proyectoecoinca.fragment;
 
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;

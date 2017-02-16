@@ -2,6 +2,7 @@ package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.icu.text.LocaleDisplayNames;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,13 +20,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.StringRequest;
-import com.bumptech.glide.Glide;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xml.sax.helpers.LocatorImpl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,11 +34,15 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.EmpresaSerializable;
 import application.ucweb.proyectoecoinca.model.Usuario;
+import application.ucweb.proyectoecoinca.model.detalle.Certificado;
+import application.ucweb.proyectoecoinca.model.detalle.Producto;
+import application.ucweb.proyectoecoinca.model.detalle.SectorIndustrial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
+import io.realm.RealmList;
 
 public class MiPerfilEmpresaActivity extends BaseActivity {
     public static final String TAG = MiPerfilEmpresaActivity.class.getSimpleName();
@@ -63,7 +66,6 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     private EmpresaSerializable empresaSerializable;
     private Empresa empresa;
     private String idmatch = "-1";
-    private String idtipoempresa = "-1";
     private String idempresaseguido = "-1";
     private Realm realm;
     private boolean isRealm;
@@ -71,7 +73,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mi_perfil_empresa);
+        setContentView(R.layout.container_activity_mi_perfil_empresa);
         iniciarLayout();
 
         isRealm = getIntent().getBooleanExtra(Constantes.EXTRA_IS_REAL, false);
@@ -86,30 +88,64 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         if (getIntent().hasExtra(Constantes.L_ID_EMPRESA) && !isRealm) {
             Log.d(TAG, String.valueOf("ID_INTENT_ " + id_intent));
             requestGetEmpresaId();
-        } if (isRealm) {
-            Log.d(TAG, String.valueOf(isRealm));
-            empresa = realm.where(Empresa.class).equalTo(Empresa.ID_SERVER, id_intent).findFirst();
+        } else if(isRealm){
+            empresa = realm.where(Empresa.class).equalTo(Empresa.ID, id_intent).findFirst();
             if (empresa != null) {
                 Log.d(TAG, empresa.toString());
                 idmatch = String.valueOf(empresa.getId_match());
                 usarGlide(MiPerfilEmpresaActivity.this, empresa.getImagen(), iv_perfil_empresa);
                 tv_descripcion.setText(empresa.getDescripcion().isEmpty() || empresa.getDescripcion() == null ? "-" : empresa.getDescripcion());
-                tv_nombre.setText(empresa.getNombre().isEmpty() || empresa.getNombre() == null ? "-" : empresa.getDescripcion());
+                tv_nombre.setText(empresa.getNombre().isEmpty() || empresa.getNombre() == null ? "-" : empresa.getNombre());
                 tv_ciudad.setText(empresa.getCiudad().isEmpty() || empresa.getCiudad() == null ? "-" : empresa.getCiudad());
                 tv_pais.setText(empresa.getPais().isEmpty() || empresa.getPais() == null ? "-" : empresa.getPais());
+
+                String sector_emp = "-";
+                RealmList<SectorIndustrial> sectorIndustrials = empresa.getSectorIndustriales();
+                for (int i = 0; i < sectorIndustrials.size(); i++) {
+                    if (!sectorIndustrials.isEmpty()) sector_emp += sectorIndustrials.get(i).getDescripcion() + "\n";
+                }
+                tv_sector_emp.setText(sector_emp);
+
+                String producto = "-";
+                RealmList<Producto> productos = empresa.getProductos();
+                for (int i = 0; i < productos.size(); i++) {
+                    if (!productos.isEmpty()) producto += productos.get(i).getDescripcion() + "\n";
+                }
+                tv_productos.setText(producto);
+
+                String certificado = "-";
+                RealmList<Certificado> certificados = empresa.getCertificados();
+                for (int i = 0; i < certificados.size(); i++) {
+                    if (!certificados.isEmpty()) certificado += certificados.get(i).getDescripcion() + "\n";
+                }
+                tv_certificados.setText(certificado);
                 //tv_sector_emp
                 //tv_productos
                 //tv_certificados
                 tv_anio_fundacion.setText(empresa.getAnio_f().isEmpty() || empresa.getAnio_f() == null ? "-" : empresa.getAnio_f());
-                /*tv_web.setText();
-                tv_telefono.setText(empresa.getT);
-                        tv_correo*/
+                tv_web.setText(empresa.getWeb().isEmpty() || empresa.getWeb() == null ? "-" : empresa.getWeb());
+                if (empresa.getTelefono1() != null && !empresa.getTelefono1().isEmpty() && empresa.getTelefono2() != null && !empresa.getTelefono2().isEmpty()) {
+                    tv_telefono.setText(empresa.getTelefono1() + "\n" + empresa.getTelefono2());
+                } else if (empresa.getTelefono1() != null && !empresa.getTelefono1().isEmpty()) {
+                    tv_telefono.setText(empresa.getTelefono1());
+                } else if (empresa.getTelefono2() != null && !empresa.getTelefono2().isEmpty()) {
+                    tv_telefono.setText(empresa.getTelefono1());
+                }
+
+                if (empresa.getCorreo1() != null && !empresa.getCorreo1().isEmpty() && empresa.getCorreo2() != null && !empresa.getTelefono2().isEmpty()) {
+                    tv_correo.setText(empresa.getCorreo1() + "\n" + empresa.getCorreo2());
+                } else if (empresa.getCorreo1() != null && !empresa.getCorreo1().isEmpty()) {
+                    tv_correo.setText(empresa.getCorreo1());
+                } else if (empresa.getCorreo2() != null && !empresa.getCorreo2().isEmpty()) {
+                    tv_correo.setText(empresa.getCorreo2());
+                }
             }
         }
     }
 
     @OnClick(R.id.btnVamosHacerNegocio)
     public void vamosHacerNegocio() {
+        Log.d(TAG, "clickFAB");
         /*if (empresaSerializable.getTipo_empresa() == Empresa.E_BUSQUEDA) {
             switch (Empresa.identificarEmpresaContacto(empresaSerializable.getTipo_match())) {
                 case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
@@ -202,7 +238,6 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                     tv_telefono.setText(empresaSerializable.getTelefono1() + "\n" + empresaSerializable.getTelefono2());
                                     tv_correo.setText(empresaSerializable.getCorreo1() + "\n" + empresaSerializable.getCorreo2());
 
-                                    idtipoempresa = String.valueOf(empresaSerializable.getTipo_empresa());
                                     idempresaseguido = String.valueOf(empresaSerializable.getId_server());
                                 }
                             } catch (JSONException e) {
@@ -274,6 +309,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                             .show();
                                     btnVamosHacerNegocio.setVisibility(View.GONE);
                                 } else {
+                                    hidepDialog(pDialog);
                                     new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
                                             .setTitle(R.string.app_name)
                                             .setMessage(getString(R.string.m_solicitud_error))
@@ -299,8 +335,9 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
-                    params.put("idtipoempresa", idtipoempresa);
+                    params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
                     params.put("idempresaseguido", idempresaseguido);
+                    Log.d(TAG, params.toString());
                     return params;
                 }
             };
@@ -327,7 +364,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                             .setMessage(getString(R.string.m_aceptar_negocio_ok))
                                             .setPositiveButton(R.string.aceptar, null)
                                             .show();
-                                    Empresa.actualizarMatch(empresaSerializable.getId_server(), Empresa.M_ACEPTADO);
+                                    Empresa.actualizarMatch(empresa.getId_server(), Empresa.M_ACEPTADO);
 
                                     btnVamosHacerNegocio.setVisibility(View.GONE);
                                 } else {
