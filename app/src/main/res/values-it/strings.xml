@@ -217,4 +217,18 @@
         <item>Altrui</item>
     </array>
 
+    <string name="nombre">NOMI</string>
+    <string name="ubicacion">POSIZIONE</string>
+    <string name="m_pais">PAESE</string>
+    <string name="m_sector_empresarial">SETORRE DI ATTIVITA</string>
+    <string name="m_certificaciones">CERTIFICAZIONI</string>
+    <string name="productos">PRODOTTI</string>
+    <string name="m_ciudad">CITTA</string>
+    <string name="m_anio_fundacion">ANNO DI FONDAZIONE</string>
+    <string name="m_web">WEB</string>
+    <string name="m_telefono">PHONE</string>
+    <string name="m_correo">EMAIL</string>
+    <string name="eliminar">No grazie</string>
+    <string name="m_descripcion">DESCRIZIONE</string>
+
 </resources>

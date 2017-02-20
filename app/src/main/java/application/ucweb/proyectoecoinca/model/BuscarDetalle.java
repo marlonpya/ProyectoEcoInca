@@ -50,7 +50,7 @@ public class BuscarDetalle extends RealmObject {
         BuscarDetalle item = realm.createObject(BuscarDetalle.class);
         item.setId(getUltimoId());
         item.setId_server(id_server);
-        item.setDescripcion(pais.toUpperCase());
+        item.setDescripcion(pais.toUpperCase().trim());
         item.setTipo(TIPO_PAIS);
         item.setSeleccionado(false);
         realm.copyToRealm(item);

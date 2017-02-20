@@ -217,4 +217,18 @@
         <item>Others</item>
     </array>
 
+    <string name="nombre">NAME</string>
+    <string name="ubicacion">LOCATION</string>
+    <string name="m_pais">COUNTRY</string>
+    <string name="m_sector_empresarial">BUSINESS SECTOR EMPRESARIAL</string>
+    <string name="m_certificaciones">CERTIFICATIONS</string>
+    <string name="productos">PRODUCTS</string>
+    <string name="m_ciudad">CITY</string>
+    <string name="m_anio_fundacion">YEAR OF FUNDATION</string>
+    <string name="m_web">WEB</string>
+    <string name="m_telefono">MÓVIL</string>
+    <string name="m_correo">EMAIL</string>
+    <string name="eliminar">No thanks</string>
+    <string name="m_descripcion">DESCRIPTION</string>
+
 </resources>

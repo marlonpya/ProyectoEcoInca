@@ -129,7 +129,7 @@ public class InicioActivity extends BaseActivity {
     private void verificarSesion() {
         boolean sesion = false;
         if (Usuario.getUsuario() != null) sesion = Usuario.getUsuario().isSesion();
-        if (FacebookA.iniciado() || LinkedinA.iniciado(this) || sesion) {
+        if ((FacebookA.iniciado() && sesion) ||  (LinkedinA.iniciado(this) && sesion) || sesion) {
             Intent intent = new Intent(this, PrincipalActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

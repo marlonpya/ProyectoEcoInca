@@ -1,7 +1,9 @@
 package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -73,10 +75,6 @@ import butterknife.OnClick;
 
     private String correo;
     private int estado;
-
-  /*  private String nombre;
-    private String apellido;
-    private String correo;*/
 
     private static boolean aceptar_termino = false;
 
@@ -262,7 +260,7 @@ import butterknife.OnClick;
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    private void requestRespuestaPago(
+     private void requestRespuestaPago(
             final String idTipopaquete,
             final String descripcion,
             final String direccion,
@@ -298,11 +296,12 @@ import butterknife.OnClick;
                                 Usuario.actualizarUsuarioPlus(true);
                                 new AlertDialog.Builder(ComprarPlusActivity.this)
                                         .setTitle(R.string.app_name)
+                                        .setCancelable(true)
                                         .setMessage(getString(R.string.m_plus_ok))
                                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                onBackPressed();
+                                                startActivity(new Intent(ComprarPlusActivity.this.getApplicationContext(), PrincipalActivity.class));
                                             }
                                         })
                                         .show();

@@ -227,7 +227,8 @@ public class RegistroActivity extends BaseActivity {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION);
             else
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
-        } else startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
+        } else
+            startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), VALOR);
     }
 
     @OnClick(R.id.btnSectorEmpresarial)
@@ -359,8 +360,8 @@ public class RegistroActivity extends BaseActivity {
     @OnClick({R.id.iv_comprador_registro, R.id.iv_vendedor_registro, R.id.iv_ambos_registro})
     public void elegirTipoUsuario(ImageView imageView) {
         if (imageView.getId() == R.id.iv_comprador_registro) make(0);
-        if (imageView.getId() == R.id.iv_vendedor_registro) make(1);
-        if (imageView.getId() == R.id.iv_ambos_registro) make(2);
+        else if (imageView.getId() == R.id.iv_vendedor_registro) make(1);
+        else if(imageView.getId() == R.id.iv_ambos_registro) make(2);
     }
 
     public void make(int i) {
@@ -450,20 +451,20 @@ public class RegistroActivity extends BaseActivity {
     private boolean validarRegistroEmpresa() {
         //agregar todos los diccionarios
         boolean resultado = false;
-        if (!et_nombre_empresa.getText().toString().trim().equals("") &&
-                !et_pais.getText().toString().trim().equals("") &&
-                !et_ciudad.getText().toString().trim().equals("") &&
-                !et_email.getText().toString().trim().equals("") &&
+        if (!et_nombre_empresa.getText().toString().trim().isEmpty() &&
+                !et_pais.getText().toString().trim().isEmpty() &&
+                !et_ciudad.getText().toString().trim().isEmpty() &&
+                !et_email.getText().toString().trim().isEmpty() &&
                 TIPO_EMPRESA != -1 &&
-                !et_anio_f.getText().toString().trim().equals("") &&
-                !et_sec_empresarial.getText().toString().trim().equals("") &&
+                !et_anio_f.getText().toString().trim().isEmpty() &&
+                !et_sec_empresarial.getText().toString().trim().isEmpty() &&
                 et_producto.getTagList().size() > 0 &&
-                !et_nombre_contacto_registro.getText().toString().equals("") &&
-                !et_apellido.getText().toString().trim().equals("") &&
-                !et_cargo_contacto_registro.getText().toString().trim().equals("") &&
-                !et_telefono_oficina.getText().toString().trim().equals("") &&
-                !et_celular.getText().toString().trim().equals("") &&
-                !et_email_contacto.getText().toString().trim().equals("")) resultado = true;
+                !et_nombre_contacto_registro.getText().toString().isEmpty() &&
+                !et_apellido.getText().toString().trim().isEmpty() &&
+                !et_cargo_contacto_registro.getText().toString().trim().isEmpty() &&
+                !et_telefono_oficina.getText().toString().trim().isEmpty() &&
+                !et_celular.getText().toString().trim().isEmpty() &&
+                !et_email_contacto.getText().toString().trim().isEmpty()) resultado = true;
 
         else Toast.makeText(getApplicationContext(), R.string.m_ingrese_todos_campos, Toast.LENGTH_SHORT).show();
         return resultado;

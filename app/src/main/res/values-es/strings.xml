@@ -197,20 +197,8 @@
     <string name="actualizacion_ok">Su actualización fue hecha satisfactoriamente</string>
     <string name="actualizacion_error">Ocurrió un error, intente en unos minutos</string>
     <string name="m_usuario_mas_7">Ha superado el máximo de 7 búsquedas, debe comprar cuenta plus para seguir haciendo negocio</string>
-    <string name="nombre">NOMBRE</string>
-    <string name="ubicacion">UBICACIÓN</string>
-    <string name="m_pais">PAÍS</string>
-    <string name="m_sector_empresarial">SECTOR EMPRESARIAL</string>
-    <string name="m_certificaciones">CERTIFICACIONES</string>
-    <string name="productos">PRODUCTOS</string>
-    <string name="m_anio_fundacion">AÑO DE FUNDACIÓN</string>
-    <string name="m_web">WEB</string>
-    <string name="m_telefono">TELÉFONO</string>
-    <string name="m_correo">CORREO</string>
-    <string name="eliminar">No gracias</string>
-    <string name="m_descripcion">DESCRIPCIÓN</string>
 
-    <array name="certificaciones">
+    <!--<array name="certificaciones">
         <item>BPM</item>
         <item>BRC</item>
         <item>FAIR TRADE</item>
@@ -222,7 +210,7 @@
         <item>NON GMO</item>
         <item>RAINFOREST ALLIANCE</item>
         <item>UEBT</item>
-    </array>
+    </array>-->
 
     <array name="sectores_empresariales">
         <item>Agro Industria</item>
@@ -239,5 +227,18 @@
         <item>Metalmecánica</item>
         <item>Otros</item>
     </array>
+
+    <string name="nombre">NOMBRE</string>
+    <string name="ubicacion">UBICACIÓN</string>
+    <string name="m_pais">PAÍS</string>
+    <string name="m_sector_empresarial">SECTOR EMPRESARIAL</string>
+    <string name="m_certificaciones">CERTIFICACIONES</string>
+    <string name="productos">PRODUCTOS</string>
+    <string name="m_anio_fundacion">AÑO DE FUNDACIÓN</string>
+    <string name="m_web">WEB</string>
+    <string name="m_telefono">TELÉFONO</string>
+    <string name="m_correo">CORREO</string>
+    <string name="eliminar">No gracias</string>
+    <string name="m_descripcion">DESCRIPCIÓN</string>
 
 </resources>

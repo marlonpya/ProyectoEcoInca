@@ -24,6 +24,9 @@ import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.model.Usuario;
+import application.ucweb.proyectoecoinca.model.detalle.Certificado;
+import application.ucweb.proyectoecoinca.model.detalle.Producto;
+import application.ucweb.proyectoecoinca.model.detalle.SectorIndustrial;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindView;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
@@ -56,7 +59,7 @@ public class MisContactosActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) {
-
+                    requestContactosAmbos();
                 } else {
                     requestContactos();
                 }
@@ -105,11 +108,13 @@ public class MisContactosActivity extends BaseActivity {
                             Log.e(TAG, e.toString(), e);
                         }
                         adapter.notifyDataSetChanged();
+                        recyclerView.setRefreshing(false);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError volleyError) {
+                        recyclerView.setRefreshing(false);
                         VolleyLog.d(volleyError.toString(), volleyError);
                     }
                 }
@@ -123,11 +128,101 @@ public class MisContactosActivity extends BaseActivity {
             }
         };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
-        recyclerView.setRefreshing(false);
     }
 
     private void requestContactosAmbos() {
+        recyclerView.setRefreshing(true);
+        StringRequest request = new StringRequest(
+                Request.Method.POST,
+                Constantes.URL_CONTACTOS,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        Log.d(TAG, s);
+                        try {
+                            JSONObject jsonObject = new JSONObject(s);
+                            boolean status = jsonObject.getBoolean("status");
+                            JSONArray jSeguidor = jsonObject.getJSONArray("dataseguido");
+                            JSONArray jSeguido = jsonObject.getJSONArray("dataseguidor");
+                            listadoContactos(jSeguidor, status);
+                            listadoContactos(jSeguido, status);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, e.toString(), e);
+                        }
+                        recyclerView.setRefreshing(false);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        recyclerView.setRefreshing(false);
+                        VolleyLog.e(volleyError.toString(), volleyError);
+                    }
+                }
+        );
+        Configuracion.getInstance().addToRequestQueue(request, TAG);
+    }
 
+    private void listadoContactos(JSONArray jSeguidor, boolean status) throws JSONException {
+        if (jSeguidor != null && jSeguidor.length() > 0) {
+            if (status) {
+                for (int i = 0; i < jSeguidor.length(); i++) {
+                    JSONObject jEmpresa = jSeguidor.getJSONObject(i);
+                    Empresa empresa = new Empresa();
+                    empresa.setId(Empresa.getUltimoId());
+                    empresa.setId_server(jEmpresa.getInt("EMP_ID"));
+                    empresa.setNombre(jEmpresa.getString("EMP_NOMBRE"));
+                    empresa.setTipo_empresa(jEmpresa.getInt("EMP_TIPO"));
+                    empresa.setImagen(jEmpresa.getString("EMP_IMAGEN"));
+                    empresa.setDescripcion(jEmpresa.getString("EMP_DESCRIPCION"));
+                    empresa.setCiudad(jEmpresa.getString("EMP_CIUDAD"));
+                    empresa.setPais(jEmpresa.getString("EMP_PAIS"));
+                    empresa.setAnio_f(jEmpresa.getString("EMP_ANIO_FUNDACION"));
+                    empresa.setTelefono1(jEmpresa.getString("CON_TELEFONO"));
+                    empresa.setTelefono2(jEmpresa.getString("CON_CELULAR"));
+                    empresa.setCorreo1(jEmpresa.getString("EMP_EMAIL"));
+                    empresa.setCorreo2(jEmpresa.getString("CON_EMAIL"));
+                    empresa.setWeb(jEmpresa.getString("CON_WEB_SITE"));
+                    Empresa.registrarEmpresa(empresa);
+
+                    final int idEmpresa = jEmpresa.getInt("EMP_ID");
+                    JSONObject jExtra = jSeguidor.getJSONObject(i);
+                    if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA_PRODUCTOS")) {
+
+                        JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
+                        if (jCertificado != null && jCertificado.length() >= 0) {
+                            Certificado.delete(idEmpresa);
+                            if (jCertificado.length() > 0) {
+                                for (int j = 0; j < jCertificado.length(); j++) {
+                                    Certificado.createOrUpdate(jCertificado.getJSONObject(j).getString("CER_NOMBRE"), idEmpresa);
+                                }
+                            }
+                        }
+
+                        JSONArray jIndustria = jExtra.getJSONArray("INDUSTRIAL");
+                        if (jIndustria != null && jIndustria.length() >= 0) {
+                            SectorIndustrial.delete(idEmpresa);
+                            if (jIndustria.length() > 0) {
+                                for (int j = 0; j < jIndustria.length(); j++) {
+                                    SectorIndustrial.createOrUpdate(jIndustria.getJSONObject(j).getString("SECIND_NOMBRE"), idEmpresa);
+                                }
+                            }
+                        }
+
+                        JSONArray jProducto = jExtra.getJSONArray("PRODUCTOS");
+                        if (jProducto != null && jProducto.length() >= 0) {
+                            Producto.delete(idEmpresa);
+                            if (jProducto.length() > 0) {
+                                for (int j = 0; j < jProducto.length(); j++) {
+                                    Producto.createOrUpdate(jProducto.getJSONObject(j).getString("PRO_NOMBRE"), idEmpresa);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void iniciarRRV() {
