@@ -66,7 +66,8 @@ public class UsuarioProducto extends RealmObject {
     public static void limpiarProductos() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(UsuarioProducto.class).findAll().deleteAllFromRealm();
+        RealmResults<UsuarioProducto> usuarioProductos = realm.where(UsuarioProducto.class).findAll();
+        usuarioProductos.deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }

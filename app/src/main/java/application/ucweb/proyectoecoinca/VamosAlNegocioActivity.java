@@ -52,16 +52,16 @@ public class VamosAlNegocioActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vamos_al_negocio);
-        if (Usuario.getUsuario() != null && !Usuario.getUsuario().isSesion())
-            startActivity(new Intent(this, InicioActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         iniciarLayout();
 
         if (ConexionBroadcastReceiver.isConnected()) {
             Log.d(TAG, Usuario.getUsuario().toString());
             if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) {
                 requestMisSeguidorestipo2();
-            } else {
-                requestMisSeguidores();
+            } else if(Usuario.getUsuario().getTipo_empresa() == Empresa.N_COMPRADOR){
+                requestMisSeguidores(Empresa.N_COMPRADOR);
+            } else if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_VENDEDOR) {
+                requestMisSeguidores(Empresa.N_VENDEDOR);
             }
         }
         tab_layout.addTab(tab_layout.newTab());
@@ -182,8 +182,9 @@ public class VamosAlNegocioActivity extends BaseActivity {
             empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
             empresa.setTipo_match(Empresa.M_ESPERA);
             empresa.setTipo_empresa(Empresa.E_CONTACTO);
+            empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
             empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
-            empresa.setPosicion(Empresa.IZQUIERDA);
+            //empresa.setPosicion(Empresa.IZQUIERDA);
             empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
             empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
             empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
@@ -192,7 +193,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
             Empresa.registrarEmpresa(empresa);
 
             final int idEmpresa = jData.getJSONObject(i).getInt("EMP_ID");
-            JSONObject jExtra = jData.getJSONObject(i).getJSONObject("CERTIFICADO_INDUSTRIA");
+            JSONObject jExtra = jData.getJSONObject(i).getJSONObject("CERTIFICADO_INDUSTRIA_PRODUCTOS");
             //if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA")) {
                 JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
                 if (jCertificado != null && jCertificado.length() >= 0) {
@@ -254,7 +255,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void requestMisSeguidores() {
+    private void requestMisSeguidores(final int posicion) {
         BaseActivity.showDialog(pDialog);
         StringRequest request = new StringRequest(
                 Request.Method.POST,
@@ -282,7 +283,8 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                     empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
                                     empresa.setTipo_match(Empresa.M_ESPERA);
                                     empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                                    empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
+                                    empresa.setPosicion(posicion);
+                                    //empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
                                     empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
                                     empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
                                     empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
@@ -353,6 +355,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                 HashMap<String, String> params = new HashMap<>();
                 params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
                 params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
+                Log.d(TAG, params.toString());
                 return params;
             }
         };

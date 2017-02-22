@@ -215,7 +215,8 @@ public class Empresa extends RealmObject{
     public static void limpiarEmpresa() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(Empresa.class).findAll().deleteAllFromRealm();
+        RealmResults<Empresa> empresas = realm.where(Empresa.class).findAll();
+        empresas.deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }

@@ -81,7 +81,7 @@ public class Usuario extends RealmObject {
             user2.setPlus(usuario.isPlus());
             user2.setSesion(true);
             user2.setCantidad_busqueda(usuario.getCantidad_busqueda());
-            realm.copyToRealmOrUpdate(user2);
+            realm.copyToRealm(user2);
             Log.d(TAG, user2.toString());
         } else {
             user.setId(1);

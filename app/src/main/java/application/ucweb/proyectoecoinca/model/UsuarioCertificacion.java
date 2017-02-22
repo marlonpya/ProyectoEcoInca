@@ -69,7 +69,8 @@ public class UsuarioCertificacion extends RealmObject {
     public static void limpiarCertificacion() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(UsuarioCertificacion.class).findAll().deleteAllFromRealm();
+        RealmResults<UsuarioCertificacion> certificacions = realm.where(UsuarioCertificacion.class).findAll();
+        certificacions.deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }

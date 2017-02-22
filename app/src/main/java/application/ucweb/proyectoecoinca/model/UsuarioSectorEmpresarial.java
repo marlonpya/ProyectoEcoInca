@@ -70,7 +70,8 @@ public class UsuarioSectorEmpresarial extends RealmObject {
     public static void limpiarSectoresEmpresariales() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.where(UsuarioSectorEmpresarial.class).findAll().deleteAllFromRealm();
+        RealmResults<UsuarioSectorEmpresarial> usuarioSectorEmpresarials = realm.where(UsuarioSectorEmpresarial.class).findAll();
+        usuarioSectorEmpresarials.deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }

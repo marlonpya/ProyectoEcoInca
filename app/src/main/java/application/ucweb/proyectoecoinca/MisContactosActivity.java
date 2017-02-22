@@ -58,10 +58,11 @@ public class MisContactosActivity extends BaseActivity {
         recyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS)
+                /*if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS)
                     requestContactosAmbos();
                  else
-                    requestContactos();
+                    requestContactos();*/
+                requestContactos();
             }
         });
     }
@@ -143,7 +144,16 @@ public class MisContactosActivity extends BaseActivity {
                         VolleyLog.e(volleyError.toString(), volleyError);
                     }
                 }
-        );
+        ) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
+                params.put("idtipo", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
+                Log.d(TAG, params.toString());
+                return params;
+            }
+        };
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
