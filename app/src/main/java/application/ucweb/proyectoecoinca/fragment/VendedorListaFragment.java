@@ -2,6 +2,7 @@ package application.ucweb.proyectoecoinca.fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import android.util.Log;
@@ -17,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 /**
@@ -28,6 +30,7 @@ public class VendedorListaFragment extends Fragment {
 
     @BindView(R.id.rrvListaSeguirVendedor) RealmRecyclerView realmRecyclerView;
     private Realm realm;
+    private RealmChangeListener realmChangeListener;
     private RealmResults<Empresa> lista;
     private EmpresaResultadoAdapter adapter;
 
@@ -40,7 +43,14 @@ public class VendedorListaFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         realm = Realm.getDefaultInstance();
-        iniciarRRV();
+        //iniciarRRV();
+        realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                iniciarRRV();
+            }
+        };
+        realm.addChangeListener(realmChangeListener);
         return view;
     }
 
@@ -50,22 +60,26 @@ public class VendedorListaFragment extends Fragment {
                 .or()
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();*/
         lista = realm.where(Empresa.class).equalTo(Empresa.POSICION, Empresa.DERECHA).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
-
-        adapter = new EmpresaResultadoAdapter(getActivity(), lista);
-        realmRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (!lista.isEmpty()) {
+            adapter = new EmpresaResultadoAdapter(getActivity(), lista);
+            realmRecyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+        iniciarRRV();
         Log.d(TAG, lista.toString());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (realm != null) realm.close();
+        realm.removeChangeListener(realmChangeListener);
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
     }
 }

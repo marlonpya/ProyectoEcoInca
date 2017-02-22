@@ -47,10 +47,8 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
 
     public EmpresaAdapter(
             Context context,
-            RealmResults<Empresa> realmResults,
-            boolean automaticUpdate,
-            boolean animateResults) {
-        super(context, realmResults, automaticUpdate, animateResults);
+            RealmResults<Empresa> realmResults) {
+        super(context, realmResults, true, true);
     }
 
     @Override
@@ -126,8 +124,8 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                             Log.d(TAG, s);
                             try {
                                 JSONObject jsonObject = new JSONObject(s);
-                                JSONArray jData = jsonObject.getJSONArray("data");
-                                if (jData.getJSONObject(0).getBoolean("status")) {
+                                //JSONObject jData = jsonObject.getJSONObject("data");
+                                if (jsonObject.getBoolean("status")) {
                                     Empresa.eliminarEmpresa(id_empresa);
                                     notifyDataSetChanged();
                                     new AlertDialog.Builder(getContext())
@@ -136,10 +134,10 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                                             .setPositiveButton(R.string.aceptar, null)
                                             .show();
                                 }
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                             } catch (JSONException e) {
                                 e.printStackTrace();
-                                progressDialog.hide();
+                                progressDialog.dismiss();
                             }
                         }
                     },
@@ -147,7 +145,7 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             VolleyLog.d(volleyError.toString());
-                            progressDialog.hide();
+                            progressDialog.dismiss();
                         }
                     }
             ) {

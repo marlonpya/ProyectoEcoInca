@@ -100,6 +100,38 @@ public class Empresa extends RealmObject{
         return resultado;
     }
 
+    public static void eliminarContactos() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Empresa> empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
+                empresas.deleteAllFromRealm();
+            }
+        });
+        /*RealmResults<Empresa> empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
+        realm.beginTransaction();
+        empresas.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();*/
+    }
+
+    public static void eliminarNoContactos() {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmResults<Empresa> empresas = realm.where(Empresa.class).notEqualTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
+                empresas.deleteAllFromRealm();
+            }
+        });
+        /*RealmResults<Empresa> empresas = realm.where(Empresa.class).notEqualTo(Empresa.TIPO_MATCH, Empresa.M_ACEPTADO).findAll();
+        realm.beginTransaction();
+        empresas.deleteAllFromRealm();
+        realm.commitTransaction();
+        realm.close();*/
+    }
+
     public static void registrarEmpresa(Empresa emp) {
         Realm realm = Realm.getDefaultInstance();
         Empresa empresa = realm.where(Empresa.class).equalTo(ID_SERVER, emp.getId_server()).findFirst();
@@ -180,27 +212,10 @@ public class Empresa extends RealmObject{
         realm.close();
     }
 
-    /*public static void actualizarEstadoMatchAceptado(long id,int match){
-
-        Realm realm = Realm.getDefaultInstance();
-        realm.beginTransaction();
-=======
->>>>>>> b7a067e29cabae4a5c3a5aed2f5102b0dbea98a8
-        Empresa empresa = realm.where(Empresa.class).equalTo(ID, id).findFirst();
-        empresa.setTipo_match(match);
-        realm.commitTransaction();
-        realm.close();
-<<<<<<< HEAD
-
-    }*/
-
-
-
     public static void limpiarEmpresa() {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        RealmResults<Empresa> empresas = realm.where(Empresa.class).findAll();
-        empresas.deleteAllFromRealm();
+        realm.where(Empresa.class).findAll().deleteAllFromRealm();
         realm.commitTransaction();
         realm.close();
     }

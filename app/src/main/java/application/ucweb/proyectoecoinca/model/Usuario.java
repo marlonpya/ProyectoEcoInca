@@ -150,9 +150,7 @@ public class Usuario extends RealmObject {
         user.setSesion(false);
         user.setCantidad_busqueda(0);
         realm.commitTransaction();
-        UsuarioCertificacion.limpiarCertificacion();
-        UsuarioProducto.limpiarProductos();
-        UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
+        realm.close();
     }
 
     public static Usuario getUsuario() {

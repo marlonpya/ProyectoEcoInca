@@ -13,10 +13,10 @@ import application.ucweb.proyectoecoinca.model.UsuarioSectorEmpresarial;
 public class RealmHelper {
 
     public static void limpiarSesion() {
-        Empresa.limpiarEmpresa();
         Usuario.cerrarSesion();
         UsuarioCertificacion.limpiarCertificacion();
         UsuarioProducto.limpiarProductos();
         UsuarioSectorEmpresarial.limpiarSectoresEmpresariales();
+        Empresa.limpiarEmpresa();
     }
 }

@@ -94,36 +94,37 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 Log.d(TAG, empresa.toString());
                 idmatch = String.valueOf(empresa.getId_match());
                 usarGlide(MiPerfilEmpresaActivity.this, empresa.getImagen(), iv_perfil_empresa);
-                tv_descripcion.setText(empresa.getDescripcion().isEmpty() || empresa.getDescripcion() == null ? "-" : empresa.getDescripcion());
-                tv_nombre.setText(empresa.getNombre().isEmpty() || empresa.getNombre() == null ? "-" : empresa.getNombre());
-                tv_ciudad.setText(empresa.getCiudad().isEmpty() || empresa.getCiudad() == null ? "-" : empresa.getCiudad());
-                tv_pais.setText(empresa.getPais().isEmpty() || empresa.getPais() == null ? "-" : empresa.getPais());
+                tv_descripcion.setText(empresa.getDescripcion().isEmpty() && empresa.getDescripcion() == null ? "-" : empresa.getDescripcion());
+                tv_nombre.setText(empresa.getNombre().isEmpty() && empresa.getNombre() == null ? "-" : empresa.getNombre());
+                tv_ciudad.setText(empresa.getCiudad().isEmpty() && empresa.getCiudad() == null ? "-" : empresa.getCiudad());
+                tv_pais.setText(empresa.getPais().isEmpty() && empresa.getPais() == null ? "-" : empresa.getPais());
 
-                String sector_emp = "-";
+                String sector_emp = "";
                 RealmList<SectorIndustrial> sectorIndustrials = empresa.getSectorIndustriales();
                 for (int i = 0; i < sectorIndustrials.size(); i++) {
-                    if (!sectorIndustrials.isEmpty()) sector_emp += sectorIndustrials.get(i).getDescripcion() + "\n";
+                    sector_emp += sectorIndustrials.get(i).getDescripcion() + "\n";
                 }
-                tv_sector_emp.setText(sector_emp);
+                tv_sector_emp.setText(sector_emp.isEmpty() ? "-" : sector_emp);
 
-                String producto = "-";
+                String producto = "";
                 RealmList<Producto> productos = empresa.getProductos();
                 for (int i = 0; i < productos.size(); i++) {
-                    if (!productos.isEmpty()) producto += productos.get(i).getDescripcion() + "\n";
+                    producto += " " + productos.get(i).getDescripcion() + ",";
+                    if (i + 1 == producto.length()) producto += ".";
                 }
-                tv_productos.setText(producto);
+                tv_productos.setText(producto.isEmpty() ? "-" : producto);
 
-                String certificado = "-";
+                String certificado = "";
                 RealmList<Certificado> certificados = empresa.getCertificados();
                 for (int i = 0; i < certificados.size(); i++) {
-                    if (!certificados.isEmpty()) certificado += certificados.get(i).getDescripcion() + "\n";
+                    certificado += certificados.get(i).getDescripcion() + "\n";
                 }
-                tv_certificados.setText(certificado);
+                tv_certificados.setText(certificado.isEmpty() ? "-" : certificado);
                 //tv_sector_emp
                 //tv_productos
                 //tv_certificados
-                tv_anio_fundacion.setText(empresa.getAnio_f().isEmpty() || empresa.getAnio_f() == null ? "-" : empresa.getAnio_f());
-                tv_web.setText(empresa.getWeb().isEmpty() || empresa.getWeb() == null ? "-" : empresa.getWeb());
+                tv_anio_fundacion.setText(empresa.getAnio_f().isEmpty() && empresa.getAnio_f() == null ? "-" : empresa.getAnio_f());
+                tv_web.setText(empresa.getWeb().trim().isEmpty() || empresa.getWeb() == null ? "-" : empresa.getWeb());
                 if (empresa.getTelefono1() != null && !empresa.getTelefono1().isEmpty() && empresa.getTelefono2() != null && !empresa.getTelefono2().isEmpty()) {
                     tv_telefono.setText(empresa.getTelefono1() + "\n" + empresa.getTelefono2());
                 } else if (empresa.getTelefono1() != null && !empresa.getTelefono1().isEmpty()) {
@@ -145,7 +146,6 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
 
     @OnClick(R.id.btnVamosHacerNegocio)
     public void vamosHacerNegocio() {
-        Log.d(TAG, "clickFAB");
         /*if (empresaSerializable.getTipo_empresa() == Empresa.E_BUSQUEDA) {
             switch (Empresa.identificarEmpresaContacto(empresaSerializable.getTipo_match())) {
                 case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
@@ -195,16 +195,16 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                     );
                                     usarGlide(MiPerfilEmpresaActivity.this, empresaSerializable.getImagen(), iv_perfil_empresa);
                                     //Glide.with(MiPerfilEmpresaActivity.this).load(empresaSerializable.getImagen()).fitCenter().override(400, 200).into(iv_perfil_empresa);
-                                    tv_descripcion.setText(empresaSerializable.getDescripcion().isEmpty() || empresaSerializable.getDescripcion() == null ? "-" : empresaSerializable.getDescripcion());
-                                    tv_nombre.setText(empresaSerializable.getNombre().isEmpty() || empresaSerializable.getNombre() == null ? "-" : empresaSerializable.getNombre());
-                                    tv_ciudad.setText(empresaSerializable.getCiudad().isEmpty() || empresaSerializable.getCiudad() == null ? "-" : empresaSerializable.getCiudad());
-                                    tv_pais.setText(empresaSerializable.getPais().isEmpty() || empresaSerializable.getPais().isEmpty() ? "-" : empresaSerializable.getPais());
+                                    tv_descripcion.setText(empresaSerializable.getDescripcion().isEmpty() && empresaSerializable.getDescripcion() == null ? "-" : empresaSerializable.getDescripcion());
+                                    tv_nombre.setText(empresaSerializable.getNombre().isEmpty() && empresaSerializable.getNombre() == null ? "-" : empresaSerializable.getNombre());
+                                    tv_ciudad.setText(empresaSerializable.getCiudad().isEmpty() && empresaSerializable.getCiudad() == null ? "-" : empresaSerializable.getCiudad());
+                                    tv_pais.setText(empresaSerializable.getPais().isEmpty() && empresaSerializable.getPais().isEmpty() ? "-" : empresaSerializable.getPais());
 
                                     String sector_empresarial = "";
                                     JSONArray jSectorEmpresarial = jData.getJSONArray("sector_empresarial");
                                     if (jSectorEmpresarial != null && jSectorEmpresarial.length() > 0) {
                                         for (int i = 0; i < jSectorEmpresarial.length(); i++) {
-                                            sector_empresarial += jSectorEmpresarial.getJSONObject(0).getString("SECIND_NOMBRE");
+                                            sector_empresarial += jSectorEmpresarial.getJSONObject(i).getString("SECIND_NOMBRE");
                                             if (i + 1 != jSectorEmpresarial.length()) sector_empresarial += "\n";
                                         }
                                     } else
@@ -233,8 +233,8 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                     } else
                                         certificados = "-";
                                     tv_certificados.setText(certificados);
-                                    tv_anio_fundacion.setText(empresaSerializable.getAnio_f().isEmpty() || empresaSerializable.getAnio_f() == null ? "-" : empresaSerializable.getAnio_f());
-                                    tv_web.setText(empresaSerializable.getWeb().isEmpty() || empresaSerializable.getWeb() == null ? "-" : empresaSerializable.getWeb());
+                                    tv_anio_fundacion.setText(empresaSerializable.getAnio_f().isEmpty() && empresaSerializable.getAnio_f() == null ? "-" : empresaSerializable.getAnio_f());
+                                    tv_web.setText(empresaSerializable.getWeb().isEmpty() && empresaSerializable.getWeb() == null ? "-" : empresaSerializable.getWeb());
                                     tv_telefono.setText(empresaSerializable.getTelefono1() + "\n" + empresaSerializable.getTelefono2());
                                     tv_correo.setText(empresaSerializable.getCorreo1() + "\n" + empresaSerializable.getCorreo2());
 

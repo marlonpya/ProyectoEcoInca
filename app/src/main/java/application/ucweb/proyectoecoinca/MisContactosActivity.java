@@ -58,11 +58,10 @@ public class MisContactosActivity extends BaseActivity {
         recyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) {
+                if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS)
                     requestContactosAmbos();
-                } else {
+                 else
                     requestContactos();
-                }
             }
         });
     }
@@ -78,33 +77,14 @@ public class MisContactosActivity extends BaseActivity {
                         Log.d(TAG, s);
                         try {
                             JSONObject jObject = new JSONObject(s);
-
-                            if(jObject.getBoolean("status")) {
+                            boolean status = jObject.getBoolean("status");
+                            if (status) {
                                 JSONArray jData = jObject.getJSONArray("data");
-                                for (int i = 0; i < jData.length(); i++) {
-                                    Empresa empresa = new Empresa();
-                                    empresa.setId(Empresa.getUltimoId());
-                                    empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
-                                    empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
-                                    empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
-                                    empresa.setImagen(jData.getJSONObject(i).getString("EMP_IMAGEN"));
-                                    empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                    empresa.setCiudad(jData.getJSONObject(i).getString("EMP_CIUDAD"));
-                                    empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
-                                    empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
-                                    empresa.setTipo_match(Empresa.M_ACEPTADO);
-                                    empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
-                                    empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                                    empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
-                                    empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
-                                    empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
-                                    empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
-                                    empresa.setCorreo1(jData.getJSONObject(i).getString("CON_EMAIL"));
-                                    empresa.setCorreo2(jData.getJSONObject(i).getString("CON_WEB_SITE"));
-                                    Empresa.registrarEmpresa(empresa);
-                                }
+                                Empresa.eliminarContactos();
+                                listadoContactos(jData);
                             }
                         } catch (JSONException e) {
+                            e.printStackTrace();
                             Log.e(TAG, e.toString(), e);
                         }
                         adapter.notifyDataSetChanged();
@@ -142,10 +122,13 @@ public class MisContactosActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             boolean status = jsonObject.getBoolean("status");
-                            JSONArray jSeguidor = jsonObject.getJSONArray("dataseguido");
-                            JSONArray jSeguido = jsonObject.getJSONArray("dataseguidor");
-                            listadoContactos(jSeguidor, status);
-                            listadoContactos(jSeguido, status);
+                            if (status) {
+                                JSONArray jSeguidor = jsonObject.getJSONArray("dataseguido");
+                                JSONArray jSeguido = jsonObject.getJSONArray("dataseguidor");
+                                Empresa.eliminarContactos();
+                                listadoContactos(jSeguidor);
+                                listadoContactos(jSeguido);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e(TAG, e.toString(), e);
@@ -164,63 +147,64 @@ public class MisContactosActivity extends BaseActivity {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    private void listadoContactos(JSONArray jSeguidor, boolean status) throws JSONException {
-        if (jSeguidor != null && jSeguidor.length() > 0) {
-            if (status) {
-                for (int i = 0; i < jSeguidor.length(); i++) {
-                    JSONObject jEmpresa = jSeguidor.getJSONObject(i);
-                    Empresa empresa = new Empresa();
-                    empresa.setId(Empresa.getUltimoId());
-                    empresa.setId_server(jEmpresa.getInt("EMP_ID"));
-                    empresa.setNombre(jEmpresa.getString("EMP_NOMBRE"));
-                    empresa.setTipo_empresa(jEmpresa.getInt("EMP_TIPO"));
-                    empresa.setImagen(jEmpresa.getString("EMP_IMAGEN"));
-                    empresa.setDescripcion(jEmpresa.getString("EMP_DESCRIPCION"));
-                    empresa.setCiudad(jEmpresa.getString("EMP_CIUDAD"));
-                    empresa.setPais(jEmpresa.getString("EMP_PAIS"));
-                    empresa.setAnio_f(jEmpresa.getString("EMP_ANIO_FUNDACION"));
-                    empresa.setTelefono1(jEmpresa.getString("CON_TELEFONO"));
-                    empresa.setTelefono2(jEmpresa.getString("CON_CELULAR"));
-                    empresa.setCorreo1(jEmpresa.getString("EMP_EMAIL"));
-                    empresa.setCorreo2(jEmpresa.getString("CON_EMAIL"));
-                    empresa.setWeb(jEmpresa.getString("CON_WEB_SITE"));
-                    Empresa.registrarEmpresa(empresa);
+    private void listadoContactos(JSONArray jSeguidor) throws JSONException {
+        if (jSeguidor != null && jSeguidor.length() >= 0) {
+            for (int i = 0; i < jSeguidor.length(); i++) {
+                JSONObject jEmpresa = jSeguidor.getJSONObject(i);
+                Empresa empresa = new Empresa();
+                empresa.setId(Empresa.getUltimoId());
+                empresa.setId_server(jEmpresa.getInt("EMP_ID"));
+                empresa.setNombre(jEmpresa.getString("EMP_NOMBRE"));
+                empresa.setTipo_empresa(jEmpresa.getInt("EMP_TIPO"));
+                empresa.setImagen(jEmpresa.getString("EMP_IMAGEN"));
+                empresa.setDescripcion(jEmpresa.getString("EMP_DESCRIPCION"));
+                empresa.setCiudad(jEmpresa.getString("EMP_CIUDAD"));
+                empresa.setPais(jEmpresa.getString("EMP_PAIS"));
+                empresa.setAnio_f(jEmpresa.getString("EMP_ANIO_FUNDACION"));
+                empresa.setTipo_match(Empresa.M_ACEPTADO);
+                empresa.setId_match(Empresa.ID_MACTH_DEFAULT);
+                empresa.setTipo_empresa(Empresa.E_CONTACTO);
+                empresa.setTelefono1(jEmpresa.getString("CON_TELEFONO"));
+                empresa.setTelefono2(jEmpresa.getString("CON_CELULAR"));
+                empresa.setCorreo1(jEmpresa.getString("EMP_EMAIL"));
+                empresa.setCorreo2(jEmpresa.getString("CON_EMAIL"));
+                empresa.setWeb(jEmpresa.getString("CON_WEB_SITE"));
+                Empresa.registrarEmpresa(empresa);
 
-                    final int idEmpresa = jEmpresa.getInt("EMP_ID");
-                    JSONObject jExtra = jSeguidor.getJSONObject(i);
-                    if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA_PRODUCTOS")) {
+                final int idEmpresa = jEmpresa.getInt("EMP_ID");
+                JSONObject jExtra = jSeguidor.getJSONObject(i).getJSONObject("CERTIFICADO_INDUSTRIA_PRODUCTOS");
+                //if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA_PRODUCTOS")) {
 
-                        JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
-                        if (jCertificado != null && jCertificado.length() >= 0) {
-                            Certificado.delete(idEmpresa);
-                            if (jCertificado.length() > 0) {
-                                for (int j = 0; j < jCertificado.length(); j++) {
-                                    Certificado.createOrUpdate(jCertificado.getJSONObject(j).getString("CER_NOMBRE"), idEmpresa);
-                                }
-                            }
-                        }
-
-                        JSONArray jIndustria = jExtra.getJSONArray("INDUSTRIAL");
-                        if (jIndustria != null && jIndustria.length() >= 0) {
-                            SectorIndustrial.delete(idEmpresa);
-                            if (jIndustria.length() > 0) {
-                                for (int j = 0; j < jIndustria.length(); j++) {
-                                    SectorIndustrial.createOrUpdate(jIndustria.getJSONObject(j).getString("SECIND_NOMBRE"), idEmpresa);
-                                }
-                            }
-                        }
-
-                        JSONArray jProducto = jExtra.getJSONArray("PRODUCTOS");
-                        if (jProducto != null && jProducto.length() >= 0) {
-                            Producto.delete(idEmpresa);
-                            if (jProducto.length() > 0) {
-                                for (int j = 0; j < jProducto.length(); j++) {
-                                    Producto.createOrUpdate(jProducto.getJSONObject(j).getString("PRO_NOMBRE"), idEmpresa);
-                                }
+                    JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
+                    if (jCertificado != null && jCertificado.length() >= 0) {
+                        Certificado.delete(idEmpresa);
+                        if (jCertificado.length() > 0) {
+                            for (int j = 0; j < jCertificado.length(); j++) {
+                                Certificado.createOrUpdate(jCertificado.getJSONObject(j).getString("CER_NOMBRE"), idEmpresa);
                             }
                         }
                     }
-                }
+
+                    JSONArray jIndustria = jExtra.getJSONArray("INDUSTRIAL");
+                    if (jIndustria != null && jIndustria.length() >= 0) {
+                        SectorIndustrial.delete(idEmpresa);
+                        if (jIndustria.length() > 0) {
+                            for (int j = 0; j < jIndustria.length(); j++) {
+                                SectorIndustrial.createOrUpdate(jIndustria.getJSONObject(j).getString("SECIND_NOMBRE"), idEmpresa);
+                            }
+                        }
+                    }
+
+                    JSONArray jProducto = jExtra.getJSONArray("PRODUCTOS");
+                    if (jProducto != null && jProducto.length() >= 0) {
+                        Producto.delete(idEmpresa);
+                        if (jProducto.length() > 0) {
+                            for (int j = 0; j < jProducto.length(); j++) {
+                                Producto.createOrUpdate(jProducto.getJSONObject(j).getString("PRO_NOMBRE"), idEmpresa);
+                            }
+                        }
+                    }
+                //}
             }
         }
     }

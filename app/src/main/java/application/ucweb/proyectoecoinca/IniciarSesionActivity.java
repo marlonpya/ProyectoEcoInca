@@ -128,7 +128,7 @@ public class IniciarSesionActivity extends BaseActivity {
 
     @OnClick(R.id.btnLinkedin)
     public void iniciarSesionLINKEDIN() {
-        Configuracion.generateHashkey(this);
+        //Configuracion.generateHashkey(this);
         LISessionManager.getInstance(getApplicationContext()).init(this, buildScope(), new AuthListener() {
             @Override
             public void onAuthSuccess() {

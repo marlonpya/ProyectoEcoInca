@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
 import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 
 /**
@@ -26,6 +27,7 @@ public class CompradorListaFragment extends Fragment {
     @BindView(R.id.rrvListaEmpresas) RealmRecyclerView recyclerView;
     @BindView(R.id.layout_fragment_comprador_lista) LinearLayout layout;
     private Realm realm;
+    private RealmChangeListener realmChangeListener;
     private EmpresaAdapter adapter;
     private RealmResults<Empresa> lista;
 
@@ -38,11 +40,18 @@ public class CompradorListaFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         realm = Realm.getDefaultInstance();
-        cargarRRV();
+        realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object element) {
+                iniciarRRV();
+            }
+        };
+        realm.addChangeListener(realmChangeListener);
+        //cargarRRV();
         return view;
     }
 
-    private void cargarRRV() {
+    private void iniciarRRV() {
         /*lista_empresas = realm.where(Empresa.class).equalTo(Empresa.TIPO_EMPRESA, Empresa.E_CONTACTO)
 
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_VENDEDOR).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA)
@@ -50,21 +59,27 @@ public class CompradorListaFragment extends Fragment {
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();*/
 
         lista = realm.where(Empresa.class).equalTo(Empresa.POSICION, Empresa.IZQUIERDA).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
-        adapter = new EmpresaAdapter(getActivity(), lista, true, true);
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if (!lista.isEmpty()) {
+            adapter = new EmpresaAdapter(getActivity(), lista);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        adapter.notifyDataSetChanged();
+
+        iniciarRRV();
         Log.d(TAG, lista.toString());
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (realm != null) realm.close();
+        realm.removeChangeListener(realmChangeListener);
+        if (realm != null) {
+            realm.close();
+            realm = null;
+        }
     }
 }

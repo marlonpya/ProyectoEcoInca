@@ -152,7 +152,7 @@ public class InicioActivity extends BaseActivity {
                                     JSONObject jsonObject = new JSONObject(s);
                                     JSONArray jData = jsonObject.getJSONArray("data");
                                     for (int i = 0; i < jData.length(); i++) {
-                                        BuscarDetalle.cargarPais(jData.getJSONObject(i).getString("name"), jData.getJSONObject(i).getString("code"));
+                                        BuscarDetalle.cargarPais(jData.getJSONObject(i).getString("name").trim(), jData.getJSONObject(i).getString("code"));
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

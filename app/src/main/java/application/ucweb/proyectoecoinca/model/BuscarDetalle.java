@@ -76,23 +76,6 @@ public class BuscarDetalle extends RealmObject {
         realm.close();
     }
 
-    public static void cargarPais() {
-        Realm realm = Realm.getDefaultInstance();
-        String[] array = {"Alemania", "Peru", "Estados Unidos", "Bolivia", "Ecuador", "Mexico", "Colombia", "Venezuela", "Arabia", "Argentina", "Guatemala"};
-        for(String nombre : array) {
-            realm.beginTransaction();
-            BuscarDetalle item = realm.createObject(BuscarDetalle.class);
-            item.setId(getUltimoId());
-            item.setDescripcion(nombre.toUpperCase());
-            item.setTipo(1);
-            item.setSeleccionado(false);
-            realm.copyToRealm(item);
-            realm.commitTransaction();
-            Log.d(TAG, item.toString());
-        }
-        realm.close();
-    }
-
     public static void cargarDepartamentos(String departamento) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
@@ -172,7 +155,7 @@ public class BuscarDetalle extends RealmObject {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<BuscarDetalle> marcados = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, tipo).equalTo(BUSDET_SELECCIONADO, SELECCIONADO).findAll();
         ArrayList<String> resultado = new ArrayList<>();
-        if (marcados.size() != 0) {
+        if (marcados.size() > 0) {
             for (int i = 0; i < marcados.size(); i++) {
                 resultado.add(marcados.get(i).getDescripcion());
             }
@@ -184,7 +167,7 @@ public class BuscarDetalle extends RealmObject {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<BuscarDetalle> marcados = realm.where(BuscarDetalle.class).equalTo(BUSDET_TIPO, BuscarDetalle.TIPO_PAIS).findAll();
         ArrayList<String> resultado = new ArrayList<>();
-        if (marcados.size() != 0) {
+        if (marcados.size() > 0) {
             for (int i = 0; i < marcados.size(); i++) {
                 resultado.add(marcados.get(i).getDescripcion());
             }

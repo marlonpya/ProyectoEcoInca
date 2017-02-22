@@ -1,6 +1,7 @@
 package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -51,13 +52,16 @@ public class VamosAlNegocioActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vamos_al_negocio);
+        if (Usuario.getUsuario() != null && !Usuario.getUsuario().isSesion())
+            startActivity(new Intent(this, InicioActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK));
         iniciarLayout();
 
         if (ConexionBroadcastReceiver.isConnected()) {
-            if (Usuario.getUsuario().getTipo_empresa() != Empresa.N_AMBOS) {
-                requestMisSeguidores();
-            } else {
+            Log.d(TAG, Usuario.getUsuario().toString());
+            if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) {
                 requestMisSeguidorestipo2();
+            } else {
+                requestMisSeguidores();
             }
         }
         tab_layout.addTab(tab_layout.newTab());
@@ -129,76 +133,19 @@ public class VamosAlNegocioActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(s);
 
                             boolean status = jsonObject.getBoolean("status");
-                            JSONArray jSeguido = jsonObject.getJSONArray("dataseguido");
-                            JSONArray jSeguidor = jsonObject.getJSONArray("dataseguidor");
-                            listadoNoContacto(jSeguido, status);
-                            listadoNoContacto(jSeguidor, status);
-                            /*JSONArray jData2 = jsonObject.getJSONArray("dataseguidor");
-                            for (int i = 0; i < jData2.length(); i++) {
-                                Empresa empresa = new Empresa();
-                                empresa.setId(Empresa.getUltimoId());
-                                empresa.setId_server(jData2.getJSONObject(i).getInt("EMP_ID"));
-                                empresa.setNombre(jData2.getJSONObject(i).getString("EMP_NOMBRE"));
-                                empresa.setTipo_negocio(jData2.getJSONObject(i).getInt("EMP_TIPO"));
-                                empresa.setImagen(jData2.getJSONObject(i).getString("EMP_IMAGEN"));
-                                empresa.setCiudad(jData2.getJSONObject(i).getString("EMP_CIUDAD"));
-                                empresa.setPais(jData2.getJSONObject(i).getString("EMP_PAIS"));
-                                empresa.setAnio_f(jData2.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
-                                empresa.setDescripcion(jData2.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setTipo_match(Empresa.M_ESPERA);
-                                empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                                empresa.setId_match(jData2.getJSONObject(i).getInt("SEG_ID"));
-                                empresa.setPosicion(Empresa.DERECHA);
-                                empresa.setWeb(jData2.getJSONObject(i).getString("CON_WEB_SITE"));
-                                empresa.setTelefono1(jData2.getJSONObject(i).getString("CON_TELEFONO"));
-                                empresa.setTelefono2(jData2.getJSONObject(i).getString("CON_CELULAR"));
-                                empresa.setCorreo1(jData2.getJSONObject(i).getString("EMP_EMAIL"));
-                                empresa.setCorreo2(jData2.getJSONObject(i).getString("CON_EMAIL"));
-                                Empresa.registrarEmpresa(empresa);
-                                Log.d(TAG, empresa.toString());
-
-                                final int idEmpresa = jData2.getJSONObject(i).getInt("EMP_ID");
-                                JSONObject jExtra = jData2.getJSONObject(i);
-                                if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA")) {
-
-                                    if (jExtra.has("CERTIFICADO")) {
-                                        JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
-                                        if (jCertificado != null && jCertificado.length() >= 0) {
-                                            Certificado.delete(idEmpresa);
-                                            if (jCertificado.length() > 0) {
-                                                for (int k = 0; k < jCertificado.length(); k++) {
-                                                    Certificado.createOrUpdate(jCertificado.getJSONObject(k).getString("CER_NOMBRE"), idEmpresa);
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    JSONArray jIndustria = jExtra.getJSONArray("INDUSTRIAL");
-                                    if (jIndustria != null && jIndustria.length() >= 0) {
-                                        SectorIndustrial.delete(idEmpresa);
-                                        if (jIndustria.length() > 0) {
-                                            for (int k = 0; k < jIndustria.length(); k++) {
-                                                SectorIndustrial.createOrUpdate(jIndustria.getJSONObject(k).getString("SECIND_NOMBRE"), idEmpresa);
-                                            }
-                                        }
-                                    }
-
-                                    JSONArray jProducto = jExtra.getJSONArray("PRODUCTOS");
-                                    if (jProducto != null && jProducto.length() >= 0) {
-                                        Producto.delete(idEmpresa);
-                                        if (jProducto.length() > 0) {
-                                            for (int k = 0; k > jProducto.length(); k++) {
-                                                Producto.createOrUpdate(jProducto.getJSONObject(k).getString("PRO_NOMBRE"), idEmpresa);
-                                            }
-                                        }
-                                    }
-                                }
-                            }*/
+                            if (status) {
+                                JSONArray jSeguido = jsonObject.getJSONArray("dataseguido");
+                                JSONArray jSeguidor = jsonObject.getJSONArray("dataseguidor");
+                                Empresa.eliminarNoContactos();
+                                listadoNoContacto(jSeguido);
+                                listadoNoContacto(jSeguidor);
+                            }
+                            BaseActivity.hidepDialog(pDialog);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e(TAG, e.toString(), e);
+                            BaseActivity.hidepDialog(pDialog);
                         }
-                        BaseActivity.hidepDialog(pDialog);
                     }
                 },
                 new Response.ErrorListener() {
@@ -220,65 +167,63 @@ public class VamosAlNegocioActivity extends BaseActivity {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    private void listadoNoContacto(JSONArray jData, boolean status) throws JSONException {
-        if (status) {
-            for (int i = 0; i < jData.length(); i++) {
-                Empresa empresa = new Empresa();
+    private void listadoNoContacto(JSONArray jData) throws JSONException {
+        for (int i = 0; i < jData.length(); i++) {
+            Empresa empresa = new Empresa();
 
-                empresa.setId(Empresa.getUltimoId());
-                empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
-                empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
-                empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
-                empresa.setImagen(jData.getJSONObject(i).getString("EMP_IMAGEN"));
-                empresa.setCiudad(jData.getJSONObject(i).getString("EMP_CIUDAD"));
-                empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
-                empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
-                empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                empresa.setTipo_match(Empresa.M_ESPERA);
-                empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
-                empresa.setPosicion(Empresa.IZQUIERDA);
-                empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
-                empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
-                empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
-                empresa.setCorreo1(jData.getJSONObject(i).getString("EMP_EMAIL"));
-                empresa.setCorreo2(jData.getJSONObject(i).getString("CON_EMAIL"));
-                Empresa.registrarEmpresa(empresa);
+            empresa.setId(Empresa.getUltimoId());
+            empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
+            empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
+            empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
+            empresa.setImagen(jData.getJSONObject(i).getString("EMP_IMAGEN"));
+            empresa.setCiudad(jData.getJSONObject(i).getString("EMP_CIUDAD"));
+            empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
+            empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+            empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
+            empresa.setTipo_match(Empresa.M_ESPERA);
+            empresa.setTipo_empresa(Empresa.E_CONTACTO);
+            empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
+            empresa.setPosicion(Empresa.IZQUIERDA);
+            empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
+            empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
+            empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
+            empresa.setCorreo1(jData.getJSONObject(i).getString("EMP_EMAIL"));
+            empresa.setCorreo2(jData.getJSONObject(i).getString("CON_EMAIL"));
+            Empresa.registrarEmpresa(empresa);
 
-                final int idEmpresa = jData.getJSONObject(i).getInt("EMP_ID");
-                JSONObject jExtra = jData.getJSONObject(i);
-                if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA")) {
-                    JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
-                    if (jCertificado != null && jCertificado.length() >= 0) {
-                        Certificado.delete(idEmpresa);
-                        if (jCertificado.length() > 0) {
-                            for (int k = 0; k < jCertificado.length(); k++) {
-                                Certificado.createOrUpdate(jCertificado.getJSONObject(k).getString("CER_NOMBRE"), idEmpresa);
-                            }
-                        }
-                    }
-
-                    JSONArray jIndustria = jExtra.getJSONArray("INDUSTRIAL");
-                    if (jIndustria != null && jIndustria.length() >= 0) {
-                        SectorIndustrial.delete(idEmpresa);
-                        if (jIndustria.length() > 0) {
-                            for (int k = 0; k < jIndustria.length(); k++) {
-                                SectorIndustrial.createOrUpdate(jIndustria.getJSONObject(k).getString("SECIND_NOMBRE"), idEmpresa);
-                            }
-                        }
-                    }
-
-                    JSONArray jProducto = jExtra.getJSONArray("PRODUCTOS");
-                    if (jProducto != null && jProducto.length() >= 0) {
-                        Producto.delete(idEmpresa);
-                        if (jProducto.length() > 0) {
-                            for (int k = 0; k > jProducto.length(); k++) {
-                                Producto.createOrUpdate(jProducto.getJSONObject(k).getString("PRO_NOMBRE"), idEmpresa);
-                            }
+            final int idEmpresa = jData.getJSONObject(i).getInt("EMP_ID");
+            JSONObject jExtra = jData.getJSONObject(i).getJSONObject("CERTIFICADO_INDUSTRIA");
+            //if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA")) {
+                JSONArray jCertificado = jExtra.getJSONArray("CERTIFICADO");
+                if (jCertificado != null && jCertificado.length() >= 0) {
+                    Certificado.delete(idEmpresa);
+                    if (jCertificado.length() > 0) {
+                        for (int k = 0; k < jCertificado.length(); k++) {
+                            Certificado.createOrUpdate(jCertificado.getJSONObject(k).getString("CER_NOMBRE"), idEmpresa);
                         }
                     }
                 }
-            }
+
+                JSONArray jIndustria = jExtra.getJSONArray("INDUSTRIAL");
+                if (jIndustria != null && jIndustria.length() >= 0) {
+                    SectorIndustrial.delete(idEmpresa);
+                    if (jIndustria.length() > 0) {
+                        for (int k = 0; k < jIndustria.length(); k++) {
+                            SectorIndustrial.createOrUpdate(jIndustria.getJSONObject(k).getString("SECIND_NOMBRE"), idEmpresa);
+                        }
+                    }
+                }
+
+                JSONArray jProducto = jExtra.getJSONArray("PRODUCTOS");
+                if (jProducto != null && jProducto.length() >= 0) {
+                    Producto.delete(idEmpresa);
+                    if (jProducto.length() > 0) {
+                        for (int k = 0; k > jProducto.length(); k++) {
+                            Producto.createOrUpdate(jProducto.getJSONObject(k).getString("PRO_NOMBRE"), idEmpresa);
+                        }
+                    }
+                }
+            //}
         }
     }
 
@@ -299,7 +244,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
         setToolbarSon(toolbar, this, getString(R.string.nav_vamos_al_negocio));
         pDialog = new ProgressDialog(this);
         pDialog.setTitle(R.string.app_name);
-        pDialog.setMessage(getString(R.string.m_busqueda));
+        pDialog.setMessage(getString(R.string.m_actualizando));
         pDialog.setCancelable(false);
     }
 
@@ -321,33 +266,36 @@ public class VamosAlNegocioActivity extends BaseActivity {
                         try {
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray jData = jsonObject.getJSONArray("data");
-                            for (int i = 0; i < jData.length(); i++) {
-                                Empresa empresa = new Empresa();
-                                empresa.setId(Empresa.getUltimoId());
-                                empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
-                                empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
-                                empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
-                                empresa.setImagen(jData.getJSONObject(i).getString("EMP_IMAGEN"));
-                                empresa.setCiudad(jData.getJSONObject(i).getString("EMP_CIUDAD"));
-                                empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
-                                empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
-                                empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
-                                empresa.setTipo_match(Empresa.M_ESPERA);
-                                empresa.setTipo_empresa(Empresa.E_CONTACTO);
-                                empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
-                                empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
-                                empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
-                                empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
-                                empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
-                                empresa.setCorreo1(jData.getJSONObject(i).getString("EMP_EMAIL"));
-                                empresa.setCorreo2(jData.getJSONObject(i).getString("CON_EMAIL"));
-                                Empresa.registrarEmpresa(empresa);
+                            if (jData != null && jData.length() >= 0) {
+                                Empresa.eliminarNoContactos();
+                                for (int i = 0; i < jData.length(); i++) {
 
-                                final int idEmpresa = jData.getJSONObject(i).getInt("EMP_ID");
-                                JSONObject jExtra = jData.getJSONObject(i);
+                                    Empresa empresa = new Empresa();
+                                    empresa.setId(Empresa.getUltimoId());
+                                    empresa.setId_server(jData.getJSONObject(i).getInt("EMP_ID"));
+                                    empresa.setNombre(jData.getJSONObject(i).getString("EMP_NOMBRE"));
+                                    empresa.setTipo_negocio(jData.getJSONObject(i).getInt("EMP_TIPO"));
+                                    empresa.setImagen(jData.getJSONObject(i).getString("EMP_IMAGEN"));
+                                    empresa.setCiudad(jData.getJSONObject(i).getString("EMP_CIUDAD"));
+                                    empresa.setPais(jData.getJSONObject(i).getString("EMP_PAIS"));
+                                    empresa.setAnio_f(jData.getJSONObject(i).getString("EMP_ANIO_FUNDACION"));
+                                    empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
+                                    empresa.setTipo_match(Empresa.M_ESPERA);
+                                    empresa.setTipo_empresa(Empresa.E_CONTACTO);
+                                    empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
+                                    empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
+                                    empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
+                                    empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
+                                    empresa.setTelefono2(jData.getJSONObject(i).getString("CON_CELULAR"));
+                                    empresa.setCorreo1(jData.getJSONObject(i).getString("EMP_EMAIL"));
+                                    empresa.setCorreo2(jData.getJSONObject(i).getString("CON_EMAIL"));
+                                    Empresa.registrarEmpresa(empresa);
 
-                                    if (jExtra.names().getString(i).equals("CERTIFICADO_INDUSTRIA_PRODUCTOS")) {
-                                        JSONObject jDetalleEmpresa = jExtra.getJSONObject("CERTIFICADO_INDUSTRIA_PRODUCTOS");
+                                    final int idEmpresa = jData.getJSONObject(i).getInt("EMP_ID");
+                                    JSONObject jDetalleEmpresa = jData.getJSONObject(i).getJSONObject("CERTIFICADO_INDUSTRIA_PRODUCTOS");
+
+                                    //if (jExtra.names().getString(i).equals("")) {
+                                        //JSONObject jDetalleEmpresa = jExtra.getJSONObject("CERTIFICADO_INDUSTRIA_PRODUCTOS");
                                         Log.d(TAG, jDetalleEmpresa.toString());
 
                                         JSONArray jCertificado = jDetalleEmpresa.getJSONArray("CERTIFICADO");
@@ -376,20 +324,20 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                         if (jProducto != null && jProducto.length() >= 0) {
                                             Producto.delete(idEmpresa);
                                             if (jProducto.length() > 0) {
-                                                for (int k = 0; k < jProducto.length(); k ++) {
+                                                for (int k = 0; k < jProducto.length(); k++) {
                                                     Producto.createOrUpdate(jProducto.getJSONObject(k).getString("PRO_NOMBRE"), idEmpresa);
                                                 }
                                             }
                                         }
-                                        break;
-                                    }
-
+                                    //}
+                                }
                             }
+                            BaseActivity.hidepDialog(pDialog);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.e(TAG, e.toString(), e);
+                            BaseActivity.hidepDialog(pDialog);
                         }
-                        BaseActivity.hidepDialog(pDialog);
                     }
                 },
                 new Response.ErrorListener() {
