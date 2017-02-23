@@ -12,6 +12,7 @@ import application.ucweb.proyectoecoinca.MiPerfilEmpresaActivity;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import application.ucweb.proyectoecoinca.util.Constantes;
 import butterknife.BindColor;
 import butterknife.BindView;
@@ -38,15 +39,25 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
 
     @Override
     public void onBindRealmViewHolder(ViewHolder viewHolder, int i) {
+        final Usuario usuario = Usuario.getUsuario();
         final Empresa item = realmResults.get(i);
         BaseActivity.usarGlideCircular(getContext(), item.getImagen(), viewHolder.imagen);
         viewHolder.nombre.setText(item.getNombre());
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().startActivity(new Intent(getContext(), MiPerfilEmpresaActivity.class)
-                .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
-                .putExtra(Constantes.EXTRA_IS_REAL, true));
+                Intent intent;
+                if (usuario.getTipo_empresa() == Empresa.N_AMBOS) {
+                    intent = new Intent(getContext(), MiPerfilEmpresaActivity.class)
+                            .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
+                            .putExtra(Constantes.EXTRA_IS_REAL, true);
+                } else {
+                    intent = new Intent(getContext(), MiPerfilEmpresaActivity.class)
+                            .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
+                            .putExtra(Constantes.EXTRA_IS_REAL, true)
+                            .putExtra(Constantes.EXTRA_NOT_MATCH, true);
+                }
+                getContext().startActivity(intent);
             }
         });
         switch (item.getTipo_negocio()) {

@@ -79,7 +79,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         isRealm = getIntent().getBooleanExtra(Constantes.EXTRA_IS_REAL, false);
         realm = Realm.getDefaultInstance();
         recibirId();
-        if (getIntent().hasExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO)) btnVamosHacerNegocio.setVisibility(View.GONE);
+        if (getIntent().hasExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO) || getIntent().hasExtra(Constantes.EXTRA_NOT_MATCH)) btnVamosHacerNegocio.setVisibility(View.GONE);
     }
 
     private void recibirId() {
@@ -288,6 +288,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
 
     private void requestVamosHacerNegocio() {
         if (ConexionBroadcastReceiver.isConnected()) {
+            final Usuario usuario = Usuario.getUsuario();
             showDialog(pDialog);
             StringRequest request = new StringRequest(
                     Request.Method.POST,
@@ -334,8 +335,8 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
-                    params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
+                    params.put("idempresa", String.valueOf(usuario.getId_empresa()));
+                    params.put("idtipoempresa", String.valueOf(usuario.getTipo_empresa()));
                     params.put("idempresaseguido", idempresaseguido);
                     Log.d(TAG, params.toString());
                     return params;

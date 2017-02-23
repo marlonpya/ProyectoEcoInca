@@ -47,6 +47,9 @@ public class VamosAlNegocioActivity extends BaseActivity {
     @BindView(R.id.vp_seguir) ViewPager pager;
     private SeguirAdapter adapter;
     private ProgressDialog pDialog;
+    private Usuario usuario;
+    private int idEmpresa;
+    private int tipoEmpresa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +57,17 @@ public class VamosAlNegocioActivity extends BaseActivity {
         setContentView(R.layout.activity_vamos_al_negocio);
         iniciarLayout();
 
+        usuario = Usuario.getUsuario();
+        idEmpresa = usuario.getId_empresa();
+        tipoEmpresa = usuario.getTipo_empresa();
+
+
         if (ConexionBroadcastReceiver.isConnected()) {
-            Log.d(TAG, Usuario.getUsuario().toString());
-            if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS) {
+            if (tipoEmpresa == Empresa.N_AMBOS) {
                 requestMisSeguidorestipo2();
-            } else if(Usuario.getUsuario().getTipo_empresa() == Empresa.N_COMPRADOR){
+            } else if(tipoEmpresa == Empresa.N_COMPRADOR){
                 requestMisSeguidores(Empresa.N_COMPRADOR);
-            } else if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_VENDEDOR) {
+            } else if (tipoEmpresa == Empresa.N_VENDEDOR) {
                 requestMisSeguidores(Empresa.N_VENDEDOR);
             }
         }
@@ -159,8 +166,8 @@ public class VamosAlNegocioActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
-                params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
+                params.put("idempresa", String.valueOf(idEmpresa));
+                params.put("idtipoempresa", String.valueOf(tipoEmpresa));
                 return params;
             }
         };
@@ -284,7 +291,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                     empresa.setTipo_match(Empresa.M_ESPERA);
                                     empresa.setTipo_empresa(Empresa.E_CONTACTO);
                                     empresa.setPosicion(posicion);
-                                    //empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
+                                    empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
                                     empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
                                     empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
                                     empresa.setTelefono1(jData.getJSONObject(i).getString("CON_TELEFONO"));
@@ -353,8 +360,8 @@ public class VamosAlNegocioActivity extends BaseActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<>();
-                params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
-                params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
+                params.put("idempresa", String.valueOf(idEmpresa));
+                params.put("idtipoempresa", String.valueOf(tipoEmpresa));
                 Log.d(TAG, params.toString());
                 return params;
             }

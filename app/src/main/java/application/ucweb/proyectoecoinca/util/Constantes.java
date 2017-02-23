@@ -38,6 +38,7 @@ public class Constantes {
     public static final String S_NOMBRE_INICIAR_SESION  = "S_NOMBRE_INICIAR_SESION";
     public static final String S_APE_INICIAR_SESION     = "S_APE_INICIAR_SESION";
     public static final String EXTRA_IS_REAL            = "EXTRA_IS_REAL";
+    public static final String EXTRA_NOT_MATCH          = "EXTRA_NOT_MATCH";
 
     public static final String FACEBOOK = "facebook";
     public static final String LINKEDIN = "linkedin";

@@ -33,7 +33,7 @@ public class SeguirAdapter extends FragmentStatePagerAdapter {
         if (valor == Empresa.N_COMPRADOR) {
             return new CompradorListaFragment();
         } else if(valor == Empresa.N_VENDEDOR) {
-            return new VendedorListaFragment();
+            return new CompradorListaFragment();
         } else {
             switch (position) {
                 case 0 : return new CompradorListaFragment();

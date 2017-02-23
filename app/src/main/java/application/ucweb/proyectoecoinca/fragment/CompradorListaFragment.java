@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.adapter.EmpresaAdapter;
 import application.ucweb.proyectoecoinca.model.Empresa;
+import application.ucweb.proyectoecoinca.model.Usuario;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.moonmonkeylabs.realmrecyclerview.RealmRecyclerView;
@@ -58,7 +59,12 @@ public class CompradorListaFragment extends Fragment {
                 .or()
                 .equalTo(Empresa.TIPO_NEGOCIO, Empresa.N_AMBOS).equalTo(Empresa.TIPO_MATCH,Empresa.M_ESPERA).findAll();*/
 
-        lista = realm.where(Empresa.class).equalTo(Empresa.POSICION, Empresa.IZQUIERDA).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
+        Usuario usuario = Usuario.getUsuario();
+        if (usuario.getTipo_empresa() != Empresa.N_AMBOS) {
+            lista = realm.where(Empresa.class).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
+        } else {
+            lista = realm.where(Empresa.class).equalTo(Empresa.POSICION, Empresa.IZQUIERDA).equalTo(Empresa.TIPO_MATCH, Empresa.M_ESPERA).findAll();
+        }
         if (!lista.isEmpty()) {
             adapter = new EmpresaAdapter(getActivity(), lista);
             recyclerView.setAdapter(adapter);
