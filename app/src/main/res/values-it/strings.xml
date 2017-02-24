@@ -1,5 +1,11 @@
 <resources>
 
+    <string name="app_name">Liaison</string>
+    <string name="facebook_app_id">2145424352348361</string>
+
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+
     <!-- LAYOUTS -->
     <string name="texto1">Trovare nuove opportunità di business e partnership</string>
     <string name="texto2">Semplificare il modo di fare business</string>

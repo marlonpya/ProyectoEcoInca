@@ -1,4 +1,9 @@
 <resources>
+    <string name="app_name">Liaison</string>
+    <string name="facebook_app_id">2145424352348361</string>
+
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
 
     <!-- LAYOUTS -->
     <string name="texto1">Encontrar nuevas oportunidades de negocio y de asociación</string>
@@ -182,6 +187,7 @@
 
     <string name="terminos_y_condiciones_texto" >Nuestros términos y condiciones</string>
     <string name="regla_imagenes">Se recomienda imágenes menores de 1025px (ancho y alto)</string>
+    <string name="correo_invalido">El email ingresado no es válido</string>
     <string name="se_requiere_correo">Se requiere autorizar email</string>
     <string name="permiso_imagen">Se requiere permiso para importar imagen</string>
 
@@ -234,6 +240,7 @@
     <string name="m_sector_empresarial">SECTOR EMPRESARIAL</string>
     <string name="m_certificaciones">CERTIFICACIONES</string>
     <string name="productos">PRODUCTOS</string>
+    <string name="m_ciudad">CIUDAD</string>
     <string name="m_anio_fundacion">AÑO DE FUNDACIÓN</string>
     <string name="m_web">WEB</string>
     <string name="m_telefono">TELÉFONO</string>

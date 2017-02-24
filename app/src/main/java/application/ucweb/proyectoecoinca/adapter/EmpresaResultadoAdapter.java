@@ -50,12 +50,12 @@ public class EmpresaResultadoAdapter extends RealmBasedRecyclerViewAdapter<Empre
                 if (usuario.getTipo_empresa() == Empresa.N_AMBOS) {
                     intent = new Intent(getContext(), MiPerfilEmpresaActivity.class)
                             .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
-                            .putExtra(Constantes.EXTRA_IS_REAL, true);
+                            .putExtra(Constantes.EXTRA_IS_REAL, true)
+                            .putExtra(Constantes.EXTRA_NOT_MATCH, true);
                 } else {
                     intent = new Intent(getContext(), MiPerfilEmpresaActivity.class)
                             .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
-                            .putExtra(Constantes.EXTRA_IS_REAL, true)
-                            .putExtra(Constantes.EXTRA_NOT_MATCH, true);
+                            .putExtra(Constantes.EXTRA_IS_REAL, true);
                 }
                 getContext().startActivity(intent);
             }

@@ -144,8 +144,8 @@ public class VamosAlNegocioActivity extends BaseActivity {
                                 JSONArray jSeguido = jsonObject.getJSONArray("dataseguido");
                                 JSONArray jSeguidor = jsonObject.getJSONArray("dataseguidor");
                                 Empresa.eliminarNoContactos();
-                                listadoNoContacto(jSeguido);
-                                listadoNoContacto(jSeguidor);
+                                listadoNoContacto(jSeguido, Empresa.DERECHA);
+                                listadoNoContacto(jSeguidor, Empresa.IZQUIERDA);
                             }
                             BaseActivity.hidepDialog(pDialog);
                         } catch (JSONException e) {
@@ -174,7 +174,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
         Configuracion.getInstance().addToRequestQueue(request, TAG);
     }
 
-    private void listadoNoContacto(JSONArray jData) throws JSONException {
+    private void listadoNoContacto(JSONArray jData, int posicion) throws JSONException {
         for (int i = 0; i < jData.length(); i++) {
             Empresa empresa = new Empresa();
 
@@ -189,7 +189,8 @@ public class VamosAlNegocioActivity extends BaseActivity {
             empresa.setDescripcion(jData.getJSONObject(i).getString("EMP_DESCRIPCION"));
             empresa.setTipo_match(Empresa.M_ESPERA);
             empresa.setTipo_empresa(Empresa.E_CONTACTO);
-            empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
+            //empresa.setPosicion(Empresa.getPos(jData.getJSONObject(i).getInt("EMP_TIPO")));
+            empresa.setPosicion(posicion);
             empresa.setId_match(jData.getJSONObject(i).getInt("SEG_ID"));
             //empresa.setPosicion(Empresa.IZQUIERDA);
             empresa.setWeb(jData.getJSONObject(i).getString("CON_WEB_SITE"));
