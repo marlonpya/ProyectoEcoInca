@@ -98,7 +98,7 @@
     <string name="email">Email</string>
 
     <string name="anio_fundacion2">Año de Fundación</string>
-    <string name="descripcion_empresa">Descripción de Empresa(200 caracteres)</string>
+    <string name="descripcion_empresa">Descripción de Empresa(1024 caracteres)</string>
     <string name="sector_empresarial">Sector Empresarial</string>
     <string name="producto2">Producto</string>
     <string name="servicio2">Servicio</string>

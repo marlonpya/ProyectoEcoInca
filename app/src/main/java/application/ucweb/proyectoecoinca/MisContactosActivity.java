@@ -58,10 +58,6 @@ public class MisContactosActivity extends BaseActivity {
         recyclerView.setOnRefreshListener(new RealmRecyclerView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                /*if (Usuario.getUsuario().getTipo_empresa() == Empresa.N_AMBOS)
-                    requestContactosAmbos();
-                 else
-                    requestContactos();*/
                 requestContactos();
             }
         });

@@ -101,7 +101,7 @@
     <string name="email">Email</string>
 
     <string name="anio_fundacion2">Foundation year</string>
-    <string name="descripcion_empresa">Company Description (200 characters)</string>
+    <string name="descripcion_empresa">Company Description (1024 characters)</string>
     <string name="sector_empresarial">Business sector</string>
     <string name="producto2">Product</string>
     <string name="servicio2">Service</string>

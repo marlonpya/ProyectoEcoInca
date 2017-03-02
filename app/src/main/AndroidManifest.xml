@@ -54,7 +54,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ComprarPlusActivity" />
-        <activity android:name=".MiPerfilActivity2"></activity>
+        <activity android:name=".MiPerfilActivity2" />
+        <activity android:name=".PerfilContactoActivity"></activity>
     </application>
 
 </manifest>

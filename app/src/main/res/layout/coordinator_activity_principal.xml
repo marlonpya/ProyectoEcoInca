@@ -41,9 +41,9 @@
                     android:gravity="center|bottom">
 
                     <ImageView
-                        android:layout_gravity="top"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
+                        android:layout_gravity="top"
                         android:background="@drawable/icono_principal_blanco" />
                 </LinearLayout>
 
@@ -120,7 +120,7 @@
                         android:textSize="@dimen/letra_s4" />
                 </FrameLayout>
 
-                <FrameLayout
+                <android.support.constraint.ConstraintLayout
                     android:id="@+id/btnIrANegocio"
                     android:layout_width="0dp"
                     android:layout_height="130dp"
@@ -135,14 +135,35 @@
                         android:gravity="center|bottom"
                         android:text="@string/nav_vamos_al_negocio"
                         android:textColor="@color/celeste"
-                        android:textSize="@dimen/letra_s4" />
+                        android:textSize="@dimen/letra_s4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        tools:layout_editor_absoluteX="0dp" />
 
                     <ImageView
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/icono_negocio_contorno" />
-                </FrameLayout>
+                        android:background="@drawable/icono_negocio_contorno"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvCantidadEspera"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/redondear_ecoinca_puntos"
+                        android:gravity="center"
+                        android:textColor="@color/blanco"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.74"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.26"
+                        tools:text="1" />
+                </android.support.constraint.ConstraintLayout>
 
                 <FrameLayout
                     android:id="@+id/btnIrAMiPerfil"
@@ -168,11 +189,11 @@
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white">
-        </LinearLayout>
+            android:background="@android:color/white"></LinearLayout>
     </LinearLayout>
 
     <!--<include

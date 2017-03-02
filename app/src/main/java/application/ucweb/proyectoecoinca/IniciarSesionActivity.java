@@ -191,7 +191,8 @@ public class IniciarSesionActivity extends BaseActivity {
     @OnClick(R.id.btnIngresar)
     public void irAMenuPrincipal() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            if (validarIniciarSesion(tv_usuario, tv_contrasenia)) requestIniciarSesion(tv_usuario, tv_contrasenia, pDialog, this, preferencia.getTokenFcm());
+            if (validarIniciarSesion(tv_usuario, tv_contrasenia))
+                requestIniciarSesion(tv_usuario, tv_contrasenia, pDialog, this, preferencia.getTokenFcm());
         } else {
             ConexionBroadcastReceiver.showSnack(layout, this);
         }

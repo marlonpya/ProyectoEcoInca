@@ -2,7 +2,6 @@ package application.ucweb.proyectoecoinca;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.icu.text.LocaleDisplayNames;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,7 +23,6 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xml.sax.helpers.LocatorImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +37,7 @@ import application.ucweb.proyectoecoinca.model.detalle.Producto;
 import application.ucweb.proyectoecoinca.model.detalle.SectorIndustrial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.realm.Realm;
@@ -57,11 +56,12 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     @BindView(R.id.tv_productos) TextView tv_productos;
     @BindView(R.id.tv_certificados) TextView tv_certificados;
     @BindView(R.id.tv_anio_fundacion) TextView tv_anio_fundacion;
-    @BindView(R.id.tv_web) TextView tv_web;
+    /*@BindView(R.id.tv_web) TextView tv_web;
     @BindView(R.id.tv_telefono) TextView tv_telefono;
-    @BindView(R.id.tv_correo) TextView tv_correo;
+    @BindView(R.id.tv_correo) TextView tv_correo;*/
     @BindView(R.id.btnVamosHacerNegocio) FloatingActionButton btnVamosHacerNegocio;
     private ProgressDialog pDialog;
+    private Preferencia preferencia;
     private int id_intent;
     private EmpresaSerializable empresaSerializable;
     private Empresa empresa;
@@ -69,6 +69,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
     private String idempresaseguido = "-1";
     private Realm realm;
     private boolean isRealm;
+    private int idEmpresa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         setContentView(R.layout.container_activity_mi_perfil_empresa);
         iniciarLayout();
 
+        preferencia = new Preferencia(this);
         isRealm = getIntent().getBooleanExtra(Constantes.EXTRA_IS_REAL, false);
         realm = Realm.getDefaultInstance();
         recibirId();
@@ -88,10 +90,11 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
         if (getIntent().hasExtra(Constantes.L_ID_EMPRESA) && !isRealm) {
             Log.d(TAG, String.valueOf("ID_INTENT_ " + id_intent));
             requestGetEmpresaId();
-        } else if(isRealm){
+        } else if(isRealm) {
             empresa = realm.where(Empresa.class).equalTo(Empresa.ID, id_intent).findFirst();
             if (empresa != null) {
                 Log.d(TAG, empresa.toString());
+                idEmpresa = empresa.getId_server();
                 idmatch = String.valueOf(empresa.getId_match());
                 usarGlide(MiPerfilEmpresaActivity.this, empresa.getImagen(), iv_perfil_empresa);
                 tv_descripcion.setText(empresa.getDescripcion().isEmpty() && empresa.getDescripcion() == null ? "-" : empresa.getDescripcion());
@@ -120,44 +123,17 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                     certificado += certificados.get(i).getDescripcion() + "\n";
                 }
                 tv_certificados.setText(certificado.isEmpty() ? "-" : certificado);
-                //tv_sector_emp
-                //tv_productos
-                //tv_certificados
                 tv_anio_fundacion.setText(empresa.getAnio_f().isEmpty() && empresa.getAnio_f() == null ? "-" : empresa.getAnio_f());
-                tv_web.setText(empresa.getWeb().trim().isEmpty() || empresa.getWeb() == null ? "-" : empresa.getWeb());
-                if (empresa.getTelefono1() != null && !empresa.getTelefono1().isEmpty() && empresa.getTelefono2() != null && !empresa.getTelefono2().isEmpty()) {
-                    tv_telefono.setText(empresa.getTelefono1() + "\n" + empresa.getTelefono2());
-                } else if (empresa.getTelefono1() != null && !empresa.getTelefono1().isEmpty()) {
-                    tv_telefono.setText(empresa.getTelefono1());
-                } else if (empresa.getTelefono2() != null && !empresa.getTelefono2().isEmpty()) {
-                    tv_telefono.setText(empresa.getTelefono1());
-                }
-
-                if (empresa.getCorreo1() != null && !empresa.getCorreo1().isEmpty() && empresa.getCorreo2() != null && !empresa.getTelefono2().isEmpty()) {
-                    tv_correo.setText(empresa.getCorreo1() + "\n" + empresa.getCorreo2());
-                } else if (empresa.getCorreo1() != null && !empresa.getCorreo1().isEmpty()) {
-                    tv_correo.setText(empresa.getCorreo1());
-                } else if (empresa.getCorreo2() != null && !empresa.getCorreo2().isEmpty()) {
-                    tv_correo.setText(empresa.getCorreo2());
-                }
             }
         }
     }
 
     @OnClick(R.id.btnVamosHacerNegocio)
     public void vamosHacerNegocio() {
-        /*if (empresaSerializable.getTipo_empresa() == Empresa.E_BUSQUEDA) {
-            switch (Empresa.identificarEmpresaContacto(empresaSerializable.getTipo_match())) {
-                case Empresa.M_DESCONOCIDO  : requestVamosHacerNegocio(); break;
-                case Empresa.M_RECHAZADO    : requestVamosHacerNegocio(); break;
-                case Empresa.M_ACEPTADO     : mostrarMensaje(Empresa.M_ACEPTADO); break;
-                case Empresa.M_ESPERA       : mostrarMensaje(Empresa.M_ACEPTADO); break;
-            }
-        } else if (empresaSerializable.getTipo_empresa() == Empresa.E_CONTACTO && empresaSerializable.getTipo_match() == Empresa.M_ESPERA) {
+        if (isRealm)
             requestAceptarNegocio();
-        }*/
-        if (isRealm) requestAceptarNegocio();
-        else requestVamosHacerNegocio();
+        else
+            requestVamosHacerNegocio();
     }
 
     private void requestGetEmpresaId() {
@@ -234,9 +210,6 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                                         certificados = "-";
                                     tv_certificados.setText(certificados);
                                     tv_anio_fundacion.setText(empresaSerializable.getAnio_f().isEmpty() && empresaSerializable.getAnio_f() == null ? "-" : empresaSerializable.getAnio_f());
-                                    tv_web.setText(empresaSerializable.getWeb().isEmpty() && empresaSerializable.getWeb() == null ? "-" : empresaSerializable.getWeb());
-                                    tv_telefono.setText(empresaSerializable.getTelefono1() + "\n" + empresaSerializable.getTelefono2());
-                                    tv_correo.setText(empresaSerializable.getCorreo1() + "\n" + empresaSerializable.getCorreo2());
 
                                     idempresaseguido = String.valueOf(empresaSerializable.getId_server());
                                 }
@@ -277,18 +250,8 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                     .show();
     }
 
-    private void mostrarMensaje(int tipo) {
-        String texto = tipo == Empresa.M_ACEPTADO ? getString(R.string.m_contacto_aceptado) : getString(R.string.m_contacto_espera);
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.app_name)
-                .setMessage(texto)
-                .setPositiveButton(R.string.aceptar, null)
-                .show();
-    }
-
     private void requestVamosHacerNegocio() {
         if (ConexionBroadcastReceiver.isConnected()) {
-            final Usuario usuario = Usuario.getUsuario();
             showDialog(pDialog);
             StringRequest request = new StringRequest(
                     Request.Method.POST,
@@ -335,8 +298,8 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
-                    params.put("idempresa", String.valueOf(usuario.getId_empresa()));
-                    params.put("idtipoempresa", String.valueOf(usuario.getTipo_empresa()));
+                    params.put("idempresa", String.valueOf(Usuario.getUsuario().getId_empresa()));
+                    params.put("idtipoempresa", String.valueOf(Usuario.getUsuario().getTipo_empresa()));
                     params.put("idempresaseguido", idempresaseguido);
                     Log.d(TAG, params.toString());
                     return params;
@@ -357,9 +320,12 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                         @Override
                         public void onResponse(String s) {
                             try {
+                                Log.d(TAG, s);
                                 JSONObject jsonObject = new JSONObject(s);
                                 if (jsonObject.getBoolean("status")) {
                                     hidepDialog(pDialog);
+                                    final int cantEspera = preferencia.getCantEspera() - 1;
+                                    preferencia.setCantEspera(cantEspera);
                                     new AlertDialog.Builder(MiPerfilEmpresaActivity.this)
                                             .setTitle(R.string.app_name)
                                             .setMessage(getString(R.string.m_aceptar_negocio_ok))
@@ -395,6 +361,8 @@ public class MiPerfilEmpresaActivity extends BaseActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new HashMap<>();
                     params.put("idmatch", idmatch);
+                    params.put("id_empresa", String.valueOf(idEmpresa));
+                    Log.d(TAG, params.toString());
                     return params;
                 }
             };

@@ -12,13 +12,14 @@ public class Preferencia {
     public static final String NOMBRE = "Preferencia";
 
     private SharedPreferences preferencia;
-    private static final String NOTIFICACION_ACTIVADA = "notificacion_activada";
-    private static final String TOKEN_FCM = "token_fcm";
-    private static final String CANT_TOKEN_FCM = "cant_token_fcm";
+    private static final String NOTIFICACION_ACTIVADA       = "notificacion_activada";
+    private static final String TOKEN_FCM                   = "token_fcm";
+    private static final String CANT_TOKEN_FCM              = "cant_token_fcm";
     private static final String ACTUALIZAR_SECTOR_EMPRESARIAL = "actualizar_sector_empresarial";
-    private static final String ACTUALIZAR_CERTIFICACION = "actualizar_certificacion";
-    private static final String BUSQUEDA_EMPRESARIAL = "busqueda_empresarial";
-    private static final String BUSQUEDA_PAIS = "busqueda_pais";
+    private static final String ACTUALIZAR_CERTIFICACION    = "actualizar_certificacion";
+    private static final String BUSQUEDA_EMPRESARIAL        = "busqueda_empresarial";
+    private static final String BUSQUEDA_PAIS               = "busqueda_pais";
+    private static final String CANT_ESPERA                 = "cant_espera";
 
     public Preferencia(Context activity) {
         preferencia = activity.getSharedPreferences(NOMBRE, Context.MODE_PRIVATE);
@@ -80,5 +81,12 @@ public class Preferencia {
 
     public void setBusqueda_pais(String busqueda_pais) {
         preferencia.edit().putString(this.BUSQUEDA_PAIS, busqueda_pais).commit();
+    }
+
+    public int getCantEspera() {
+        return preferencia.getInt(CANT_ESPERA, 0);
+    }
+    public void setCantEspera(int cantEspera) {
+        preferencia.edit().putInt(this.CANT_ESPERA, cantEspera).commit();
     }
 }

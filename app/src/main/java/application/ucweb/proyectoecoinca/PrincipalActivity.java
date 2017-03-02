@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -30,14 +31,18 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
     @BindView(R.id.appbar) Toolbar toolbar;
     @BindView(R.id.iv_contorno_mundo_principal) ImageView contorno_mundo_principal;
     @BindView(R.id.iv_mundo_principal) ImageView imagen_mundo;
+    @BindView(R.id.tvCantidadEspera) TextView tvCantidadEspera;
     private NavegadorFragment navegadorFragment;
     private ObjectAnimator animator;
+    private Preferencia preferencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coordinator_activity_principal);
+
         iniciarLayout();
+        preferencia = new Preferencia(this);
         configuracionNavegador();
         FirebaseMessaging.getInstance().subscribeToTopic("liaison");
 
@@ -134,6 +139,12 @@ public class PrincipalActivity extends BaseActivity implements NavegadorFragment
     protected void onResume() {
         super.onResume();
         girarContorno();
+        if (preferencia.getCantEspera() > 0) {
+            tvCantidadEspera.setVisibility(View.VISIBLE);
+            tvCantidadEspera.setText(String.valueOf(preferencia.getCantEspera()));
+        } else {
+            tvCantidadEspera.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import application.ucweb.proyectoecoinca.MiPerfilActivity;
 import application.ucweb.proyectoecoinca.MiPerfilEmpresaActivity;
+import application.ucweb.proyectoecoinca.PerfilContactoActivity;
 import application.ucweb.proyectoecoinca.R;
 import application.ucweb.proyectoecoinca.aplicacion.BaseActivity;
 import application.ucweb.proyectoecoinca.model.Empresa;
@@ -43,7 +44,7 @@ public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, 
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getContext().startActivity(new Intent(getContext(), MiPerfilEmpresaActivity.class)
+                getContext().startActivity(new Intent(getContext(), PerfilContactoActivity.class)
                 .putExtra(Constantes.L_ID_EMPRESA, (int) item.getId())
                 .putExtra(Constantes.EXTRA_IS_REAL, true)
                 .putExtra(Constantes.B_DESACTIVAR_HACER_NEGOCIO, true));

@@ -38,6 +38,7 @@ import application.ucweb.proyectoecoinca.model.detalle.Producto;
 import application.ucweb.proyectoecoinca.model.detalle.SectorIndustrial;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindView;
 
 public class VamosAlNegocioActivity extends BaseActivity {
@@ -48,6 +49,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
     private SeguirAdapter adapter;
     private ProgressDialog pDialog;
     private Usuario usuario;
+    private Preferencia preferencia;
     private int idEmpresa;
     private int tipoEmpresa;
 
@@ -57,6 +59,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
         setContentView(R.layout.activity_vamos_al_negocio);
         iniciarLayout();
 
+        preferencia = new Preferencia(this);
         usuario = Usuario.getUsuario();
         idEmpresa = usuario.getId_empresa();
         tipoEmpresa = usuario.getTipo_empresa();
@@ -143,6 +146,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                             if (status) {
                                 JSONArray jSeguido = jsonObject.getJSONArray("dataseguido");
                                 JSONArray jSeguidor = jsonObject.getJSONArray("dataseguidor");
+                                preferencia.setCantEspera(jSeguidor != null ? jSeguidor.length() : 0);
                                 Empresa.eliminarNoContactos();
                                 listadoNoContacto(jSeguido, Empresa.DERECHA);
                                 listadoNoContacto(jSeguidor, Empresa.IZQUIERDA);
@@ -276,6 +280,7 @@ public class VamosAlNegocioActivity extends BaseActivity {
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray jData = jsonObject.getJSONArray("data");
                             if (jData != null && jData.length() >= 0) {
+                                preferencia.setCantEspera(jData.length());
                                 Empresa.eliminarNoContactos();
                                 for (int i = 0; i < jData.length(); i++) {
 

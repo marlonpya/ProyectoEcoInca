@@ -32,6 +32,7 @@ import application.ucweb.proyectoecoinca.aplicacion.Configuracion;
 import application.ucweb.proyectoecoinca.model.Empresa;
 import application.ucweb.proyectoecoinca.util.ConexionBroadcastReceiver;
 import application.ucweb.proyectoecoinca.util.Constantes;
+import application.ucweb.proyectoecoinca.util.Preferencia;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,6 +79,10 @@ public class EmpresaAdapter extends RealmBasedRecyclerViewAdapter<Empresa, Empre
                         .setPositiveButton(R.string.aceptar, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                Preferencia preferencia = new Preferencia(getContext());
+                                int cantEspera = preferencia.getCantEspera() - 1;
+                                preferencia.setCantEspera(cantEspera);
+
                                 requestIgnorar(item.getId_match(), item.getId_server());
                                 notifyDataSetChanged();
                             }

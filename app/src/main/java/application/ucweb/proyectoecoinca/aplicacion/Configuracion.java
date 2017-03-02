@@ -42,6 +42,7 @@ public class Configuracion extends Application {
                 .name("ecoinca.db")
                 .schemaVersion(0)
                 .deleteRealmIfMigrationNeeded()
+                .modules(Realm.getDefaultModule())
                 .build();
         Realm.setDefaultConfiguration(configuration);
     }

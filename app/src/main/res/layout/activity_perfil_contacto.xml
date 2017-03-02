@@ -1,11 +1,11 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_activity_mi_perfil_empresa"
+    android:id="@+id/layout_activity_perfil_contacto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MiPerfilEmpresaActivity">
+    tools:context=".PerfilContactoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/empresa_appbar"
@@ -42,7 +42,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+        android:id="@+id/nestedScrollViewContacto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -52,26 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!--<LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnVamosHacerNegocio"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/c_accent"
-                    android:drawableStart="@drawable/imagen_liaison_manos_blanco"
-                    android:paddingLeft="120dp"
-                    android:paddingRight="120dp"
-                    android:text="@string/nav_vamos_al_negocio"
-                    android:textColor="@color/blanco"
-                    android:textSize="@dimen/letra_s3" />
-
-            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,7 +156,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="10dp"
                             android:textColor="@color/plomo_oscuro"
-                            tools:text="Lima - Lima" />
+                            tools:text="Lima" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -282,7 +262,7 @@
                             android:layout_height="wrap_content"
                             android:paddingBottom="10dp"
                             android:textColor="@color/plomo_oscuro"
-                            tools:text="Papa, Cancha, Mote, Chía" />
+                            tools:text="papa, cancha, mote, chía" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -358,7 +338,7 @@
                             tools:text="1999" />
                     </LinearLayout>
                 </LinearLayout>
-<!--
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -457,7 +437,6 @@
                             tools:text="example@mail.com" />
                     </LinearLayout>
                 </LinearLayout>
--->
 
                 <View
                     android:layout_width="match_parent"

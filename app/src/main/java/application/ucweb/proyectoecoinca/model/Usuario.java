@@ -105,6 +105,7 @@ public class Usuario extends RealmObject {
             user.setPlus(usuario.isPlus());
             user.setSesion(true);
             user.setCantidad_busqueda(usuario.getCantidad_busqueda());
+            realm.copyToRealmOrUpdate(user);
             Log.d(TAG, user.toString());
         }
         realm.commitTransaction();
@@ -112,25 +113,12 @@ public class Usuario extends RealmObject {
         Log.d(TAG, "iniciarSesion()");
     }
 
-    public static void actualizarCantidadBusqueda(int cantidad) {
-        Realm realm = Realm.getDefaultInstance();
-        Usuario usuario = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
-        realm.beginTransaction();
-        usuario.setId(usuario.getId());
-        usuario.setCantidad_busqueda(cantidad);
-        realm.copyFromRealm(usuario);
-        Log.d(TAG, "actualizarCantidadBusqueda"+usuario.getNombre_empresa());
-        realm.commitTransaction();
-        realm.close();
-    }
-
     public static void cerrarSesion() {
         Realm realm = Realm.getDefaultInstance();
         Usuario user = realm.where(Usuario.class).equalTo(ID, 1).findFirst();
         realm.beginTransaction();
-        user.setId(1);
-        user.setId_empresa(0);
-        user.setTipo_empresa(0);
+        user.setId_empresa(-1);
+        user.setTipo_empresa(-1);
         user.setImagen_empresa("");
         user.setNombre_empresa("");
         user.setPais("");

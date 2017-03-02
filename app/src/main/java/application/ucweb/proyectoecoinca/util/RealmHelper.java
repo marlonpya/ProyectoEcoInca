@@ -23,5 +23,6 @@ public class RealmHelper {
         Empresa.limpiarEmpresa();
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.cancelAll();
+        new Preferencia(context).setCantEspera(0);
     }
 }
