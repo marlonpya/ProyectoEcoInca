@@ -39,6 +39,7 @@ public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, 
     @Override
     public void onBindRealmViewHolder(ViewHolder viewHolder, int i) {
         final Empresa item = realmResults.get(i);
+        viewHolder.txtTexto.setText(getContext().getString(R.string.texto_contacto));
         BaseActivity.usarGlideCircular(getContext(), item.getImagen(), viewHolder.imagen);
         viewHolder.titulo.setText(item.getNombre());
         viewHolder.boton.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +59,7 @@ public class MisContactosAdapter extends RealmBasedRecyclerViewAdapter<Empresa, 
     }
 
     public class ViewHolder extends RealmViewHolder {
+        @BindView(R.id.txtTextoContacto) TextView txtTexto;
         @BindView(R.id.row_iv_imagen_empresa) ImageView imagen;
         @BindView(R.id.row_tv_titulo_empresa) TextView titulo;
         @BindView(R.id.row_tv_btn_ver_pefil_contacto) TextView boton;

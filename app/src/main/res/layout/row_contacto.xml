@@ -88,6 +88,7 @@
                             tools:text="Cosecha Partnes" />
 
                         <TextView
+                            android:id="@+id/txtTextoContacto"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/conectarse_con_usted"

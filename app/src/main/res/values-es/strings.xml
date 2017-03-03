@@ -247,5 +247,6 @@
     <string name="m_correo">CORREO</string>
     <string name="eliminar">No gracias</string>
     <string name="m_descripcion">DESCRIPCIÓN</string>
+    <string name="texto_contacto">Conectado con usted</string>
 
 </resources>

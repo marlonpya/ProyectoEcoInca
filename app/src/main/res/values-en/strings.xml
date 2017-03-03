@@ -236,5 +236,6 @@
     <string name="m_correo">EMAIL</string>
     <string name="eliminar">No thanks</string>
     <string name="m_descripcion">DESCRIPTION</string>
+    <string name="texto_contacto">Connected with you</string>
 
 </resources>
