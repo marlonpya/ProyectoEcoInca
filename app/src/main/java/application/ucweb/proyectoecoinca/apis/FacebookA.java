@@ -1,7 +1,5 @@
 package application.ucweb.proyectoecoinca.apis;
 
-import android.content.Context;
-
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
